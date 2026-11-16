@@ -1,0 +1,1303 @@
+{
+  "tables": [
+    {
+      "filename": "games.csv",
+      "row_count": 26651,
+      "column_count": 21,
+      "candidate_primary_key": [
+        "GAME_ID"
+      ],
+      "primary_key_duplicates": 29,
+      "exact_row_duplicates": 0,
+      "columns": [
+        {
+          "name": "GAME_DATE_EST",
+          "dtype": "str",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 4304,
+          "sample_values": [
+            "2022-12-22",
+            "2022-12-21",
+            "2022-12-20"
+          ]
+        },
+        {
+          "name": "GAME_ID",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 26622,
+          "sample_values": [
+            "22200477",
+            "22200478",
+            "22200466"
+          ]
+        },
+        {
+          "name": "GAME_STATUS_TEXT",
+          "dtype": "str",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1,
+          "sample_values": [
+            "Final"
+          ]
+        },
+        {
+          "name": "HOME_TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612740",
+            "1610612762",
+            "1610612739"
+          ]
+        },
+        {
+          "name": "VISITOR_TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612759",
+            "1610612764",
+            "1610612749"
+          ]
+        },
+        {
+          "name": "SEASON",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 20,
+          "sample_values": [
+            "2022",
+            "2021",
+            "2020"
+          ]
+        },
+        {
+          "name": "TEAM_ID_home",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612740",
+            "1610612762",
+            "1610612739"
+          ]
+        },
+        {
+          "name": "PTS_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 100,
+          "sample_values": [
+            "126.0",
+            "120.0",
+            "114.0"
+          ]
+        },
+        {
+          "name": "FG_PCT_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 404,
+          "sample_values": [
+            "0.484",
+            "0.488",
+            "0.482"
+          ]
+        },
+        {
+          "name": "FT_PCT_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 410,
+          "sample_values": [
+            "0.926",
+            "0.952",
+            "0.786"
+          ]
+        },
+        {
+          "name": "FG3_PCT_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 437,
+          "sample_values": [
+            "0.382",
+            "0.457",
+            "0.313"
+          ]
+        },
+        {
+          "name": "AST_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 42,
+          "sample_values": [
+            "25.0",
+            "16.0",
+            "22.0"
+          ]
+        },
+        {
+          "name": "REB_home",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 55,
+          "sample_values": [
+            "46.0",
+            "40.0",
+            "37.0"
+          ]
+        },
+        {
+          "name": "TEAM_ID_away",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612759",
+            "1610612764",
+            "1610612749"
+          ]
+        },
+        {
+          "name": "PTS_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 106,
+          "sample_values": [
+            "117.0",
+            "112.0",
+            "106.0"
+          ]
+        },
+        {
+          "name": "FG_PCT_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 393,
+          "sample_values": [
+            "0.478",
+            "0.561",
+            "0.47"
+          ]
+        },
+        {
+          "name": "FT_PCT_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 387,
+          "sample_values": [
+            "0.815",
+            "0.765",
+            "0.682"
+          ]
+        },
+        {
+          "name": "FG3_PCT_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 417,
+          "sample_values": [
+            "0.321",
+            "0.333",
+            "0.433"
+          ]
+        },
+        {
+          "name": "AST_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 41,
+          "sample_values": [
+            "23.0",
+            "20.0",
+            "15.0"
+          ]
+        },
+        {
+          "name": "REB_away",
+          "dtype": "float64",
+          "non_null_count": 26552,
+          "null_count": 99,
+          "null_pct": 0.3715,
+          "unique_count": 52,
+          "sample_values": [
+            "44.0",
+            "37.0",
+            "46.0"
+          ]
+        },
+        {
+          "name": "HOME_TEAM_WINS",
+          "dtype": "int64",
+          "non_null_count": 26651,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 2,
+          "sample_values": [
+            "1",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "games_details.csv",
+      "row_count": 668628,
+      "column_count": 29,
+      "candidate_primary_key": [
+        "GAME_ID",
+        "TEAM_ID",
+        "PLAYER_ID"
+      ],
+      "primary_key_duplicates": 289,
+      "exact_row_duplicates": 0,
+      "columns": [
+        {
+          "name": "GAME_ID",
+          "dtype": "int64",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 26523,
+          "sample_values": [
+            "22200477",
+            "22200478",
+            "22200466"
+          ]
+        },
+        {
+          "name": "TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612759",
+            "1610612740",
+            "1610612764"
+          ]
+        },
+        {
+          "name": "TEAM_ABBREVIATION",
+          "dtype": "str",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 34,
+          "sample_values": [
+            "SAS",
+            "NOP",
+            "WAS"
+          ]
+        },
+        {
+          "name": "TEAM_CITY",
+          "dtype": "str",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 33,
+          "sample_values": [
+            "San Antonio",
+            "New Orleans",
+            "Washington"
+          ]
+        },
+        {
+          "name": "PLAYER_ID",
+          "dtype": "int64",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 2687,
+          "sample_values": [
+            "1629641",
+            "1631110",
+            "1627751"
+          ]
+        },
+        {
+          "name": "PLAYER_NAME",
+          "dtype": "str",
+          "non_null_count": 668628,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 2664,
+          "sample_values": [
+            "Romeo Langford",
+            "Jeremy Sochan",
+            "Jakob Poeltl"
+          ]
+        },
+        {
+          "name": "NICKNAME",
+          "dtype": "str",
+          "non_null_count": 53037,
+          "null_count": 615591,
+          "null_pct": 92.0678,
+          "unique_count": 558,
+          "sample_values": [
+            "Romeo",
+            "Jeremy",
+            "Jakob"
+          ]
+        },
+        {
+          "name": "START_POSITION",
+          "dtype": "str",
+          "non_null_count": 255765,
+          "null_count": 412863,
+          "null_pct": 61.7478,
+          "unique_count": 3,
+          "sample_values": [
+            "F",
+            "C",
+            "G"
+          ]
+        },
+        {
+          "name": "COMMENT",
+          "dtype": "str",
+          "non_null_count": 109689,
+          "null_count": 558939,
+          "null_pct": 83.5949,
+          "unique_count": 5348,
+          "sample_values": [
+            "DNP - Coach's Decision",
+            "DNP - Injury/Illness",
+            "DND - Injury/Illness"
+          ]
+        },
+        {
+          "name": "MIN",
+          "dtype": "str",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 3802,
+          "sample_values": [
+            "18:06",
+            "31:01",
+            "21:42"
+          ]
+        },
+        {
+          "name": "FGM",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 26,
+          "sample_values": [
+            "1.0",
+            "7.0",
+            "6.0"
+          ]
+        },
+        {
+          "name": "FGA",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 47,
+          "sample_values": [
+            "1.0",
+            "14.0",
+            "9.0"
+          ]
+        },
+        {
+          "name": "FG_PCT",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 309,
+          "sample_values": [
+            "1.0",
+            "0.5",
+            "0.667"
+          ]
+        },
+        {
+          "name": "FG3M",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 15,
+          "sample_values": [
+            "0.0",
+            "2.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "FG3A",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 25,
+          "sample_values": [
+            "0.0",
+            "4.0",
+            "6.0"
+          ]
+        },
+        {
+          "name": "FG3_PCT",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 109,
+          "sample_values": [
+            "0.0",
+            "0.5",
+            "0.167"
+          ]
+        },
+        {
+          "name": "FTM",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 27,
+          "sample_values": [
+            "0.0",
+            "7.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "FTA",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 33,
+          "sample_values": [
+            "0.0",
+            "10.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "FT_PCT",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 165,
+          "sample_values": [
+            "0.0",
+            "0.7",
+            "1.0"
+          ]
+        },
+        {
+          "name": "OREB",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 18,
+          "sample_values": [
+            "1.0",
+            "6.0",
+            "0.0"
+          ]
+        },
+        {
+          "name": "DREB",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 25,
+          "sample_values": [
+            "1.0",
+            "3.0",
+            "9.0"
+          ]
+        },
+        {
+          "name": "REB",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 32,
+          "sample_values": [
+            "2.0",
+            "9.0",
+            "4.0"
+          ]
+        },
+        {
+          "name": "AST",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 26,
+          "sample_values": [
+            "0.0",
+            "6.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "STL",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 11,
+          "sample_values": [
+            "1.0",
+            "3.0",
+            "0.0"
+          ]
+        },
+        {
+          "name": "BLK",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 13,
+          "sample_values": [
+            "0.0",
+            "2.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "TO",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 13,
+          "sample_values": [
+            "2.0",
+            "0.0",
+            "1.0"
+          ]
+        },
+        {
+          "name": "PF",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 8,
+          "sample_values": [
+            "5.0",
+            "1.0",
+            "4.0"
+          ]
+        },
+        {
+          "name": "PTS",
+          "dtype": "float64",
+          "non_null_count": 558938,
+          "null_count": 109690,
+          "null_pct": 16.4052,
+          "unique_count": 66,
+          "sample_values": [
+            "2.0",
+            "23.0",
+            "13.0"
+          ]
+        },
+        {
+          "name": "PLUS_MINUS",
+          "dtype": "float64",
+          "non_null_count": 535277,
+          "null_count": 133351,
+          "null_pct": 19.944,
+          "unique_count": 108,
+          "sample_values": [
+            "-2.0",
+            "-14.0",
+            "-4.0"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "players.csv",
+      "row_count": 7228,
+      "column_count": 4,
+      "candidate_primary_key": [
+        "PLAYER_ID",
+        "TEAM_ID",
+        "SEASON"
+      ],
+      "primary_key_duplicates": 0,
+      "exact_row_duplicates": 0,
+      "columns": [
+        {
+          "name": "PLAYER_NAME",
+          "dtype": "str",
+          "non_null_count": 7228,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1749,
+          "sample_values": [
+            "Royce O'Neale",
+            "Bojan Bogdanovic",
+            "Rudy Gobert"
+          ]
+        },
+        {
+          "name": "TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 7228,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612762",
+            "1610612755",
+            "1610612752"
+          ]
+        },
+        {
+          "name": "PLAYER_ID",
+          "dtype": "int64",
+          "non_null_count": 7228,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1769,
+          "sample_values": [
+            "1626220",
+            "202711",
+            "203497"
+          ]
+        },
+        {
+          "name": "SEASON",
+          "dtype": "int64",
+          "non_null_count": 7228,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 11,
+          "sample_values": [
+            "2019",
+            "2018",
+            "2017"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "ranking.csv",
+      "row_count": 210342,
+      "column_count": 13,
+      "candidate_primary_key": [
+        "TEAM_ID",
+        "SEASON_ID",
+        "STANDINGSDATE"
+      ],
+      "primary_key_duplicates": 29,
+      "exact_row_duplicates": 0,
+      "columns": [
+        {
+          "name": "TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612743",
+            "1610612763",
+            "1610612740"
+          ]
+        },
+        {
+          "name": "LEAGUE_ID",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1,
+          "sample_values": [
+            "0"
+          ]
+        },
+        {
+          "name": "SEASON_ID",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 41,
+          "sample_values": [
+            "22022",
+            "12022",
+            "22021"
+          ]
+        },
+        {
+          "name": "STANDINGSDATE",
+          "dtype": "str",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 7023,
+          "sample_values": [
+            "2022-12-22",
+            "2022-12-21",
+            "2022-12-20"
+          ]
+        },
+        {
+          "name": "CONFERENCE",
+          "dtype": "str",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 2,
+          "sample_values": [
+            "West",
+            "East"
+          ]
+        },
+        {
+          "name": "TEAM",
+          "dtype": "str",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 34,
+          "sample_values": [
+            "Denver",
+            "Memphis",
+            "New Orleans"
+          ]
+        },
+        {
+          "name": "G",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 83,
+          "sample_values": [
+            "30",
+            "31",
+            "32"
+          ]
+        },
+        {
+          "name": "W",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 74,
+          "sample_values": [
+            "19",
+            "17",
+            "16"
+          ]
+        },
+        {
+          "name": "L",
+          "dtype": "int64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 73,
+          "sample_values": [
+            "11",
+            "12",
+            "13"
+          ]
+        },
+        {
+          "name": "W_PCT",
+          "dtype": "float64",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 895,
+          "sample_values": [
+            "0.633",
+            "0.613",
+            "0.594"
+          ]
+        },
+        {
+          "name": "HOME_RECORD",
+          "dtype": "str",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 800,
+          "sample_values": [
+            "10-3",
+            "13-2",
+            "13-4"
+          ]
+        },
+        {
+          "name": "ROAD_RECORD",
+          "dtype": "str",
+          "non_null_count": 210342,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 758,
+          "sample_values": [
+            "9-8",
+            "6-9",
+            "6-8"
+          ]
+        },
+        {
+          "name": "RETURNTOPLAY",
+          "dtype": "float64",
+          "non_null_count": 3990,
+          "null_count": 206352,
+          "null_pct": 98.1031,
+          "unique_count": 2,
+          "sample_values": [
+            "1.0",
+            "0.0"
+          ]
+        }
+      ]
+    },
+    {
+      "filename": "teams.csv",
+      "row_count": 30,
+      "column_count": 14,
+      "candidate_primary_key": [
+        "TEAM_ID"
+      ],
+      "primary_key_duplicates": 0,
+      "exact_row_duplicates": 0,
+      "columns": [
+        {
+          "name": "LEAGUE_ID",
+          "dtype": "int64",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1,
+          "sample_values": [
+            "0"
+          ]
+        },
+        {
+          "name": "TEAM_ID",
+          "dtype": "int64",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "1610612737",
+            "1610612738",
+            "1610612740"
+          ]
+        },
+        {
+          "name": "MIN_YEAR",
+          "dtype": "int64",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 15,
+          "sample_values": [
+            "1949",
+            "1946",
+            "2002"
+          ]
+        },
+        {
+          "name": "MAX_YEAR",
+          "dtype": "int64",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 1,
+          "sample_values": [
+            "2019"
+          ]
+        },
+        {
+          "name": "ABBREVIATION",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "ATL",
+            "BOS",
+            "NOP"
+          ]
+        },
+        {
+          "name": "NICKNAME",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "Hawks",
+            "Celtics",
+            "Pelicans"
+          ]
+        },
+        {
+          "name": "YEARFOUNDED",
+          "dtype": "int64",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 15,
+          "sample_values": [
+            "1949",
+            "1946",
+            "2002"
+          ]
+        },
+        {
+          "name": "CITY",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 29,
+          "sample_values": [
+            "Atlanta",
+            "Boston",
+            "New Orleans"
+          ]
+        },
+        {
+          "name": "ARENA",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 29,
+          "sample_values": [
+            "State Farm Arena",
+            "TD Garden",
+            "Smoothie King Center"
+          ]
+        },
+        {
+          "name": "ARENACAPACITY",
+          "dtype": "float64",
+          "non_null_count": 26,
+          "null_count": 4,
+          "null_pct": 13.3333,
+          "unique_count": 24,
+          "sample_values": [
+            "18729.0",
+            "18624.0",
+            "21711.0"
+          ]
+        },
+        {
+          "name": "OWNER",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "Tony Ressler",
+            "Wyc Grousbeck",
+            "Tom Benson"
+          ]
+        },
+        {
+          "name": "GENERALMANAGER",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "Travis Schlenk",
+            "Danny Ainge",
+            "Trajan Langdon"
+          ]
+        },
+        {
+          "name": "HEADCOACH",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 30,
+          "sample_values": [
+            "Lloyd Pierce",
+            "Brad Stevens",
+            "Alvin Gentry"
+          ]
+        },
+        {
+          "name": "DLEAGUEAFFILIATION",
+          "dtype": "str",
+          "non_null_count": 30,
+          "null_count": 0,
+          "null_pct": 0.0,
+          "unique_count": 28,
+          "sample_values": [
+            "Erie Bayhawks",
+            "Maine Red Claws",
+            "No Affiliate"
+          ]
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "games_home_team_to_teams",
+      "source_table": "games.csv",
+      "source_key": "HOME_TEAM_ID",
+      "target_table": "teams.csv",
+      "target_key": "TEAM_ID",
+      "total_source_rows": 26651,
+      "unmatched_row_count": 0,
+      "unmatched_distinct_keys": 0,
+      "status": "PASS",
+      "notes": "Every home team ID in games.csv maps cleanly to teams.csv."
+    },
+    {
+      "name": "games_visitor_team_to_teams",
+      "source_table": "games.csv",
+      "source_key": "VISITOR_TEAM_ID",
+      "target_table": "teams.csv",
+      "target_key": "TEAM_ID",
+      "total_source_rows": 26651,
+      "unmatched_row_count": 0,
+      "unmatched_distinct_keys": 0,
+      "status": "PASS",
+      "notes": "Every away/visitor team ID in games.csv maps cleanly to teams.csv."
+    },
+    {
+      "name": "details_game_to_games",
+      "source_table": "games_details.csv",
+      "source_key": "GAME_ID",
+      "target_table": "games.csv",
+      "target_key": "GAME_ID",
+      "total_source_rows": 668628,
+      "unmatched_row_count": 0,
+      "unmatched_distinct_keys": 0,
+      "status": "PASS",
+      "notes": "Every player box-score record in games_details.csv links to a valid GAME_ID."
+    },
+    {
+      "name": "games_to_details_coverage",
+      "source_table": "games.csv",
+      "source_key": "GAME_ID",
+      "target_table": "games_details.csv",
+      "target_key": "GAME_ID",
+      "total_source_rows": 26651,
+      "unmatched_row_count": 99,
+      "unmatched_distinct_keys": 99,
+      "status": "WARN",
+      "notes": "99 games in the 2003 preseason/early-season lack box-score rows in games_details.csv and also have null score columns in games.csv."
+    },
+    {
+      "name": "details_team_to_teams",
+      "source_table": "games_details.csv",
+      "source_key": "TEAM_ID",
+      "target_table": "teams.csv",
+      "target_key": "TEAM_ID",
+      "total_source_rows": 668628,
+      "unmatched_row_count": 0,
+      "unmatched_distinct_keys": 0,
+      "status": "PASS",
+      "notes": "All TEAM_ID values in games_details.csv exist in teams.csv."
+    },
+    {
+      "name": "details_player_to_players_csv",
+      "source_table": "games_details.csv",
+      "source_key": "PLAYER_ID",
+      "target_table": "players.csv",
+      "target_key": "PLAYER_ID",
+      "total_source_rows": 668628,
+      "unmatched_row_count": 79093,
+      "unmatched_distinct_keys": 918,
+      "status": "WARN",
+      "notes": "players.csv only covers 2009-2019 rosters (1,769 unique players), whereas games_details.csv spans 2003-2022 (2,687 unique players). Canonical players dimension must union players.csv and games_details.csv."
+    },
+    {
+      "name": "ranking_team_to_teams",
+      "source_table": "ranking.csv",
+      "source_key": "TEAM_ID",
+      "target_table": "teams.csv",
+      "target_key": "TEAM_ID",
+      "total_source_rows": 210342,
+      "unmatched_row_count": 0,
+      "unmatched_distinct_keys": 0,
+      "status": "PASS",
+      "notes": "All TEAM_ID values in ranking.csv exist in teams.csv."
+    }
+  ],
+  "anomalies": [
+    {
+      "issue_id": "DQ-001",
+      "severity": "HIGH",
+      "table": "games.csv",
+      "affected_rows": 29,
+      "summary": "Duplicate GAME_ID records with float-rounding differences",
+      "details": "Found 29 duplicate GAME_ID rows (58 total rows across 29 games in Dec 2020) where identical games appear twice with minor IEEE-754 float representation differences (e.g., 0.343 vs 0.3429999999999999).",
+      "remediation_plan": "Deduplicate games by primary key GAME_ID during canonical ingestion after sorting deterministically and rounding percentage columns to 3 decimal places."
+    },
+    {
+      "issue_id": "DQ-002",
+      "severity": "HIGH",
+      "table": "games.csv",
+      "affected_rows": 99,
+      "summary": "Unrecorded 2003 preseason/early games with all-null box scores",
+      "details": "Found 99 game rows in season 2003 (Oct 2003) where PTS_home, PTS_away, FG_PCT, FT_PCT, FG3_PCT, AST, and REB are all NaN, and HOME_TEAM_WINS defaults to 0 despite no score.",
+      "remediation_plan": "Filter out or explicitly flag unplayed/unscored games with null PTS_home or PTS_away in the canonical games dataset so downstream models train only on valid completed games."
+    },
+    {
+      "issue_id": "DQ-003",
+      "severity": "LOW",
+      "table": "games.csv",
+      "affected_rows": 26651,
+      "summary": "Redundant team identifier columns in games.csv",
+      "details": "HOME_TEAM_ID is 100% identical to TEAM_ID_home across all 26,651 rows, and VISITOR_TEAM_ID is 100% identical to TEAM_ID_away across all 26,651 rows.",
+      "remediation_plan": "Drop redundant TEAM_ID_home and TEAM_ID_away columns and standardize on home_team_id and away_team_id in the canonical games schema."
+    },
+    {
+      "issue_id": "DQ-004",
+      "severity": "HIGH",
+      "table": "games_details.csv",
+      "affected_rows": 289,
+      "summary": "Duplicate (GAME_ID, TEAM_ID, PLAYER_ID) player box-score rows",
+      "details": "Found 289 duplicate player-game records in games_details.csv (primarily corresponding to the duplicated Dec 2020 games).",
+      "remediation_plan": "Deduplicate player_game_stats on (game_id, team_id, player_id) during ingestion."
+    },
+    {
+      "issue_id": "DQ-005",
+      "severity": "MEDIUM",
+      "table": "games_details.csv",
+      "affected_rows": 109690,
+      "summary": "Did-Not-Play (DNP/Inactive) rows with null statistical columns",
+      "details": "Found 109,690 rows where MIN and all 18 numeric box-score columns (FGM through PTS) are NaN because the player did not enter the game (e.g., 'DNP - Coach's Decision'). Additionally, PLUS_MINUS is null in 133,351 rows.",
+      "remediation_plan": "Add boolean did_play flag in canonical player_game_stats; preserve DNP status with 0.0 minutes and clean nullable integer/float stats."
+    },
+    {
+      "issue_id": "DQ-006",
+      "severity": "MEDIUM",
+      "table": "games_details.csv",
+      "affected_rows": 24157,
+      "summary": "Inconsistent and negative string formats in MIN (minutes played)",
+      "details": "Among 558,938 non-null MIN strings: 23,661 lack a ':SS' component (e.g. '23'), 484 contain floating-point decimals before the colon (e.g. '12.000000:00'), and 12 contain corrupted negative strings (e.g. '-9', '-5').",
+      "remediation_plan": "Parse MIN strings into standardized numeric minutes_played (float >= 0.0), clamping or setting malformed negative minute strings to null/0.0."
+    },
+    {
+      "issue_id": "DQ-007",
+      "severity": "HIGH",
+      "table": "players.csv",
+      "affected_rows": 79093,
+      "summary": "Incomplete historical player roster coverage in players.csv",
+      "details": "players.csv only contains seasons 2009-2019 (1,769 unique players), leaving 918 unique players (79,093 box-score rows) from 2003-2008 and 2020-2022 absent from players.csv.",
+      "remediation_plan": "Construct canonical players table by combining players.csv with distinct (PLAYER_ID, PLAYER_NAME) records from games_details.csv so 100% of player foreign keys resolve."
+    },
+    {
+      "issue_id": "DQ-008",
+      "severity": "MEDIUM",
+      "table": "ranking.csv",
+      "affected_rows": 29,
+      "summary": "Duplicate daily team standings rows and prefixed SEASON_ID encoding",
+      "details": "Found 29 duplicate (TEAM_ID, SEASON_ID, STANDINGSDATE) rows, and SEASON_ID uses a 5-digit prefix format (1YYYY for preseason, 2YYYY for regular season) instead of the 4-digit SEASON integer.",
+      "remediation_plan": "Normalize season_id into canonical season (int YYYY) and season_type ('Preseason' vs 'Regular Season') and deduplicate daily standings."
+    },
+    {
+      "issue_id": "DQ-009",
+      "severity": "LOW",
+      "table": "teams.csv",
+      "affected_rows": 4,
+      "summary": "Missing ARENACAPACITY for 4 NBA franchises",
+      "details": "ARENACAPACITY is NaN for 4 franchises: NOP (Pelicans), BKN (Nets), PHI (76ers), and PHX (Suns).",
+      "remediation_plan": "Use nullable integer Int64 or known official arena capacities for the 4 franchises during canonical team normalization."
+    }
+  ],
+  "limitations": [
+    "No explicit game-type column in games.csv: Preseason (GAME_ID prefix '1'), Regular Season ('2'), All-Star/Special ('3'), Playoff ('4'), and Play-In ('5') games are mixed together and must be distinguished via GAME_ID prefix.",
+    "Partial 2022-23 season: Data collection ends on 2022-12-22 (542 games in season 2022).",
+    "Historical franchise relocations/renames: teams.csv stores only a single current row per TEAM_ID (e.g., OKC for Seattle SuperSonics/Thunder, NOP for New Orleans/OKC Hornets/Pelicans, BKN for New Jersey/Brooklyn Nets).",
+    "Missing play-by-play and quarter-by-quarter scoring: games.csv provides only final game totals and shooting percentages, without quarter splits or overtime indicators.",
+    "Missing betting lines, referee assignments, and injury reports prior to tip-off."
+  ],
+  "summary_metrics": {
+    "total_tables": 5,
+    "total_raw_rows": 912879,
+    "games_raw_rows": 26651,
+    "games_unique_ids": 26622,
+    "games_duplicate_ids": 29,
+    "games_missing_scores": 99,
+    "details_raw_rows": 668628,
+    "details_duplicate_keys": 289,
+    "details_dnp_rows": 109690,
+    "players_csv_unique_players": 1769,
+    "details_csv_unique_players": 2687,
+    "ranking_duplicate_keys": 29,
+    "teams_count": 30
+  }
+}
