@@ -284,7 +284,7 @@ def transform_games(
 
 def transform_player_game_stats(
     details_raw: pd.DataFrame,
-    valid_game_ids: set[int],
+    games_df: pd.DataFrame,
     valid_team_ids: set[int],
     logger: logging.Logger,
 ) -> tuple[pd.DataFrame, EntityIngestionStats]:
@@ -292,11 +292,35 @@ def transform_player_game_stats(
     raw_count = int(len(details_raw))
     df = details_raw.copy()
 
-    fk_mask = df["GAME_ID"].isin(valid_game_ids) & df["TEAM_ID"].isin(valid_team_ids)
+    valid_game_teams = set(
+        zip(
+            games_df["game_id"].astype(int).tolist(),
+            games_df["home_team_id"].astype(int).tolist(),
+            strict=False,
+        )
+    ) | set(
+        zip(
+            games_df["game_id"].astype(int).tolist(),
+            games_df["away_team_id"].astype(int).tolist(),
+            strict=False,
+        )
+    )
+    pair_series = list(
+        zip(
+            df["GAME_ID"].astype(int).tolist(),
+            df["TEAM_ID"].astype(int).tolist(),
+            strict=False,
+        )
+    )
+    fk_mask = pd.Series(
+        [pair in valid_game_teams for pair in pair_series],
+        index=df.index,
+        dtype="bool",
+    ) & df["TEAM_ID"].isin(valid_team_ids)
     orphan_count = int((~fk_mask).sum())
     if orphan_count > 0:
         logger.warning(
-            "Filtering %d player_game_stats rows with unmapped GAME_ID or TEAM_ID",
+            "Filtering %d player_game_stats rows with unmapped (GAME_ID, TEAM_ID) pair",
             orphan_count,
         )
         df = df[fk_mask].copy()
@@ -536,10 +560,9 @@ def run_ingestion_pipeline(
     valid_team_ids = set(teams_df["team_id"].astype(int).tolist())
 
     games_df, games_stats = transform_games(games_raw, valid_team_ids, logger)
-    valid_game_ids = set(games_df["game_id"].astype(int).tolist())
 
     player_stats_df, pstats_stats = transform_player_game_stats(
-        details_raw, valid_game_ids, valid_team_ids, logger
+        details_raw, games_df, valid_team_ids, logger
     )
 
     players_df, players_stats = transform_players(

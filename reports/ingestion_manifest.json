@@ -1,5 +1,5 @@
 {
-  "executed_at_utc": "2026-11-16T13:38:54Z",
+  "executed_at_utc": "2026-11-16T13:44:14Z",
   "raw_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/raw",
   "processed_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/processed",
   "log_file": "/Users/shaahdmaansour/Desktop/arcora/logs/ingestion.log",
@@ -82,9 +82,9 @@
       "entity_name": "player_game_stats",
       "output_file": "player_game_stats.parquet",
       "raw_rows_read": 668628,
-      "rows_written": 668339,
+      "rows_written": 668338,
       "duplicates_removed": 289,
-      "malformed_or_missing_handled": 109681,
+      "malformed_or_missing_handled": 109682,
       "columns": [
         "game_id",
         "team_id",

@@ -1,0 +1,206 @@
+{
+  "evaluated_at_utc": "2026-11-16T13:44:14Z",
+  "processed_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/processed",
+  "overall_passed": true,
+  "total_checks": 19,
+  "passed_checks": 19,
+  "failed_checks": 0,
+  "entity_row_counts": {
+    "teams": 30,
+    "players": 2687,
+    "games": 26523,
+    "player_game_stats": 668338
+  },
+  "results": [
+    {
+      "rule_id": "VAL-001",
+      "rule_name": "unique_pk_games",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "All 26,523 records in 'games' have unique (game_id) keys.",
+      "rule_description": "Primary key (game_id) in `games` must contain zero duplicates."
+    },
+    {
+      "rule_id": "VAL-002",
+      "rule_name": "unique_pk_teams",
+      "entity": "teams",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 30,
+      "message": "All 30 records in 'teams' have unique (team_id) keys.",
+      "rule_description": "Primary key (team_id) in `teams` must contain zero duplicates."
+    },
+    {
+      "rule_id": "VAL-003",
+      "rule_name": "unique_pk_players",
+      "entity": "players",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 2687,
+      "message": "All 2,687 records in 'players' have unique (player_id) keys.",
+      "rule_description": "Primary key (player_id) in `players` must contain zero duplicates."
+    },
+    {
+      "rule_id": "VAL-004",
+      "rule_name": "unique_pk_player_game_stats",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "All 668,338 records in 'player_game_stats' have unique (game_id, team_id, player_id) keys.",
+      "rule_description": "Primary key (game_id, team_id, player_id) in `player_game_stats` must contain zero duplicates."
+    },
+    {
+      "rule_id": "VAL-005",
+      "rule_name": "valid_game_dates_and_seasons",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "All 26,523 games have valid dates (2003-10-05 to 2022-12-22) and consistent season identifiers (2003 to 2022).",
+      "rule_description": "`game_date` must be valid timestamps within the season window and `season` / `season_label` must be consistent."
+    },
+    {
+      "rule_id": "VAL-006",
+      "rule_name": "distinct_home_and_away_teams",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "All 26,523 games have distinct home_team_id and away_team_id values.",
+      "rule_description": "In `games`, `home_team_id` must never equal `away_team_id`."
+    },
+    {
+      "rule_id": "VAL-007",
+      "rule_name": "valid_game_scores_and_types",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "All 26,523 games have valid integer scores, percentages in [0, 1], and consistent total_pts, point_margin, and home_win values.",
+      "rule_description": "Score columns must be positive integers, percentages in [0, 1], and `total_pts`, `point_margin`, and `home_win` mathematically consistent."
+    },
+    {
+      "rule_id": "VAL-008",
+      "rule_name": "valid_player_stats_numeric_bounds",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "All 668,338 player_game_stats records satisfy non-negativity, percentage bounds [0, 1], and made <= attempted shooting constraints.",
+      "rule_description": "Player counting stats and `minutes_played` must be >= 0, percentages in [0, 1], and made shots <= attempted shots."
+    },
+    {
+      "rule_id": "VAL-009",
+      "rule_name": "non_null_critical_games",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "Zero missing values across 23 critical columns in 'games'.",
+      "rule_description": "Critical columns in `games` must not contain null/NaN values."
+    },
+    {
+      "rule_id": "VAL-010",
+      "rule_name": "non_null_critical_teams",
+      "entity": "teams",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 30,
+      "message": "Zero missing values across 14 critical columns in 'teams'.",
+      "rule_description": "Critical columns in `teams` must not contain null/NaN values."
+    },
+    {
+      "rule_id": "VAL-011",
+      "rule_name": "non_null_critical_players",
+      "entity": "players",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 2687,
+      "message": "Zero missing values across 6 critical columns in 'players'.",
+      "rule_description": "Critical columns in `players` must not contain null/NaN values."
+    },
+    {
+      "rule_id": "VAL-012",
+      "rule_name": "non_null_critical_player_game_stats",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "Zero missing values across 27 critical columns in 'player_game_stats'.",
+      "rule_description": "Critical columns in `player_game_stats` must not contain null/NaN values."
+    },
+    {
+      "rule_id": "VAL-013",
+      "rule_name": "fk_games_home_team_id_to_teams",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "100% of 'games.home_team_id' values (26,523 rows) reference valid 'teams.team_id' keys.",
+      "rule_description": "Foreign key `games.home_team_id` must reference an existing `teams.team_id`."
+    },
+    {
+      "rule_id": "VAL-014",
+      "rule_name": "fk_games_away_team_id_to_teams",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "100% of 'games.away_team_id' values (26,523 rows) reference valid 'teams.team_id' keys.",
+      "rule_description": "Foreign key `games.away_team_id` must reference an existing `teams.team_id`."
+    },
+    {
+      "rule_id": "VAL-015",
+      "rule_name": "player_team_matches_game_participants",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "All 668,338 player_game_stats rows belong to either the home or away team of their referenced game.",
+      "rule_description": "Every `player_game_stats.team_id` must match either `home_team_id` or `away_team_id` of the corresponding `game_id`."
+    },
+    {
+      "rule_id": "VAL-016",
+      "rule_name": "fk_player_game_stats_game_id_to_games",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "100% of 'player_game_stats.game_id' values (668,338 rows) reference valid 'games.game_id' keys.",
+      "rule_description": "Foreign key `player_game_stats.game_id` must reference an existing `games.game_id`."
+    },
+    {
+      "rule_id": "VAL-017",
+      "rule_name": "fk_player_game_stats_team_id_to_teams",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "100% of 'player_game_stats.team_id' values (668,338 rows) reference valid 'teams.team_id' keys.",
+      "rule_description": "Foreign key `player_game_stats.team_id` must reference an existing `teams.team_id`."
+    },
+    {
+      "rule_id": "VAL-018",
+      "rule_name": "fk_player_game_stats_player_id_to_players",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "100% of 'player_game_stats.player_id' values (668,338 rows) reference valid 'players.player_id' keys.",
+      "rule_description": "Foreign key `player_game_stats.player_id` must reference an existing `players.player_id`."
+    },
+    {
+      "rule_id": "VAL-019",
+      "rule_name": "fk_players_primary_team_id_to_teams",
+      "entity": "players",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 2687,
+      "message": "100% of 'players.primary_team_id' values (2,687 rows) reference valid 'teams.team_id' keys.",
+      "rule_description": "Foreign key `players.primary_team_id` must reference an existing `teams.team_id`."
+    }
+  ]
+}

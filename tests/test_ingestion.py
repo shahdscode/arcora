@@ -55,7 +55,7 @@ def test_ingestion_pipeline_end_to_end_and_idempotency(tmp_path: Path) -> None:
     assert res1.entities["teams"].rows_written == 30
     assert res1.entities["games"].rows_written == 26523
     assert res1.entities["games"].duplicates_removed == 29
-    assert res1.entities["player_game_stats"].rows_written == 668339
+    assert res1.entities["player_game_stats"].rows_written == 668338
     assert res1.entities["player_game_stats"].duplicates_removed == 289
     assert res1.entities["players"].rows_written == 2687
 
