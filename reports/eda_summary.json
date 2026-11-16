@@ -1,0 +1,582 @@
+{
+  "total_games_analyzed": 26523,
+  "total_player_game_rows": 668338,
+  "total_unique_players": 2687,
+  "total_teams": 30,
+  "overall_home_win_rate": 0.5892,
+  "regular_season_home_win_rate": 0.5882,
+  "playoff_home_win_rate": 0.631,
+  "home_pts_distribution": {
+    "count": 26523,
+    "mean": 103.449,
+    "std": 13.281,
+    "min": 36.0,
+    "p25": 94.0,
+    "median": 103.0,
+    "p75": 112.0,
+    "max": 168.0,
+    "skewness": 0.173
+  },
+  "away_pts_distribution": {
+    "count": 26523,
+    "mean": 100.629,
+    "std": 13.432,
+    "min": 33.0,
+    "p25": 91.0,
+    "median": 100.0,
+    "p75": 110.0,
+    "max": 168.0,
+    "skewness": 0.186
+  },
+  "total_pts_distribution": {
+    "count": 26523,
+    "mean": 204.078,
+    "std": 23.042,
+    "min": 69.0,
+    "p25": 188.0,
+    "median": 203.0,
+    "p75": 219.0,
+    "max": 329.0,
+    "skewness": 0.245
+  },
+  "point_margin_distribution": {
+    "count": 26523,
+    "mean": 2.82,
+    "std": 13.515,
+    "min": -68.0,
+    "p25": -7.0,
+    "median": 4.0,
+    "p75": 11.0,
+    "max": 73.0,
+    "skewness": -0.025
+  },
+  "correlations_with_point_margin": {
+    "fg_pct_diff": 0.7717,
+    "fg3_pct_diff": 0.5085,
+    "ft_pct_diff": 0.172,
+    "reb_diff": 0.4559,
+    "ast_diff": 0.6012
+  },
+  "season_trends": [
+    {
+      "season": 2003,
+      "season_label": "2003-04",
+      "total_games": 1286,
+      "regular_season_games": 1189,
+      "playoff_games": 82,
+      "preseason_games": 15,
+      "active_teams": 29,
+      "mean_home_pts": 94.91,
+      "mean_away_pts": 91.09,
+      "mean_total_pts": 186.0,
+      "mean_point_margin": 3.81,
+      "home_win_rate": 0.6221,
+      "is_anomalous_season": true,
+      "anomaly_reason": "29 active franchises prior to Charlotte Bobcats expansion; 99 unscored preseason games excluded."
+    },
+    {
+      "season": 2004,
+      "season_label": "2004-05",
+      "total_games": 1362,
+      "regular_season_games": 1230,
+      "playoff_games": 84,
+      "preseason_games": 48,
+      "active_teams": 30,
+      "mean_home_pts": 98.6,
+      "mean_away_pts": 95.38,
+      "mean_total_pts": 193.99,
+      "mean_point_margin": 3.22,
+      "home_win_rate": 0.605,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2005,
+      "season_label": "2005-06",
+      "total_games": 1432,
+      "regular_season_games": 1230,
+      "playoff_games": 89,
+      "preseason_games": 113,
+      "active_teams": 30,
+      "mean_home_pts": 98.41,
+      "mean_away_pts": 95.17,
+      "mean_total_pts": 193.58,
+      "mean_point_margin": 3.23,
+      "home_win_rate": 0.6047,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2006,
+      "season_label": "2006-07",
+      "total_games": 1419,
+      "regular_season_games": 1230,
+      "playoff_games": 79,
+      "preseason_games": 110,
+      "active_teams": 30,
+      "mean_home_pts": 99.85,
+      "mean_away_pts": 96.94,
+      "mean_total_pts": 196.79,
+      "mean_point_margin": 2.9,
+      "home_win_rate": 0.5913,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2007,
+      "season_label": "2007-08",
+      "total_games": 1411,
+      "regular_season_games": 1230,
+      "playoff_games": 86,
+      "preseason_games": 95,
+      "active_teams": 30,
+      "mean_home_pts": 101.27,
+      "mean_away_pts": 97.55,
+      "mean_total_pts": 198.82,
+      "mean_point_margin": 3.72,
+      "home_win_rate": 0.6109,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2008,
+      "season_label": "2008-09",
+      "total_games": 1425,
+      "regular_season_games": 1230,
+      "playoff_games": 85,
+      "preseason_games": 110,
+      "active_teams": 30,
+      "mean_home_pts": 100.92,
+      "mean_away_pts": 97.9,
+      "mean_total_pts": 198.83,
+      "mean_point_margin": 3.02,
+      "home_win_rate": 0.6014,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2009,
+      "season_label": "2009-10",
+      "total_games": 1424,
+      "regular_season_games": 1230,
+      "playoff_games": 82,
+      "preseason_games": 112,
+      "active_teams": 30,
+      "mean_home_pts": 101.65,
+      "mean_away_pts": 98.75,
+      "mean_total_pts": 200.4,
+      "mean_point_margin": 2.91,
+      "home_win_rate": 0.6018,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2010,
+      "season_label": "2010-11",
+      "total_games": 1422,
+      "regular_season_games": 1230,
+      "playoff_games": 81,
+      "preseason_games": 111,
+      "active_teams": 30,
+      "mean_home_pts": 100.76,
+      "mean_away_pts": 97.38,
+      "mean_total_pts": 198.14,
+      "mean_point_margin": 3.37,
+      "home_win_rate": 0.6125,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2011,
+      "season_label": "2011-12",
+      "total_games": 1104,
+      "regular_season_games": 990,
+      "playoff_games": 84,
+      "preseason_games": 30,
+      "active_teams": 30,
+      "mean_home_pts": 97.39,
+      "mean_away_pts": 94.43,
+      "mean_total_pts": 191.82,
+      "mean_point_margin": 2.96,
+      "home_win_rate": 0.5942,
+      "is_anomalous_season": true,
+      "anomaly_reason": "Lockout-shortened 66-game regular season per team starting December 25, 2011."
+    },
+    {
+      "season": 2012,
+      "season_label": "2012-13",
+      "total_games": 1420,
+      "regular_season_games": 1229,
+      "playoff_games": 85,
+      "preseason_games": 106,
+      "active_teams": 30,
+      "mean_home_pts": 99.38,
+      "mean_away_pts": 96.11,
+      "mean_total_pts": 195.5,
+      "mean_point_margin": 3.27,
+      "home_win_rate": 0.6141,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2013,
+      "season_label": "2013-14",
+      "total_games": 1427,
+      "regular_season_games": 1230,
+      "playoff_games": 89,
+      "preseason_games": 108,
+      "active_teams": 30,
+      "mean_home_pts": 101.74,
+      "mean_away_pts": 99.26,
+      "mean_total_pts": 201.0,
+      "mean_point_margin": 2.47,
+      "home_win_rate": 0.5739,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2014,
+      "season_label": "2014-15",
+      "total_games": 1418,
+      "regular_season_games": 1230,
+      "playoff_games": 81,
+      "preseason_games": 107,
+      "active_teams": 30,
+      "mean_home_pts": 101.1,
+      "mean_away_pts": 98.82,
+      "mean_total_pts": 199.91,
+      "mean_point_margin": 2.28,
+      "home_win_rate": 0.5755,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2015,
+      "season_label": "2015-16",
+      "total_games": 1416,
+      "regular_season_games": 1230,
+      "playoff_games": 86,
+      "preseason_games": 100,
+      "active_teams": 30,
+      "mean_home_pts": 103.71,
+      "mean_away_pts": 100.76,
+      "mean_total_pts": 204.48,
+      "mean_point_margin": 2.95,
+      "home_win_rate": 0.5939,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2016,
+      "season_label": "2016-17",
+      "total_games": 1405,
+      "regular_season_games": 1230,
+      "playoff_games": 79,
+      "preseason_games": 96,
+      "active_teams": 30,
+      "mean_home_pts": 106.92,
+      "mean_away_pts": 103.81,
+      "mean_total_pts": 210.72,
+      "mean_point_margin": 3.11,
+      "home_win_rate": 0.5808,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2017,
+      "season_label": "2017-18",
+      "total_games": 1382,
+      "regular_season_games": 1230,
+      "playoff_games": 82,
+      "preseason_games": 70,
+      "active_teams": 30,
+      "mean_home_pts": 107.22,
+      "mean_away_pts": 104.93,
+      "mean_total_pts": 212.15,
+      "mean_point_margin": 2.29,
+      "home_win_rate": 0.5825,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2018,
+      "season_label": "2018-19",
+      "total_games": 1378,
+      "regular_season_games": 1230,
+      "playoff_games": 82,
+      "preseason_games": 66,
+      "active_teams": 30,
+      "mean_home_pts": 112.3,
+      "mean_away_pts": 109.57,
+      "mean_total_pts": 221.87,
+      "mean_point_margin": 2.74,
+      "home_win_rate": 0.5878,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2019,
+      "season_label": "2019-20",
+      "total_games": 1241,
+      "regular_season_games": 1059,
+      "playoff_games": 83,
+      "preseason_games": 98,
+      "active_teams": 30,
+      "mean_home_pts": 112.27,
+      "mean_away_pts": 110.47,
+      "mean_total_pts": 222.74,
+      "mean_point_margin": 1.81,
+      "home_win_rate": 0.5367,
+      "is_anomalous_season": true,
+      "anomaly_reason": "COVID-19 season suspension in March 2020 followed by neutral-site Orlando Bubble restart."
+    },
+    {
+      "season": 2020,
+      "season_label": "2020-21",
+      "total_games": 1220,
+      "regular_season_games": 1080,
+      "playoff_games": 85,
+      "preseason_games": 49,
+      "active_teams": 30,
+      "mean_home_pts": 112.44,
+      "mean_away_pts": 111.25,
+      "mean_total_pts": 223.7,
+      "mean_point_margin": 1.19,
+      "home_win_rate": 0.5443,
+      "is_anomalous_season": true,
+      "anomaly_reason": "COVID-19 shortened 72-game regular season with restricted arena attendance and lowest home-court advantage."
+    },
+    {
+      "season": 2021,
+      "season_label": "2021-22",
+      "total_games": 1389,
+      "regular_season_games": 1230,
+      "playoff_games": 87,
+      "preseason_games": 66,
+      "active_teams": 30,
+      "mean_home_pts": 111.2,
+      "mean_away_pts": 109.22,
+      "mean_total_pts": 220.41,
+      "mean_point_margin": 1.98,
+      "home_win_rate": 0.5529,
+      "is_anomalous_season": false,
+      "anomaly_reason": "Standard full NBA schedule"
+    },
+    {
+      "season": 2022,
+      "season_label": "2022-23",
+      "total_games": 542,
+      "regular_season_games": 477,
+      "playoff_games": 0,
+      "preseason_games": 65,
+      "active_teams": 30,
+      "mean_home_pts": 114.28,
+      "mean_away_pts": 111.24,
+      "mean_total_pts": 225.52,
+      "mean_point_margin": 3.05,
+      "home_win_rate": 0.5886,
+      "is_anomalous_season": true,
+      "anomaly_reason": "Partial in-progress season captured through dataset cutoff date (2022-12-22)."
+    }
+  ],
+  "extreme_games": [
+    {
+      "category": "Highest Combined Total Points",
+      "game_id": 21800928,
+      "game_date": "2019-03-01",
+      "season_label": "2018-19",
+      "home_team": "ATL",
+      "away_team": "CHI",
+      "home_pts": 161,
+      "away_pts": 168,
+      "total_pts": 329,
+      "point_margin": -7
+    },
+    {
+      "category": "Lowest Combined Total Points",
+      "game_id": 10700072,
+      "game_date": "2007-10-19",
+      "season_label": "2007-08",
+      "home_team": "BOS",
+      "away_team": "BKN",
+      "home_pts": 36,
+      "away_pts": 33,
+      "total_pts": 69,
+      "point_margin": 3
+    },
+    {
+      "category": "Largest Home Victory Margin",
+      "game_id": 22100330,
+      "game_date": "2021-12-02",
+      "season_label": "2021-22",
+      "home_team": "MEM",
+      "away_team": "OKC",
+      "home_pts": 152,
+      "away_pts": 79,
+      "total_pts": 231,
+      "point_margin": 73
+    },
+    {
+      "category": "Largest Away Victory Margin",
+      "game_id": 12100048,
+      "game_date": "2021-10-13",
+      "season_label": "2021-22",
+      "home_team": "CHA",
+      "away_team": "DAL",
+      "home_pts": 59,
+      "away_pts": 127,
+      "total_pts": 186,
+      "point_margin": -68
+    },
+    {
+      "category": "Highest Single-Game Home Team Score",
+      "game_id": 20700989,
+      "game_date": "2008-03-16",
+      "season_label": "2007-08",
+      "home_team": "DEN",
+      "away_team": "OKC",
+      "home_pts": 168,
+      "away_pts": 116,
+      "total_pts": 284,
+      "point_margin": 52
+    },
+    {
+      "category": "Highest Single-Game Away Team Score",
+      "game_id": 21800928,
+      "game_date": "2019-03-01",
+      "season_label": "2018-19",
+      "home_team": "ATL",
+      "away_team": "CHI",
+      "home_pts": 161,
+      "away_pts": 168,
+      "total_pts": 329,
+      "point_margin": -7
+    }
+  ],
+  "missing_data_summary": {
+    "teams": {
+      "arena_capacity": 4
+    },
+    "players": {},
+    "games": {},
+    "player_game_stats": {
+      "start_position": 412694,
+      "comment": 558670,
+      "plus_minus": 133329
+    }
+  },
+  "candidate_features": [
+    {
+      "feature_name": "rolling_net_rating_5g_10g",
+      "category": "Team Form & Efficiency",
+      "target_relevance": "point_margin, home_win",
+      "computation_window": "Last 5 and 10 games prior to tip-off (strictly lagged)",
+      "source_entities": [
+        "games"
+      ],
+      "rationale": "Rolling point differential captures short- and medium-term team strength and is strongly predictive of upcoming game margins."
+    },
+    {
+      "feature_name": "elo_rating_differential",
+      "category": "Long-Term Team Strength",
+      "target_relevance": "home_win, point_margin",
+      "computation_window": "Cumulative across seasons with offseason mean reversion",
+      "source_entities": [
+        "games"
+      ],
+      "rationale": "Dynamic Elo ratings adjust for opponent quality and margin of victory, providing a calibrated baseline win probability."
+    },
+    {
+      "feature_name": "rolling_efg_pct_differential",
+      "category": "Shooting Efficiency (Four Factors)",
+      "target_relevance": "home_pts, away_pts, home_win",
+      "computation_window": "Last 10 games (expanding window early in season)",
+      "source_entities": [
+        "games",
+        "player_game_stats"
+      ],
+      "rationale": "Effective field goal percentage (eFG% = (FGM + 0.5 * FG3M) / FGA) weights 3-point efficiency and has the highest correlation with winning."
+    },
+    {
+      "feature_name": "rest_days_and_back_to_back_flag",
+      "category": "Schedule & Fatigue",
+      "target_relevance": "home_pts, away_pts, point_margin",
+      "computation_window": "Days elapsed since each team's previous game_date",
+      "source_entities": [
+        "games"
+      ],
+      "rationale": "Teams playing on 0 days rest (second night of a back-to-back), especially on the road, suffer a measurable drop in shooting efficiency and win rate."
+    },
+    {
+      "feature_name": "home_away_location_split_win_pct",
+      "category": "Venue & Home-Court Advantage",
+      "target_relevance": "home_win, point_margin",
+      "computation_window": "Season-to-date home win % vs away win %",
+      "source_entities": [
+        "games"
+      ],
+      "rationale": "Home teams win 59.0% of historical games (+3.01 mean margin); team-specific venue splits capture altitude (e.g., DEN, UTA) and crowd effects."
+    },
+    {
+      "feature_name": "rolling_pace_and_total_possessions",
+      "category": "Pace & Tempo",
+      "target_relevance": "total_pts, home_pts, away_pts",
+      "computation_window": "Last 10 games prior to tip-off",
+      "source_entities": [
+        "games",
+        "player_game_stats"
+      ],
+      "rationale": "Estimated possessions (~FGA - OREB + TO + 0.44 * FTA) directly govern total game scoring volume across different NBA eras."
+    },
+    {
+      "feature_name": "rolling_rebound_and_assist_margin",
+      "category": "Ball Movement & Possession Control",
+      "target_relevance": "point_margin, home_win",
+      "computation_window": "Last 10 games prior to tip-off",
+      "source_entities": [
+        "games",
+        "player_game_stats"
+      ],
+      "rationale": "In-game rebound differential (r = +0.405 with point_margin) and assist differential (r = +0.478 with point_margin) are strong structural drivers."
+    },
+    {
+      "feature_name": "active_starters_minutes_and_pie_availability",
+      "category": "Roster & Player Availability",
+      "target_relevance": "home_win, point_margin",
+      "computation_window": "Rolling 10-game top-5 rotation player impact",
+      "source_entities": [
+        "player_game_stats",
+        "players"
+      ],
+      "rationale": "Aggregating recent scoring and plus/minus of available starters accounts for key player injuries, trades, and load management."
+    },
+    {
+      "feature_name": "three_point_attempt_rate_3par",
+      "category": "Modern Spacing & Shot Profile",
+      "target_relevance": "total_pts, home_pts, away_pts",
+      "computation_window": "Season-to-date and rolling 10-game FG3A / FGA",
+      "source_entities": [
+        "player_game_stats"
+      ],
+      "rationale": "Captures secular offensive evolution (league 3PAr rose from 18.8% in 2003 to 39.2% in 2021-22) and variance in scoring outcomes."
+    },
+    {
+      "feature_name": "head_to_head_season_series_margin",
+      "category": "Matchup History",
+      "target_relevance": "point_margin, home_win",
+      "computation_window": "Trailing 3-season head-to-head matchups",
+      "source_entities": [
+        "games"
+      ],
+      "rationale": "Captures stylistic matchup advantages between specific franchises and division rivals."
+    }
+  ],
+  "generated_figures": [
+    "01_games_per_season.png",
+    "02_scoring_distributions.png",
+    "03_seasonal_scoring_trends.png",
+    "04_home_court_advantage.png",
+    "05_boxscore_correlations.png",
+    "06_extreme_games_and_margins.png"
+  ]
+}
