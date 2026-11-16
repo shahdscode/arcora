@@ -1,0 +1,90 @@
+erDiagram
+    teams ||--o{ games : "hosts (home_team_id)"
+    teams ||--o{ games : "visits (away_team_id)"
+    teams ||--o{ players : "rosters (primary_team_id)"
+    teams ||--o{ player_game_stats : "fields (team_id)"
+    games ||--o{ player_game_stats : "includes (game_id)"
+    players ||--o{ player_game_stats : "records (player_id)"
+
+    teams {
+        integer team_id PK
+        string league_id
+        string abbreviation
+        string nickname
+        string city
+        string full_name
+        integer year_founded
+        integer min_year
+        integer max_year
+        string arena
+        integer arena_capacity
+        string owner
+        string general_manager
+        string head_coach
+        string dleague_affiliation
+    }
+    players {
+        integer player_id PK
+        string player_name
+        integer first_season
+        integer last_season
+        integer primary_team_id FK
+        integer career_games_logged
+    }
+    games {
+        integer game_id PK
+        date game_date
+        integer season
+        string season_label
+        string game_type
+        string game_status
+        integer home_team_id FK
+        integer away_team_id FK
+        integer home_pts
+        integer away_pts
+        integer total_pts
+        integer point_margin
+        boolean home_win
+        float home_fg_pct
+        float home_ft_pct
+        float home_fg3_pct
+        integer home_ast
+        integer home_reb
+        float away_fg_pct
+        float away_ft_pct
+        float away_fg3_pct
+        integer away_ast
+        integer away_reb
+    }
+    player_game_stats {
+        integer game_id PK,FK
+        integer team_id PK,FK
+        integer player_id PK,FK
+        string player_name
+        string team_abbreviation
+        string team_city
+        boolean is_starter
+        string start_position
+        boolean did_play
+        string comment
+        float minutes_played
+        integer fgm
+        integer fga
+        float fg_pct
+        integer fg3m
+        integer fg3a
+        float fg3_pct
+        integer ftm
+        integer fta
+        float ft_pct
+        integer oreb
+        integer dreb
+        integer reb
+        integer ast
+        integer stl
+        integer blk
+        integer turnovers
+        integer pf
+        integer pts
+        float plus_minus
+    }

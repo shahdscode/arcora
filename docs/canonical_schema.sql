@@ -1,0 +1,98 @@
+-- Arcora Canonical NBA Database Schema (DDL)
+-- Generated from arcora.models.schema
+
+CREATE TABLE teams (
+    team_id BIGINT NOT NULL,
+    league_id VARCHAR(4) NOT NULL,
+    abbreviation CHAR(3) NOT NULL,
+    nickname VARCHAR(64) NOT NULL,
+    city VARCHAR(64) NOT NULL,
+    full_name VARCHAR(128) NOT NULL,
+    year_founded INTEGER NOT NULL,
+    min_year INTEGER NOT NULL,
+    max_year INTEGER NOT NULL,
+    arena VARCHAR(128) NOT NULL,
+    arena_capacity INTEGER NULL,
+    owner VARCHAR(128) NOT NULL,
+    general_manager VARCHAR(128) NOT NULL,
+    head_coach VARCHAR(128) NOT NULL,
+    dleague_affiliation VARCHAR(128) NOT NULL,
+    CONSTRAINT pk_teams PRIMARY KEY (team_id)
+);
+
+CREATE TABLE players (
+    player_id BIGINT NOT NULL,
+    player_name VARCHAR(128) NOT NULL,
+    first_season INTEGER NOT NULL,
+    last_season INTEGER NOT NULL,
+    primary_team_id BIGINT NOT NULL,
+    career_games_logged INTEGER NOT NULL,
+    CONSTRAINT pk_players PRIMARY KEY (player_id),
+    CONSTRAINT fk_players_primary_team_id FOREIGN KEY (primary_team_id) REFERENCES teams (team_id)
+);
+
+CREATE TABLE games (
+    game_id BIGINT NOT NULL,
+    game_date DATE NOT NULL,
+    season INTEGER NOT NULL,
+    season_label CHAR(7) NOT NULL,
+    game_type VARCHAR(32) NOT NULL,
+    game_status VARCHAR(32) NOT NULL,
+    home_team_id BIGINT NOT NULL,
+    away_team_id BIGINT NOT NULL,
+    home_pts INTEGER NOT NULL,
+    away_pts INTEGER NOT NULL,
+    total_pts INTEGER NOT NULL,
+    point_margin INTEGER NOT NULL,
+    home_win BOOLEAN NOT NULL,
+    home_fg_pct DOUBLE PRECISION NOT NULL,
+    home_ft_pct DOUBLE PRECISION NOT NULL,
+    home_fg3_pct DOUBLE PRECISION NOT NULL,
+    home_ast INTEGER NOT NULL,
+    home_reb INTEGER NOT NULL,
+    away_fg_pct DOUBLE PRECISION NOT NULL,
+    away_ft_pct DOUBLE PRECISION NOT NULL,
+    away_fg3_pct DOUBLE PRECISION NOT NULL,
+    away_ast INTEGER NOT NULL,
+    away_reb INTEGER NOT NULL,
+    CONSTRAINT pk_games PRIMARY KEY (game_id),
+    CONSTRAINT fk_games_home_team_id FOREIGN KEY (home_team_id) REFERENCES teams (team_id),
+    CONSTRAINT fk_games_away_team_id FOREIGN KEY (away_team_id) REFERENCES teams (team_id)
+);
+
+CREATE TABLE player_game_stats (
+    game_id BIGINT NOT NULL,
+    team_id BIGINT NOT NULL,
+    player_id BIGINT NOT NULL,
+    player_name VARCHAR(128) NOT NULL,
+    team_abbreviation CHAR(3) NOT NULL,
+    team_city VARCHAR(64) NOT NULL,
+    is_starter BOOLEAN NOT NULL,
+    start_position CHAR(1) NULL,
+    did_play BOOLEAN NOT NULL,
+    comment VARCHAR(256) NULL,
+    minutes_played DOUBLE PRECISION NOT NULL,
+    fgm INTEGER NOT NULL,
+    fga INTEGER NOT NULL,
+    fg_pct DOUBLE PRECISION NOT NULL,
+    fg3m INTEGER NOT NULL,
+    fg3a INTEGER NOT NULL,
+    fg3_pct DOUBLE PRECISION NOT NULL,
+    ftm INTEGER NOT NULL,
+    fta INTEGER NOT NULL,
+    ft_pct DOUBLE PRECISION NOT NULL,
+    oreb INTEGER NOT NULL,
+    dreb INTEGER NOT NULL,
+    reb INTEGER NOT NULL,
+    ast INTEGER NOT NULL,
+    stl INTEGER NOT NULL,
+    blk INTEGER NOT NULL,
+    turnovers INTEGER NOT NULL,
+    pf INTEGER NOT NULL,
+    pts INTEGER NOT NULL,
+    plus_minus DOUBLE PRECISION NULL,
+    CONSTRAINT pk_player_game_stats PRIMARY KEY (game_id, team_id, player_id),
+    CONSTRAINT fk_player_game_stats_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
+    CONSTRAINT fk_player_game_stats_team_id FOREIGN KEY (team_id) REFERENCES teams (team_id),
+    CONSTRAINT fk_player_game_stats_player_id FOREIGN KEY (player_id) REFERENCES players (player_id)
+);
