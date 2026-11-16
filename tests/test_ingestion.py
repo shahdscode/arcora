@@ -10,21 +10,25 @@ import pytest
 from arcora.config import ArcoraConfig
 from arcora.data.ingestion import (
     classify_game_type,
+    configure_ingestion_logger,
     format_season_label,
     parse_minutes_value,
     run_ingestion_pipeline,
+    transform_games,
 )
 from arcora.models.schema import CANONICAL_ENTITIES
 
 
 def test_parse_minutes_value_edge_cases() -> None:
-    """Verify MIN string parser handles MM:SS, integers, decimals, nulls, and negatives."""
+    """Verify MIN string parser handles MM:SS, integers, decimals, nulls, and malformed secs."""
     assert parse_minutes_value("36:30") == (36.5, False)
     assert parse_minutes_value("12.000000:00") == (12.0, False)
     assert parse_minutes_value("23") == (23.0, False)
     assert parse_minutes_value(None) == (0.0, False)
     assert parse_minutes_value("") == (0.0, False)
     assert parse_minutes_value("-9") == (0.0, True)
+    assert parse_minutes_value("12:60") == (0.0, True)
+    assert parse_minutes_value("12:75") == (0.0, True)
     assert parse_minutes_value("invalid") == (0.0, True)
 
 
@@ -58,6 +62,10 @@ def test_ingestion_pipeline_end_to_end_and_idempotency(tmp_path: Path) -> None:
     assert res1.entities["player_game_stats"].rows_written == 668338
     assert res1.entities["player_game_stats"].duplicates_removed == 289
     assert res1.entities["players"].rows_written == 2687
+    assert res1.entities["standings"].rows_written == 210313
+    assert res1.entities["standings"].duplicates_removed == 29
+    pstats_corr = res1.entities["player_game_stats"].corrections_applied
+    assert "malformed_minutes_reset_to_zero" in pstats_corr
 
     # Re-run against the same processed directory to verify idempotency
     res2 = run_ingestion_pipeline(
@@ -78,6 +86,36 @@ def test_ingestion_pipeline_end_to_end_and_idempotency(tmp_path: Path) -> None:
 
     assert (logs_dir / "ingestion.log").is_file()
     assert (reports_dir / "ingestion_manifest.json").is_file()
+
+
+def test_transform_games_filters_non_final_status(tmp_path: Path) -> None:
+    """Verify transform_games drops rows where GAME_STATUS_TEXT != 'Final'."""
+    logger = configure_ingestion_logger(tmp_path / "test.log")
+    df = pd.DataFrame(
+        {
+            "GAME_DATE_EST": ["2022-10-20", "2022-10-21"],
+            "GAME_ID": [22200001, 22200002],
+            "GAME_STATUS_TEXT": ["Final", "Scheduled"],
+            "HOME_TEAM_ID": [1, 1],
+            "VISITOR_TEAM_ID": [2, 2],
+            "SEASON": [2022, 2022],
+            "PTS_home": [110.0, 100.0],
+            "FG_PCT_home": [0.48, 0.45],
+            "FT_PCT_home": [0.80, 0.75],
+            "FG3_PCT_home": [0.35, 0.33],
+            "AST_home": [25.0, 20.0],
+            "REB_home": [44.0, 40.0],
+            "PTS_away": [105.0, 95.0],
+            "FG_PCT_away": [0.46, 0.44],
+            "FT_PCT_away": [0.78, 0.76],
+            "FG3_PCT_away": [0.34, 0.32],
+            "AST_away": [22.0, 19.0],
+            "REB_away": [41.0, 39.0],
+        }
+    )
+    out, stats = transform_games(df, {1, 2}, logger)
+    assert len(out) == 1
+    assert stats.corrections_applied["non_final_games_dropped"] == 1
 
 
 def test_ingestion_raises_on_missing_raw_files(tmp_path: Path) -> None:

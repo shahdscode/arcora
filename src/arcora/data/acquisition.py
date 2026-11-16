@@ -226,10 +226,15 @@ def inspect_raw_dataset(
     all_dates = games_df["GAME_DATE_EST"].dropna().astype(str)
     rank_dates = ranking_df["STANDINGSDATE"].dropna().astype(str)
 
+    try:
+        rel_raw = raw_dir.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        rel_raw = raw_dir.as_posix()
+
     return DatasetAcquisitionReport(
         dataset=dict(DATASET_METADATA),
         retrieved_at_utc=retrieval_timestamp,
-        raw_data_dir=str(raw_dir),
+        raw_data_dir=rel_raw,
         files=file_metas,
         total_size_bytes=sum(m.size_bytes for m in file_metas),
         total_rows_across_files=sum(m.row_count for m in file_metas),

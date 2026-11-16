@@ -32,7 +32,8 @@
 ### Key Scoring Insights
 - **Home vs. Away Scoring Advantage**: Home teams average **103.45 PPG** compared to **100.63 PPG** for away teams, yielding an average home scoring margin of **+2.82 points** (median **+4 points**).
 - **Total Points Spread**: Combined game totals average **204.08 points** (IQR: 188 to 219 points) with a slight positive skew (0.24) driven by high-pace modern games and multi-overtime contests.
-- **Box-Score Drivers of Point Margin (Pearson $r$)**:
+- **Descriptive Post-Game Box-Score Correlations (Pearson $r$, Ex-Post Only)**:
+  > *Note*: The correlations below measure in-game box-score differentials against the realized `point_margin`. These post-game statistics are **not** available before tip-off and must only be used via strictly lagged historical windows for prediction.
   - Field Goal % Differential (`home_fg_pct - away_fg_pct`): **r = +0.772**
   - Assist Differential (`home_ast - away_ast`): **r = +0.601**
   - 3-Point % Differential (`home_fg3_pct - away_fg3_pct`): **r = +0.508**
@@ -99,6 +100,7 @@
 | `rolling_rebound_and_assist_margin` | Ball Movement & Possession Control | `point_margin, home_win` | Last 10 games prior to tip-off | `games`, `player_game_stats` | In-game rebound differential (r = +0.405 with point_margin) and assist differential (r = +0.478 with point_margin) are strong structural drivers. |
 | `active_starters_minutes_and_pie_availability` | Roster & Player Availability | `home_win, point_margin` | Rolling 10-game top-5 rotation player impact | `player_game_stats`, `players` | Aggregating recent scoring and plus/minus of available starters accounts for key player injuries, trades, and load management. |
 | `three_point_attempt_rate_3par` | Modern Spacing & Shot Profile | `total_pts, home_pts, away_pts` | Season-to-date and rolling 10-game FG3A / FGA | `player_game_stats` | Captures secular offensive evolution (league 3PAr rose from 18.8% in 2003 to 39.2% in 2021-22) and variance in scoring outcomes. |
+| `standings_win_pct_and_conference_rank_diff` | Standings & Season Progression | `home_win, point_margin` | Latest standings snapshot prior to game_date | `standings`, `games` | Pre-game conference rank, cumulative winning percentage, and home/road split records from canonical standings capture season-long contention. |
 | `head_to_head_season_series_margin` | Matchup History | `point_margin, home_win` | Trailing 3-season head-to-head matchups | `games` | Captures stylistic matchup advantages between specific franchises and division rivals. |
 
 ---

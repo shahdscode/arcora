@@ -5,14 +5,15 @@
 | Metric | Value |
 | :--- | :--- |
 | **Overall Validation Status** | **PASSED** |
-| **Evaluated At (UTC)** | `2026-11-16T13:44:14Z` |
-| **Total Validation Rules Executed** | 19 |
-| **Rules Passed** | 19 |
+| **Evaluated At (UTC)** | `2026-11-16T15:37:49Z` |
+| **Total Validation Rules Executed** | 25 |
+| **Rules Passed** | 25 |
 | **Rules Failed** | 0 |
 | **`teams` Validated Rows** | 30 |
 | **`players` Validated Rows** | 2,687 |
 | **`games` Validated Rows** | 26,523 |
 | **`player_game_stats` Validated Rows** | 668,338 |
+| **`standings` Validated Rows** | 210,313 |
 
 ---
 
@@ -38,7 +39,13 @@
 | `VAL-016` | `player_game_stats` | `fk_player_game_stats_game_id_to_games` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.game_id' values (668,338 rows) reference valid 'games.game_id' keys. |
 | `VAL-017` | `player_game_stats` | `fk_player_game_stats_team_id_to_teams` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.team_id' values (668,338 rows) reference valid 'teams.team_id' keys. |
 | `VAL-018` | `player_game_stats` | `fk_player_game_stats_player_id_to_players` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.player_id' values (668,338 rows) reference valid 'players.player_id' keys. |
-| `VAL-019` | `players` | `fk_players_primary_team_id_to_teams` | **PASS** | 0 / 2,687 | 100% of 'players.primary_team_id' values (2,687 rows) reference valid 'teams.team_id' keys. |
+| `VAL-019` | `players` | `valid_player_career_counts_and_seasons` | **PASS** | 0 / 2,687 | All 2,687 players have valid season spans and 0 <= career_games_played <= career_games_logged. |
+| `VAL-020` | `games` | `valid_game_status_and_type` | **PASS** | 0 / 26,523 | All 26,523 games have game_status == 'Final' and valid game_type classifications. |
+| `VAL-021` | `player_game_stats` | `player_dnp_and_rebound_consistency` | **PASS** | 0 / 668,338 | All 668,338 player_game_stats rows satisfy DNP zero-stat consistency and reb == oreb + dreb. |
+| `VAL-022` | `standings` | `unique_pk_standings` | **PASS** | 0 / 210,313 | All 210,313 records in 'standings' have unique (team_id, season, season_type, standings_date) keys. |
+| `VAL-023` | `standings` | `non_null_critical_standings` | **PASS** | 0 / 210,313 | Zero missing values across 15 critical columns in 'standings'. |
+| `VAL-024` | `standings` | `fk_standings_team_id_to_teams` | **PASS** | 0 / 210,313 | 100% of 'standings.team_id' values (210,313 rows) reference valid 'teams.team_id' keys. |
+| `VAL-025` | `standings` | `valid_standings_records_and_domains` | **PASS** | 0 / 210,313 | All 210,313 standings rows satisfy games_played == wins + losses, win_pct in [0, 1], and valid conference/season_type labels. |
 
 ---
 
@@ -64,7 +71,13 @@
 | `VAL-016` | `player_game_stats` | Foreign key `player_game_stats.game_id` must reference an existing `games.game_id`. |
 | `VAL-017` | `player_game_stats` | Foreign key `player_game_stats.team_id` must reference an existing `teams.team_id`. |
 | `VAL-018` | `player_game_stats` | Foreign key `player_game_stats.player_id` must reference an existing `players.player_id`. |
-| `VAL-019` | `players` | Foreign key `players.primary_team_id` must reference an existing `teams.team_id`. |
+| `VAL-019` | `players` | Players must have `last_season >= first_season` and `0 <= career_games_played <= career_games_logged`. |
+| `VAL-020` | `games` | All canonical `games` must have `game_status == 'Final'` and a valid `game_type`. |
+| `VAL-021` | `player_game_stats` | DNP rows (`did_play == False`) must have 0 minutes/points, and `reb == oreb + dreb`. |
+| `VAL-022` | `standings` | Primary key (team_id, season, season_type, standings_date) in `standings` must contain zero duplicates. |
+| `VAL-023` | `standings` | Critical columns in `standings` must not contain null/NaN values. |
+| `VAL-024` | `standings` | Foreign key `standings.team_id` must reference an existing `teams.team_id`. |
+| `VAL-025` | `standings` | Standings must satisfy `games_played == wins + losses`, `win_pct` in [0, 1], and valid `conference` and `season_type`. |
 
 ---
 
