@@ -253,11 +253,15 @@ def get_candidate_features() -> list[CandidateFeatureSpec]:
             feature_name="standings_win_pct_and_conference_rank_diff",
             category="Standings & Season Progression",
             target_relevance="home_win, point_margin",
-            computation_window="Latest standings snapshot prior to game_date",
+            computation_window=(
+                "Latest daily standings snapshot strictly before game_date "
+                "(standings_date < game_date)"
+            ),
             source_entities=["standings", "games"],
             rationale=(
-                "Pre-game conference rank, cumulative winning percentage, and home/road "
-                "split records from canonical standings capture season-long contention."
+                "As-of pre-game conference rank, cumulative winning percentage, and home/road "
+                "split records reconstructed strictly prior to tip-off (standings_date < "
+                "game_date) capture season-long contention without temporal leakage."
             ),
         ),
         CandidateFeatureSpec(
@@ -837,16 +841,29 @@ def render_eda_findings_markdown(summary: EDAReportSummary) -> str:
             "",
             "## 6. Data Limitations Affecting Downstream Modeling",
             "",
+            "- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete "
+            "seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through "
+            "`2022-12-22`, 542 games: 472 Regular Season, 70 Preseason, 0 Playoffs)**. "
+            "Season-level aggregations and train/validation/test splits must account for "
+            "`2022-23` being truncated in late December.",
+            "- **Multiple Competition Stages in `games.parquet` (`26,523` Total Games)**: "
+            "Canonical `games.parquet` includes `23,244` Regular Season games (`87.64%`), "
+            "`1,675` completed Preseason games (`6.32%`), `1,591` Playoff games (`6.00%`), and "
+            "`13` Play-In games (`0.05%`). Preseason games exhibit compressed starter minutes "
+            "and higher variance; models targeting regular-season and playoff games should "
+            "filter out `game_type == 'Preseason'`.",
             "- **Non-Stationarity Across NBA Eras**: Because league-wide average total points "
             "increased by nearly 40 PPG between 2003 and 2022, raw scoring totals must be "
             "normalized relative to the trailing seasonal league average or modeled with "
             "era-adaptive features.",
-            "- **Preseason vs. Regular Season Noise**: Preseason games exhibit compressed "
-            "starter minutes and lower predictability; models targeting regular-season and "
-            "playoff outcomes should filter out or separately weight `game_type == 'Preseason'`.",
-            "- **In-Game Box-Score Leakage Prevention**: Columns like `home_fg_pct`, `home_reb`, "
-            "and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST "
-            "only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.",
+            "- **In-Game Box-Score & Standings Leakage Prevention**:",
+            "  - Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are "
+            "post-game outcomes. Predictive models MUST only use strictly lagged rolling windows "
+            "(`shift(1)`) computed prior to tip-off.",
+            "  - Similarly, `standings.parquet` contains daily snapshots (`standings_date`). "
+            "When constructing standings features for a game on `game_date`, features must be "
+            "reconstructed using an as-of join with `standings_date < game_date` (never end-of-"
+            "season or same-day post-game standings).",
             "- **Absence of Pre-Game Injury Report Feed**: While `player_game_stats` shows who "
             "played (`did_play`) ex-post, pre-game availability must be approximated from "
             "recent rotation participation unless external injury feeds are joined.",

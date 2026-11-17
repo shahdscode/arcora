@@ -826,23 +826,46 @@ def render_data_quality_report_markdown(summary: DataQualitySummary) -> str:
             "",
             "---",
             "",
-            "## 4. Detected Raw Issues Resolved Prior to Validation",
+            "## 4. Raw-to-Canonical Row Reconciliation & Resolved Issues",
             "",
+            "| Canonical Entity | Raw Source Rows | Excluded / Collapsed Rows | "
+            "Canonical Parquet Rows | Exact Reconciliation Breakdown |",
+            "| :--- | ---: | ---: | ---: | :--- |",
+            "| `teams` | 30 | 0 | 30 | All 30 NBA franchises preserved (`4` missing "
+            "`arena_capacity` stored as nullable `Int64`). |",
+            "| `games` | 26,651 | -128 | 26,523 | `-99` unscored Oct 2003 preseason rows "
+            "(`PTS_home` is NaN) and `-29` duplicate Dec 2020 `GAME_ID` rows "
+            "(`26,651 - 99 - 29 = 26,523`). |",
+            "| `player_game_stats` | 668,628 | -290 | 668,338 | `-1` invalid participant-team "
+            "row (`GAME_ID=10500109, PLAYER_ID=2564, TEAM_ID=1610612756` where PHX did not play "
+            "in IND @ ATL) and `-289` duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows across 12 "
+            "duplicated Dec 2020 games (`668,628 - 1 - 289 = 668,338`). |",
+            "| `players` | 7,228 | -4,541 (net) | 2,687 | `7,228` team-season roster rows "
+            "(2009–2019) collapsed to `1,769` unique players (`-5,459` multi-season duplicates) "
+            "plus `+918` historical players (2003–2008, 2020–2022) backfilled from "
+            "`games_details.csv` (`1,769 + 918 = 2,687`). |",
+            "| `standings` | 210,342 | -29 | 210,313 | `-29` duplicate `(TEAM_ID, SEASON_ID, "
+            "STANDINGSDATE)` rows removed (`210,342 - 29 = 210,313`). |",
+            "",
+            "### Summary of Resolved Raw Data Anomalies",
             "- **Duplicate Game IDs (`VAL-001`)**: 29 duplicate `GAME_ID` records in raw "
             "`games.csv` (caused by floating-point rounding discrepancies in December 2020 "
             "games) were deduplicated during canonical ingestion.",
-            "- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`)**: 99 rows in raw "
-            "`games.csv` with all-null box scores were removed so that 100% of canonical "
-            "`games` rows have valid positive integer scores.",
-            "- **Duplicate Player Box-Score Keys (`VAL-004`)**: 289 duplicate `(GAME_ID, TEAM_ID, "
-            "PLAYER_ID)` rows in raw `games_details.csv` were deduplicated.",
-            "- **Malformed/Negative Minutes Played (`VAL-008`)**: 12 negative `MIN` strings (e.g. "
-            "`'-9'`) and 109,690 DNP null rows in `games_details.csv` were standardized to "
-            "`minutes_played >= 0.0` with an explicit `did_play` boolean indicator.",
-            "- **Unmapped Historical Players (`VAL-018`)**: 918 distinct `PLAYER_ID`s present in "
-            "`games_details.csv` (2003–2008 and 2020–2022) but absent from `players.csv` (which "
-            "only covered 2009–2019) were unified into canonical `players.parquet`, achieving "
-            "100% foreign-key referential integrity.",
+            "- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`, `VAL-020`)**: 99 rows in "
+            "raw `games.csv` with all-null box scores were removed so that 100% of canonical "
+            "`games` rows have `game_status == 'Final'` and valid positive integer scores.",
+            "- **Player Box-Score 290-Row Reconciliation (`VAL-004`, `VAL-015`)**: Exactly 290 "
+            "rows were excluded from `games_details.csv` (`668,628 -> 668,338`): 1 row where "
+            "`TEAM_ID = 1610612756` (PHX) did not match either participating team in `GAME_ID = "
+            "10500109` (IND @ ATL), and 289 duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows.",
+            "- **Malformed/Negative Minutes Played (`VAL-008`, `VAL-021`)**: 12 negative `MIN` "
+            "strings (e.g. `'-9'`), 1,463 `MM:60` rounding strings, and 109,681 DNP null rows "
+            "in `games_details.csv` were standardized to `minutes_played >= 0.0` with an "
+            "explicit `did_play` boolean indicator.",
+            "- **Unmapped Historical Players (`VAL-018`, `VAL-019`)**: 918 distinct `PLAYER_ID`s "
+            "present in `games_details.csv` (2003–2008 and 2020–2022) but absent from "
+            "`players.csv` (which only covered 2009–2019) were unified into canonical "
+            "`players.parquet`, achieving 100% foreign-key referential integrity.",
             "",
         ]
     )

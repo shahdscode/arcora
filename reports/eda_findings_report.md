@@ -100,7 +100,7 @@
 | `rolling_rebound_and_assist_margin` | Ball Movement & Possession Control | `point_margin, home_win` | Last 10 games prior to tip-off | `games`, `player_game_stats` | In-game rebound differential (r = +0.405 with point_margin) and assist differential (r = +0.478 with point_margin) are strong structural drivers. |
 | `active_starters_minutes_and_pie_availability` | Roster & Player Availability | `home_win, point_margin` | Rolling 10-game top-5 rotation player impact | `player_game_stats`, `players` | Aggregating recent scoring and plus/minus of available starters accounts for key player injuries, trades, and load management. |
 | `three_point_attempt_rate_3par` | Modern Spacing & Shot Profile | `total_pts, home_pts, away_pts` | Season-to-date and rolling 10-game FG3A / FGA | `player_game_stats` | Captures secular offensive evolution (league 3PAr rose from 18.8% in 2003 to 39.2% in 2021-22) and variance in scoring outcomes. |
-| `standings_win_pct_and_conference_rank_diff` | Standings & Season Progression | `home_win, point_margin` | Latest standings snapshot prior to game_date | `standings`, `games` | Pre-game conference rank, cumulative winning percentage, and home/road split records from canonical standings capture season-long contention. |
+| `standings_win_pct_and_conference_rank_diff` | Standings & Season Progression | `home_win, point_margin` | Latest daily standings snapshot strictly before game_date (standings_date < game_date) | `standings`, `games` | As-of pre-game conference rank, cumulative winning percentage, and home/road split records reconstructed strictly prior to tip-off (standings_date < game_date) capture season-long contention without temporal leakage. |
 | `head_to_head_season_series_margin` | Matchup History | `point_margin, home_win` | Trailing 3-season head-to-head matchups | `games` | Captures stylistic matchup advantages between specific franchises and division rivals. |
 
 ---
@@ -118,7 +118,10 @@
 
 ## 6. Data Limitations Affecting Downstream Modeling
 
+- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through `2022-12-22`, 542 games: 472 Regular Season, 70 Preseason, 0 Playoffs)**. Season-level aggregations and train/validation/test splits must account for `2022-23` being truncated in late December.
+- **Multiple Competition Stages in `games.parquet` (`26,523` Total Games)**: Canonical `games.parquet` includes `23,244` Regular Season games (`87.64%`), `1,675` completed Preseason games (`6.32%`), `1,591` Playoff games (`6.00%`), and `13` Play-In games (`0.05%`). Preseason games exhibit compressed starter minutes and higher variance; models targeting regular-season and playoff games should filter out `game_type == 'Preseason'`.
 - **Non-Stationarity Across NBA Eras**: Because league-wide average total points increased by nearly 40 PPG between 2003 and 2022, raw scoring totals must be normalized relative to the trailing seasonal league average or modeled with era-adaptive features.
-- **Preseason vs. Regular Season Noise**: Preseason games exhibit compressed starter minutes and lower predictability; models targeting regular-season and playoff outcomes should filter out or separately weight `game_type == 'Preseason'`.
-- **In-Game Box-Score Leakage Prevention**: Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.
+- **In-Game Box-Score & Standings Leakage Prevention**:
+  - Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.
+  - Similarly, `standings.parquet` contains daily snapshots (`standings_date`). When constructing standings features for a game on `game_date`, features must be reconstructed using an as-of join with `standings_date < game_date` (never end-of-season or same-day post-game standings).
 - **Absence of Pre-Game Injury Report Feed**: While `player_game_stats` shows who played (`did_play`) ex-post, pre-game availability must be approximated from recent rotation participation unless external injury feeds are joined.

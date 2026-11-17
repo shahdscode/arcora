@@ -4,7 +4,7 @@
 
 | Metric | Value |
 | :--- | :--- |
-| **Seasons Covered** | 20 seasons (`2003` to `2022`, i.e. 2003-04 through 2022-23) |
+| **Seasons Covered** | 20 season IDs (`2003` to `2022`): 19 complete seasons (2003-04–2021-22) + 1 partial season (2022-23 through 2022-12-22) |
 | **Game Date Range (`games.csv`)** | `2003-10-05` to `2022-12-22` |
 | **Standings Date Range (`ranking.csv`)** | `2003-10-01` to `2022-12-22` |
 | **Total Game Records (`games.csv`)** | 26,651 rows (26,622 unique `GAME_ID`s) |
@@ -39,7 +39,12 @@
 
 ## 3. Historical Coverage Notes
 
-- **Preseason, Regular Season, Play-In, and Playoffs**: The `games.csv` table includes regular-season, preseason, and postseason games across each NBA season.
+- **19 Complete Seasons + 1 Partial Season (`2022-23`)**: Seasons `2003-04` through `2021-22` (19 seasons) include full regular-season and postseason schedules. Season `2022-23` (`SEASON = 2022`) is a **partial in-progress season** ending on the dataset snapshot date `2022-12-22` (`542` games: `472` Regular Season, `70` Preseason, `0` Playoffs). Downstream training/validation splits must account for this cutoff.
+- **Game Stage Breakdown (26,651 Raw Rows -> 26,523 Canonical Completed Games)**: The dataset is **not** exclusively regular-season games; it spans four competition stages encoded by the leading digit of `GAME_ID`:
+  - **Regular Season (`2` prefix)**: `23,273` raw rows -> `23,244` canonical games (after removing `29` duplicate December 2020 `GAME_ID` rows).
+  - **Preseason (`1` prefix)**: `1,774` raw rows -> `1,675` canonical completed games (after removing `99` unscored October 2003 preseason rows).
+  - **Playoffs (`4` prefix)**: `1,591` raw rows -> `1,591` canonical games.
+  - **Play-In Tournament (`5` prefix)**: `13` raw rows -> `13` canonical games.
 - **Expansion from 29 to 30 Franchises**: The `2003` (2003-04) season has 29 active NBA franchises; the Charlotte Bobcats (later Hornets, `TEAM_ID = 1610612766`) joined in the `2004` (2004-05) season, bringing total active franchises to 30 from 2004 onward.
 - **Shortened Seasons**:
   - `2011` (2011-12): Lockout-shortened 66-game regular season starting in December 2011.

@@ -1377,9 +1377,18 @@ def render_canonical_model_markdown() -> str:
         "and preserve the DNP reason in `comment`.",
         "4. **Normalizing `MIN` (Minutes Played)**:",
         "   - *Problem*: Raw `MIN` strings mix `'MM:SS'`, integer strings `'MM'`, float-prefixed "
-        "strings `'12.000000:00'`, and 12 corrupted negative strings (e.g., `'-9'`).",
-        "   - *Decision*: Parse `'MM:SS'` into decimal minutes (`MM + SS / 60.0`), clamp malformed "
-        "negative values to `0.0`, and store as `float64` in `minutes_played`.",
+        "strings `'12.000000:00'`, 1,463 `'MM:60'` strings, and 12 corrupted negative strings "
+        "(e.g., `'-9'`).",
+        "   - *Decision*: Parse `'MM:SS'` into decimal minutes (`MM + SS / 60.0`) enforcing "
+        "`0 <= SS < 60`, reset malformed or negative values to `0.0` (with explicit audit "
+        "counts in `ingestion_manifest.json`), and store as `float64` in `minutes_played`.",
+        "5. **Point-in-Time Leakage Prevention for `standings`**:",
+        "   - *Problem*: `standings.parquet` stores daily snapshots (`standings_date`). Joining "
+        "a game to end-of-season standings or same-day post-game standings would leak future "
+        "outcomes into pre-game features.",
+        "   - *Decision*: `standings` preserves the exact `standings_date` primary-key component "
+        "so Week 2 feature pipelines can perform an as-of temporal join strictly prior to game "
+        "day (`standings_date < game_date` within the same `(team_id, season, season_type)`).",
         "",
         "---",
         "",
