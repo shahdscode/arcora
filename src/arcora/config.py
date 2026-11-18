@@ -24,6 +24,7 @@ class ArcoraConfig:
     project_root: Path
     raw_data_dir: Path
     processed_data_dir: Path
+    features_data_dir: Path
     reports_dir: Path
     figures_dir: Path
     docs_dir: Path
@@ -49,13 +50,12 @@ class ArcoraConfig:
             project_root=root,
             raw_data_dir=_resolve_dir("ARCORA_RAW_DATA_DIR", "data/raw"),
             processed_data_dir=_resolve_dir("ARCORA_PROCESSED_DATA_DIR", "data/processed"),
+            features_data_dir=_resolve_dir("ARCORA_FEATURES_DATA_DIR", "data/features"),
             reports_dir=reports_dir,
             figures_dir=reports_dir / "figures",
             docs_dir=_resolve_dir("ARCORA_DOCS_DIR", "docs"),
             logs_dir=_resolve_dir("ARCORA_LOGS_DIR", "logs"),
-            kaggle_dataset_slug=os.environ.get(
-                "KAGGLE_DATASET_SLUG", "nathanlauga/nba-games"
-            ),
+            kaggle_dataset_slug=os.environ.get("KAGGLE_DATASET_SLUG", "nathanlauga/nba-games"),
             kaggle_dataset_url=os.environ.get(
                 "KAGGLE_DATASET_URL",
                 "https://www.kaggle.com/datasets/nathanlauga/nba-games",
@@ -71,6 +71,7 @@ class ArcoraConfig:
         for directory in (
             self.raw_data_dir,
             self.processed_data_dir,
+            self.features_data_dir,
             self.reports_dir,
             self.figures_dir,
             self.docs_dir,
