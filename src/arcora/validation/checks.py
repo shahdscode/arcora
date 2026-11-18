@@ -268,9 +268,9 @@ def check_game_scores_and_numeric_types(games_df: pd.DataFrame) -> ValidationChe
             ),
         )
 
-    pct_out_of_bounds = (games_df[pct_cols] < 0.0).any(axis=1) | (
-        games_df[pct_cols] > 1.0
-    ).any(axis=1)
+    pct_out_of_bounds = (games_df[pct_cols] < 0.0).any(axis=1) | (games_df[pct_cols] > 1.0).any(
+        axis=1
+    )
     invalid_score_mask = (
         (games_df["home_pts"] <= 0)
         | (games_df["away_pts"] <= 0)
@@ -494,9 +494,7 @@ def check_game_status_and_type(games_df: pd.DataFrame) -> ValidationCheckResult:
     """Verify all canonical games have game_status == 'Final' and a valid game_type."""
     total = int(len(games_df))
     valid_types = {"Preseason", "Regular Season", "All-Star", "Playoffs", "Play-In"}
-    invalid_mask = (games_df["game_status"] != "Final") | (
-        ~games_df["game_type"].isin(valid_types)
-    )
+    invalid_mask = (games_df["game_status"] != "Final") | (~games_df["game_type"].isin(valid_types))
     failed_cnt = int(invalid_mask.sum())
     if failed_cnt == 0:
         msg = (
@@ -612,12 +610,8 @@ def run_validation_suite_on_frames(
     """Execute all automated validation rules on the four canonical DataFrames."""
     results: list[ValidationCheckResult] = [
         # Primary Key Uniqueness Checks (VAL-001 to VAL-004)
-        check_no_duplicate_primary_keys(
-            games_df, "games", GAMES_ENTITY.primary_key, "VAL-001"
-        ),
-        check_no_duplicate_primary_keys(
-            teams_df, "teams", TEAMS_ENTITY.primary_key, "VAL-002"
-        ),
+        check_no_duplicate_primary_keys(games_df, "games", GAMES_ENTITY.primary_key, "VAL-001"),
+        check_no_duplicate_primary_keys(teams_df, "teams", TEAMS_ENTITY.primary_key, "VAL-002"),
         check_no_duplicate_primary_keys(
             players_df, "players", PLAYERS_ENTITY.primary_key, "VAL-003"
         ),
@@ -745,9 +739,7 @@ def run_validation_suite(processed_dir: Path) -> DataQualitySummary:
     for entity_name, spec in CANONICAL_ENTITIES.items():
         fpath = processed_dir / spec.storage_file
         if not fpath.is_file():
-            raise FileNotFoundError(
-                f"Missing processed Parquet file for '{entity_name}': {fpath}"
-            )
+            raise FileNotFoundError(f"Missing processed Parquet file for '{entity_name}': {fpath}")
 
     teams_df = pd.read_parquet(processed_dir / TEAMS_ENTITY.storage_file)
     players_df = pd.read_parquet(processed_dir / PLAYERS_ENTITY.storage_file)

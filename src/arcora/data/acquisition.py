@@ -351,8 +351,7 @@ def render_coverage_summary_markdown(report: DatasetAcquisitionReport) -> str:
     games_date_str = f"`{report.overall_min_game_date}` to `{report.overall_max_game_date}`"
     rank_date_str = f"`{report.ranking_min_date}` to `{report.ranking_max_date}`"
     games_row_str = (
-        f"{report.total_games_rows:,} rows "
-        f"({report.unique_game_ids_in_games:,} unique `GAME_ID`s)"
+        f"{report.total_games_rows:,} rows ({report.unique_game_ids_in_games:,} unique `GAME_ID`s)"
     )
     players_str = (
         f"{report.unique_players_in_players_csv:,} (roster table) / "

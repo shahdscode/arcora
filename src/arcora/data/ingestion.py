@@ -304,8 +304,8 @@ def transform_games(
             "away_reb": df["REB_away"].round().astype("int64"),
         }
     )
-    out = out[GAMES_ENTITY.column_names].sort_values(["game_date", "game_id"]).reset_index(
-        drop=True
+    out = (
+        out[GAMES_ENTITY.column_names].sort_values(["game_date", "game_id"]).reset_index(drop=True)
     )
 
     stats = EntityIngestionStats(
@@ -545,9 +545,9 @@ def transform_players(
     )
 
     game_seasons = games_df[["game_id", "season"]].copy()
-    stats_with_season = player_stats_df[
-        ["player_id", "player_name", "team_id", "game_id"]
-    ].merge(game_seasons, on="game_id", how="left")
+    stats_with_season = player_stats_df[["player_id", "player_name", "team_id", "game_id"]].merge(
+        game_seasons, on="game_id", how="left"
+    )
 
     box_records = pd.DataFrame(
         {
@@ -564,9 +564,7 @@ def transform_players(
     grouped = combined.groupby("player_id", sort=True)
     first_season = grouped["season"].min().astype("int64")
     last_season = grouped["season"].max().astype("int64")
-    latest_rows = combined.drop_duplicates(subset=["player_id"], keep="last").set_index(
-        "player_id"
-    )
+    latest_rows = combined.drop_duplicates(subset=["player_id"], keep="last").set_index("player_id")
 
     games_logged = (
         player_stats_df.groupby("player_id")["game_id"]
@@ -689,9 +687,7 @@ def transform_standings(
             "home_losses": home_losses,
             "road_wins": road_wins,
             "road_losses": road_losses,
-            "return_to_play": pd.to_numeric(df["RETURNTOPLAY"], errors="coerce").astype(
-                "float64"
-            ),
+            "return_to_play": pd.to_numeric(df["RETURNTOPLAY"], errors="coerce").astype("float64"),
         }
     )
     out = (
@@ -796,9 +792,7 @@ def run_ingestion_pipeline(
     if reports_dir is not None:
         reports_dir.mkdir(parents=True, exist_ok=True)
         manifest_path = reports_dir / "ingestion_manifest.json"
-        manifest_path.write_text(
-            json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8"
-        )
+        manifest_path.write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
 
     logger.info("Ingestion pipeline completed successfully")
     return result

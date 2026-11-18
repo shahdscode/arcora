@@ -10,13 +10,14 @@ An end-to-end NBA basketball analytics and game prediction platform powered by m
 arcora/
 ├── data/
 │   ├── raw/                  # Immutable raw NBA datasets (Nathan Lauga Kaggle dataset)
-│   └── processed/            # Standardized, validated canonical Parquet datasets
-├── docs/                     # Dataset source, coverage, audit, and schema documentation
-├── logs/                     # Pipeline execution and validation logs
+│   ├── processed/            # Standardized, validated canonical Parquet datasets
+│   └── features/             # Engineered pregame ML feature dataset (nba_game_features.parquet)
+├── docs/                     # Dataset source, coverage, audit, schema, and feature documentation
+├── logs/                     # Pipeline execution, feature engineering, and validation logs
 ├── notebooks/                # Exploratory data analysis (EDA) Jupyter notebooks
-├── reports/                  # Data quality reports, EDA findings, and visualizations
+├── reports/                  # Data quality reports, feature quality reports, and visualizations
 │   └── figures/              # Generated statistical plots and charts
-├── scripts/                  # Standalone CLI scripts for acquisition, audit, ingestion, validation, and EDA
+├── scripts/                  # Standalone CLI scripts for acquisition, audit, ingestion, validation, EDA, and features
 ├── src/
 │   └── arcora/               # Core Python package
 │       ├── __init__.py
@@ -24,6 +25,7 @@ arcora/
 │       ├── config.py         # Environment and path configuration
 │       ├── data/             # Data acquisition, auditing, and canonical ingestion pipeline
 │       ├── eda/              # Exploratory data analysis and visualization generators
+│       ├── features/         # Week 2 pregame feature engineering and leakage detection suite
 │       ├── models/           # Canonical data model and schema definitions
 │       └── validation/       # Automated data quality and integrity checks
 ├── tests/                    # Automated pytest suite
@@ -119,6 +121,14 @@ Runs automated integrity, schema, type, score, and foreign-key checks on the pro
 python scripts/run_eda.py
 ```
 Computes historical distributions, home-court advantage metrics, seasonal scoring trends, and anomaly analyses, generating publication-ready charts in `reports/figures/` and executing `notebooks/01_nba_exploratory_data_analysis.ipynb`.
+
+### 6. Build Week 2 ML Feature Dataset & Run Leakage Audit
+```bash
+python scripts/build_features.py
+# Or via the unified CLI:
+arcora features
+```
+Generates `data/features/nba_game_features.parquet` (24,848 eligible non-preseason games, 242 strictly pregame features across 8 categories, 8 metadata columns, and 5 target columns), runs automated temporal leakage checks (`LEAK-001`–`LEAK-006`), and writes `docs/feature_engineering_strategy.md`, `docs/feature_dictionary.md`, `reports/feature_quality_report.md`, and `reports/feature_summary.json`.
 
 ---
 
