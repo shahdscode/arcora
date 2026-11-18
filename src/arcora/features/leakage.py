@@ -307,6 +307,71 @@ def check_feature_integrity_and_bounds(dataset_df: pd.DataFrame) -> LeakageCheck
     )
 
 
+def check_same_day_game_isolation() -> LeakageCheckResult:
+    """Verify that if multiple games occur on the same date, earlier same-day results
+    never leak into later same-day pregame features (strict prior_date < game_date).
+    """
+    games = pd.DataFrame(
+        {
+            "game_id": [1, 2, 3],
+            # Game 1 on Oct 18; Game 2 and Game 3 both on Oct 20 (same date, unknown tip-off order)
+            "game_date": pd.to_datetime(["2022-10-18", "2022-10-20", "2022-10-20"]),
+            "season": [2022, 2022, 2022],
+            "season_label": ["2022-23"] * 3,
+            "game_type": ["Regular Season"] * 3,
+            "game_status": ["Final"] * 3,
+            "home_team_id": [10, 10, 10],
+            "away_team_id": [20, 20, 20],
+            "home_pts": [100, 150, 90],
+            "away_pts": [90, 80, 110],
+            "total_pts": [190, 230, 200],
+            "point_margin": [10, 70, -20],
+            "home_win": [True, True, False],
+            "home_fg_pct": [0.48, 0.65, 0.40],
+            "home_fg3_pct": [0.35, 0.50, 0.25],
+            "home_ft_pct": [0.80, 0.90, 0.70],
+            "home_ast": [24, 35, 18],
+            "home_reb": [44, 55, 36],
+            "away_fg_pct": [0.44, 0.38, 0.50],
+            "away_fg3_pct": [0.33, 0.28, 0.40],
+            "away_ft_pct": [0.76, 0.72, 0.82],
+            "away_ast": [20, 16, 26],
+            "away_reb": [40, 34, 46],
+        }
+    )
+    ds = build_matchup_feature_dataset(games)
+    g2 = ds.loc[ds["game_id"] == 2].iloc[0]
+    g3 = ds.loc[ds["game_id"] == 3].iloc[0]
+
+    # Both Game 2 and Game 3 on 2022-10-20 must only see Game 1 (from 2022-10-18)
+    # Game 2's 150-80 blowout must NOT leak into Game 3's pregame features!
+    check_cols = [
+        "home_hist_games_played",
+        "home_hist_pts_avg",
+        "home_rolling_pts_avg_5",
+        "home_ewma_pts",
+        "home_rest_days",
+        "home_games_last_7d",
+        "h2h_prior_meetings",
+        "h2h_home_team_margin_avg",
+    ]
+    violations = 0
+    for col in check_cols:
+        if g2[col] != g3[col]:
+            violations += 1
+
+    return LeakageCheckResult(
+        check_id="LEAK-007",
+        check_name="same_day_game_temporal_isolation",
+        passed=(violations == 0),
+        violations_detected=violations,
+        details=(
+            "Same-day games share identical pre-date feature states (strictly prior_date < "
+            "game_date); earlier same-date results never leak into later same-date games."
+        ),
+    )
+
+
 def run_leakage_audit_suite(dataset_df: pd.DataFrame) -> list[LeakageCheckResult]:
     """Run all automated leakage and feature integrity checks on dataset_df."""
     return [
@@ -316,4 +381,5 @@ def run_leakage_audit_suite(dataset_df: pd.DataFrame) -> list[LeakageCheckResult
         check_future_information_invariance(),
         check_standings_asof_temporal_safety(),
         check_feature_integrity_and_bounds(dataset_df),
+        check_same_day_game_isolation(),
     ]

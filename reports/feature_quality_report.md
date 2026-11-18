@@ -5,7 +5,7 @@
 | Metric | Value |
 | :--- | :--- |
 | **Overall Validation & Leakage Status** | **PASSED** |
-| **Generated At (UTC)** | `2026-11-18T13:00:30Z` |
+| **Generated At (UTC)** | `2026-11-18T13:19:24Z` |
 | **Output Parquet Dataset** | `data/features/nba_game_features.parquet` |
 | **Total Eligible Games (`rows`)** | 24,848 |
 | **Metadata / Identifier Columns** | 8 |
@@ -25,7 +25,16 @@
 | `Playoffs` | 1,591 | 6.40% | Postseason elimination series |
 | `Play-In` | 13 | 0.05% | Play-In Tournament games (introduced 2019-20) |
 
-> **Preseason Handling**: All `1,675` completed Preseason games are excluded from `nba_game_features.parquet` and from contributing to regular-season, play-in, or playoff rolling/historical windows.
+### 2.1 Exact Eligible Game Reconciliation (`26,523` -> `24,848`)
+
+| Dataset Stage / Filter | Game Count | Delta | Explanation |
+| :--- | ---: | ---: | :--- |
+| **Canonical Completed Games (`data/processed/games.parquet`)** | `26,523` | — | All deduplicated `Final` games across 2003–2022. |
+| **Excluded: Preseason Games (`game_type == 'Preseason'`, prefix `'1'`)** | `0` | **`-1,675`** | **100% of the 1,675 excluded rows are Preseason games** (exhibition rotations; excluded from ML dataset and all rolling/historical lookbacks). |
+| **Retained: Regular Season (`game_type == 'Regular Season'`, prefix `'2'`)** | `23,244` | — | All completed regular-season games (`93.54%` of eligible dataset). |
+| **Retained: Playoffs (`game_type == 'Playoffs'`, prefix `'4'`)** | `1,591` | — | All completed playoff games (`6.40%` of eligible dataset). |
+| **Retained: Play-In (`game_type == 'Play-In'`, prefix `'5'`)** | `13` | — | All completed play-in tournament games (`0.05%` of eligible dataset). |
+| **Final ML Feature Dataset (`data/features/nba_game_features.parquet`)** | **`24,848`** | **`-1,675`** | **`26,523 - 1,675 = 24,848` (`23,244 + 1,591 + 13 = 24,848`).** |
 
 ---
 
@@ -74,6 +83,7 @@
 | `LEAK-004` | `future_game_and_shuffle_invariance` | **PASS** | 0 | Pregame features for games 1..6 are 100% invariant to adding games 7..8, mutating future scores, and shuffling input row order. |
 | `LEAK-005` | `standings_strict_backward_asof_join` | **PASS** | 0 | Standings join strictly enforces standings_date < game_date and rejects same-day and future/end-of-season snapshots. |
 | `LEAK-006` | `feature_integrity_bounds_and_differences` | **PASS** | 0 | All 24,848 game rows have unique game_ids, valid win_pct bounds [0, 1], valid rest_days [1, 14], and exact home-away differentials. |
+| `LEAK-007` | `same_day_game_temporal_isolation` | **PASS** | 0 | Same-day games share identical pre-date feature states (strictly prior_date < game_date); earlier same-date results never leak into later same-date games. |
 
 ---
 
@@ -335,5 +345,11 @@
 
 ## 7. Known Limitations & Week 3 Modeling Recommendations
 
-1. **Partial `2022-23` Season (`is_partial_season == True`)**: The `2022` season contains `477` regular-season games through `2022-12-22`. Use `2022-23` as an out-of-time evaluation split or filter via `is_partial_season` when comparing full seasons.
+1. **Partial `2022-23` Season Protocol (`is_partial_season == True`)**:
+   - The `2022` (`2022-23`) season contains only `477` regular-season games through the dataset snapshot cutoff date `2022-12-22` (`0` Play-In or Playoff games, representing ~39% of a full regular season).
+   - **Chronological Split Rule for Week 3**: Model training and full-season cross-validation must use the **19 complete seasons (`2003-04` through `2021-22`, `is_partial_season == False`, `24,371` games)**, e.g.:
+     - *Training Split*: `2003-04` through `2018-19` (16 complete seasons, `20,762` games)
+     - *Validation Split*: `2019-20` through `2020-21` (2 complete seasons, `2,282` games)
+     - *Full-Season Test Split*: `2021-22` (1 complete season, `1,327` games)
+     - *Out-of-Time Partial-Season Holdout*: `2022-23` (`is_partial_season == True`, `477` games) — evaluated separately as a live early-season forward-testing benchmark and never aggregated as a complete season.
 2. **Cold-Start Handling for Linear / Neural Models**: Tree-based gradient boosting models (LightGBM, XGBoost, CatBoost) handle early-season `NaN` values natively alongside `*_insufficient_*` and `*_is_season_opener` flags. For linear or neural models in Week 3, fit any imputation transformers strictly on the training split.

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-18T13:00:30Z",
+  "generated_at_utc": "2026-11-18T13:19:24Z",
   "output_parquet_path": "data/features/nba_game_features.parquet",
   "log_file": "logs/feature_engineering.log",
   "total_games": 24848,
@@ -2051,6 +2051,13 @@
       "passed": true,
       "violations_detected": 0,
       "details": "All 24,848 game rows have unique game_ids, valid win_pct bounds [0, 1], valid rest_days [1, 14], and exact home-away differentials."
+    },
+    {
+      "check_id": "LEAK-007",
+      "check_name": "same_day_game_temporal_isolation",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Same-day games share identical pre-date feature states (strictly prior_date < game_date); earlier same-date results never leak into later same-date games."
     }
   ]
 }
