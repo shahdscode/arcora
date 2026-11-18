@@ -120,8 +120,7 @@ ANOMALOUS_SEASONS_NOTES: dict[int, str] = {
     ),
     2011: "Lockout-shortened 66-game regular season per team starting December 25, 2011.",
     2019: (
-        "COVID-19 season suspension in March 2020 followed by "
-        "neutral-site Orlando Bubble restart."
+        "COVID-19 season suspension in March 2020 followed by neutral-site Orlando Bubble restart."
     ),
     2020: (
         "COVID-19 shortened 72-game regular season with restricted "
@@ -292,11 +291,7 @@ def generate_eda_visualizations(
 
     # 1. Games per season by competition stage
     fig1_path = figures_dir / "01_games_per_season.png"
-    stage_counts = (
-        games_df.groupby(["season_label", "game_type"])
-        .size()
-        .unstack(fill_value=0)
-    )
+    stage_counts = games_df.groupby(["season_label", "game_type"]).size().unstack(fill_value=0)
     ordered_cols = [
         c
         for c in ["Regular Season", "Playoffs", "Preseason", "Play-In"]
@@ -696,8 +691,7 @@ def render_eda_findings_markdown(summary: EDAReportSummary) -> str:
         f"{summary.total_unique_players:,} |",
         f"| **NBA Franchises (`teams.parquet`)** | {summary.total_teams} |",
         f"| **Overall Home Win Rate (All Stages)** | {summary.overall_home_win_rate * 100:.2f}% |",
-        f"| **Regular Season Home Win Rate** | "
-        f"{summary.regular_season_home_win_rate * 100:.2f}% |",
+        f"| **Regular Season Home Win Rate** | {summary.regular_season_home_win_rate * 100:.2f}% |",
         f"| **Playoffs Home Win Rate** | {summary.playoff_home_win_rate * 100:.2f}% |",
         "",
         "### 1.1 Missing Data Patterns",

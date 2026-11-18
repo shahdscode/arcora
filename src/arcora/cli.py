@@ -17,6 +17,7 @@ from arcora.data.acquisition import (
 from arcora.data.audit import run_dataset_audit, write_audit_artifacts
 from arcora.data.ingestion import run_ingestion_pipeline
 from arcora.eda.analysis import run_exploratory_data_analysis, write_eda_artifacts
+from arcora.features.pipeline import run_feature_pipeline
 from arcora.models.schema import write_schema_documentation
 from arcora.validation.checks import run_validation_suite, write_validation_artifacts
 
@@ -43,6 +44,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("ingest", help="Run canonical raw-to-Parquet ingestion pipeline.")
     subparsers.add_parser("validate", help="Run automated data quality validation checks.")
     subparsers.add_parser("eda", help="Run exploratory data analysis and generate visualizations.")
+    subparsers.add_parser(
+        "features",
+        help="Run Week 2 ML feature engineering pipeline and leakage validation.",
+    )
     return parser
 
 
@@ -57,6 +62,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"  Project root:       {cfg.project_root}")
         print(f"  Raw data dir:       {cfg.raw_data_dir}")
         print(f"  Processed data dir: {cfg.processed_data_dir}")
+        print(f"  Features data dir:  {cfg.features_data_dir}")
         print(f"  Reports dir:        {cfg.reports_dir}")
         print(f"  Docs dir:           {cfg.docs_dir}")
         print(f"  Logs dir:           {cfg.logs_dir}")
@@ -98,6 +104,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         eda_summary = run_exploratory_data_analysis(cfg.processed_data_dir, cfg.figures_dir)
         write_eda_artifacts(eda_summary, cfg.reports_dir, cfg.docs_dir)
         return 0
+
+    if args.command == "features":
+        _, feat_summary = run_feature_pipeline(
+            processed_dir=cfg.processed_data_dir,
+            features_dir=cfg.features_data_dir,
+            docs_dir=cfg.docs_dir,
+            reports_dir=cfg.reports_dir,
+            logs_dir=cfg.logs_dir,
+        )
+        return 0 if feat_summary.leakage_checks_passed else 1
 
     parser.print_help()
     return 1

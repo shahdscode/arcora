@@ -55,11 +55,13 @@ dmypy.json
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
-# Data directories (preserve directory structure and manifests, ignore raw/processed data files)
+# Data directories (preserve directory structure and manifests, ignore raw/processed/features data files)
 data/raw/*.csv
 data/raw/*.zip
 data/processed/*.parquet
 data/processed/*.csv
+data/features/*.parquet
+data/features/*.csv
 
 # Logs
 logs/*.log

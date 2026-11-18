@@ -1,0 +1,2072 @@
+{
+  "generated_at_utc": "2026-11-18T13:28:21Z",
+  "output_parquet_path": "data/features/nba_game_features.parquet",
+  "log_file": "logs/feature_engineering.log",
+  "total_games": 24848,
+  "total_metadata_columns": 8,
+  "total_feature_columns": 242,
+  "total_target_columns": 5,
+  "duplicate_game_ids": 0,
+  "season_count": 20,
+  "complete_seasons_count": 19,
+  "partial_seasons": [
+    2022
+  ],
+  "partial_season_2022_breakdown": {
+    "canonical_total_games": 542,
+    "canonical_regular_season_games": 477,
+    "canonical_preseason_games_excluded": 65,
+    "retained_eligible_games": 477,
+    "retained_regular_season_games": 477,
+    "retained_playoff_games": 0,
+    "retained_play_in_games": 0
+  },
+  "stage_distribution": {
+    "Regular Season": 23244,
+    "Playoffs": 1591,
+    "Play-In": 13
+  },
+  "category_feature_counts": {
+    "Historical Team Performance": 48,
+    "Home and Away Performance": 10,
+    "Recent Team Form": 40,
+    "Rolling Offensive and Defensive Statistics": 56,
+    "Rest and Schedule-Related Features": 20,
+    "Head-to-Head Historical Performance": 4,
+    "Standings and Season Context": 14,
+    "Home-Away Matchup Differences": 50
+  },
+  "feature_dtype_counts": {
+    "int64": 24,
+    "bool": 13,
+    "float64": 205
+  },
+  "target_summary": {
+    "home_pts": {
+      "mean": 103.6413,
+      "std": 13.2697,
+      "min": 59.0,
+      "median": 103.0,
+      "max": 168.0
+    },
+    "away_pts": {
+      "mean": 100.7657,
+      "std": 13.4196,
+      "min": 54.0,
+      "median": 100.0,
+      "max": 168.0
+    },
+    "point_margin": {
+      "mean": 2.8757,
+      "std": 13.4687,
+      "min": -58.0,
+      "median": 4.0,
+      "max": 73.0
+    },
+    "total_pts": {
+      "mean": 204.407,
+      "std": 23.0421,
+      "min": 124.0,
+      "median": 203.0,
+      "max": 329.0
+    },
+    "home_win": {
+      "mean": 0.591,
+      "std": 0.4917,
+      "min": 0.0,
+      "median": 1.0,
+      "max": 1.0
+    }
+  },
+  "unexpected_missing_feature_count": 0,
+  "missingness_breakdown": [
+    {
+      "feature_name": "home_hist_games_played",
+      "category": "Historical Team Performance",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_hist_insufficient_history",
+      "category": "Historical Team Performance",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_hist_pts_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_pts_allowed_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_total_pts_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_margin_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_win_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_reb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_oreb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_dreb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_ast_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_stl_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_blk_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_tov_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_fg_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_fg3_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_ft_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_efg_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_ts_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_tov_rate",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_possessions_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_ortg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_drtg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_hist_net_rtg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_games_played",
+      "category": "Historical Team Performance",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_hist_insufficient_history",
+      "category": "Historical Team Performance",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_hist_pts_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_pts_allowed_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_total_pts_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_margin_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_win_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_reb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_oreb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_dreb_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_ast_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_stl_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_blk_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_tov_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_fg_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_fg3_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_ft_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_efg_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_ts_pct",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_tov_rate",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_possessions_avg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_ortg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_drtg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_hist_net_rtg",
+      "category": "Historical Team Performance",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_venue_games_played",
+      "category": "Home and Away Performance",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_venue_pts_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_venue_pts_allowed_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_venue_margin_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_venue_win_pct",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_venue_games_played",
+      "category": "Home and Away Performance",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_venue_pts_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_venue_pts_allowed_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_venue_margin_avg",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_venue_win_pct",
+      "category": "Home and Away Performance",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_insufficient_5",
+      "category": "Recent Team Form",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_rolling_pts_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_allowed_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_margin_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_win_pct_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_reb_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ast_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_tov_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_fg_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_fg3_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ft_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_efg_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ts_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_possessions_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ortg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_drtg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_net_rtg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_allowed_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_margin_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_insufficient_5",
+      "category": "Recent Team Form",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_rolling_pts_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_allowed_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_margin_avg_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_win_pct_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_reb_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ast_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_tov_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_fg_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_fg3_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ft_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_efg_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ts_pct_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_possessions_avg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ortg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_drtg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_net_rtg_5",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_allowed_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_margin_std_5",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_insufficient_10",
+      "category": "Recent Team Form",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_rolling_pts_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_allowed_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_margin_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_win_pct_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_reb_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ast_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_tov_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_fg_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_fg3_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ft_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_efg_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ts_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_possessions_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_ortg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_drtg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_net_rtg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_pts_allowed_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rolling_margin_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 601,
+      "null_pct": 2.4187,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_insufficient_10",
+      "category": "Recent Team Form",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_rolling_pts_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_allowed_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_margin_avg_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_win_pct_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_reb_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ast_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_tov_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_fg_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_fg3_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ft_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_efg_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ts_pct_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_possessions_avg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_ortg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_drtg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_net_rtg_10",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_pts_allowed_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_rolling_margin_std_10",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 597,
+      "null_pct": 2.4026,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_pts",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_pts_allowed",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_margin",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_win_pct",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_efg_pct",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_ortg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_drtg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ewma_net_rtg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_pts",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_pts_allowed",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_margin",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_win_pct",
+      "category": "Recent Team Form",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_efg_pct",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_ortg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_drtg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ewma_net_rtg",
+      "category": "Rolling Offensive and Defensive Statistics",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_rest_days",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "float64",
+      "null_count": 317,
+      "null_pct": 1.2758,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_is_season_opener",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_is_back_to_back",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_games_last_7d",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_games_last_14d",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_recent_home_games_10g",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_recent_away_games_10g",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_consecutive_home_games",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_consecutive_away_games",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_rest_days",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "float64",
+      "null_count": 282,
+      "null_pct": 1.1349,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_is_season_opener",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_is_back_to_back",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_games_last_7d",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_games_last_14d",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_recent_home_games_10g",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_recent_away_games_10g",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_consecutive_home_games",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_consecutive_away_games",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "both_teams_back_to_back",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "rest_days_diff",
+      "category": "Rest and Schedule-Related Features",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "h2h_prior_meetings",
+      "category": "Head-to-Head Historical Performance",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "h2h_home_team_win_pct",
+      "category": "Head-to-Head Historical Performance",
+      "dtype": "float64",
+      "null_count": 435,
+      "null_pct": 1.7506,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "h2h_home_team_margin_avg",
+      "category": "Head-to-Head Historical Performance",
+      "dtype": "float64",
+      "null_count": 435,
+      "null_pct": 1.7506,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "h2h_total_pts_avg",
+      "category": "Head-to-Head Historical Performance",
+      "dtype": "float64",
+      "null_count": 435,
+      "null_pct": 1.7506,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_standings_games_played",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_standings_wins",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_standings_losses",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "home_standings_win_pct",
+      "category": "Standings and Season Context",
+      "dtype": "float64",
+      "null_count": 57,
+      "null_pct": 0.2294,
+      "missingness_cause": "expected_early_history_or_standings_snapshot_start"
+    },
+    {
+      "feature_name": "home_standings_home_win_pct",
+      "category": "Standings and Season Context",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history_or_standings_snapshot_start"
+    },
+    {
+      "feature_name": "away_standings_games_played",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_standings_wins",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_standings_losses",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "away_standings_win_pct",
+      "category": "Standings and Season Context",
+      "dtype": "float64",
+      "null_count": 57,
+      "null_pct": 0.2294,
+      "missingness_cause": "expected_early_history_or_standings_snapshot_start"
+    },
+    {
+      "feature_name": "away_standings_road_win_pct",
+      "category": "Standings and Season Context",
+      "dtype": "float64",
+      "null_count": 599,
+      "null_pct": 2.4107,
+      "missingness_cause": "expected_early_history_or_standings_snapshot_start"
+    },
+    {
+      "feature_name": "standings_win_pct_diff",
+      "category": "Standings and Season Context",
+      "dtype": "float64",
+      "null_count": 57,
+      "null_pct": 0.2294,
+      "missingness_cause": "expected_early_history_or_standings_snapshot_start"
+    },
+    {
+      "feature_name": "home_court_indicator",
+      "category": "Standings and Season Context",
+      "dtype": "int64",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "is_playoff_game",
+      "category": "Standings and Season Context",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "is_play_in_game",
+      "category": "Standings and Season Context",
+      "dtype": "bool",
+      "null_count": 0,
+      "null_pct": 0.0,
+      "missingness_cause": "none"
+    },
+    {
+      "feature_name": "hist_pts_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_pts_allowed_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_margin_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_win_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_ortg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_drtg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_net_rtg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_efg_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_ts_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_reb_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_ast_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "hist_tov_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "venue_win_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 772,
+      "null_pct": 3.1069,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "venue_margin_avg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 772,
+      "null_pct": 3.1069,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_pts_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_pts_allowed_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_margin_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_win_pct_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_reb_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ast_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_tov_avg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_fg_pct_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_fg3_pct_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ft_pct_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_efg_pct_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ortg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_drtg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_net_rtg_5_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_pts_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_pts_allowed_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_margin_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_win_pct_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_reb_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ast_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_tov_avg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_fg_pct_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_fg3_pct_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ft_pct_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_efg_pct_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_ortg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_drtg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "rolling_net_rtg_10_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_pts_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_pts_allowed_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_margin_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_win_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_net_rtg_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "ewma_efg_pct_diff",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "home_ortg_vs_away_drtg_10",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    },
+    {
+      "feature_name": "away_ortg_vs_home_drtg_10",
+      "category": "Home-Away Matchup Differences",
+      "dtype": "float64",
+      "null_count": 342,
+      "null_pct": 1.3764,
+      "missingness_cause": "expected_early_history"
+    }
+  ],
+  "leakage_checks_passed": true,
+  "leakage_results": [
+    {
+      "check_id": "LEAK-001",
+      "check_name": "target_and_postgame_column_exclusion",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Input feature matrix X cleanly separates 242 pregame features from all 5 targets and all post-game box-score columns."
+    },
+    {
+      "check_id": "LEAK-002",
+      "check_name": "preseason_games_excluded",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "All 24,848 rows belong to eligible stages (Regular Season, Playoffs, Play-In); 0 Preseason games present."
+    },
+    {
+      "check_id": "LEAK-003",
+      "check_name": "current_game_excluded_via_shift_1",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Verified 317 home openers and 282 away openers have strictly null prior scoring averages (0 current-game leaks)."
+    },
+    {
+      "check_id": "LEAK-004",
+      "check_name": "future_game_and_shuffle_invariance",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Pregame features for games 1..6 are 100% invariant to adding games 7..8, mutating future scores, and shuffling input row order."
+    },
+    {
+      "check_id": "LEAK-005",
+      "check_name": "standings_strict_backward_asof_join",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Standings join strictly enforces standings_date < game_date and rejects same-day and future/end-of-season snapshots."
+    },
+    {
+      "check_id": "LEAK-006",
+      "check_name": "feature_integrity_bounds_and_differences",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "All 24,848 game rows have unique game_ids, valid win_pct bounds [0, 1], valid rest_days [1, 14], and exact home-away differentials."
+    },
+    {
+      "check_id": "LEAK-007",
+      "check_name": "same_day_game_temporal_isolation",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Same-day games share identical pre-date feature states (strictly prior_date < game_date); earlier same-date results never leak into later same-date games."
+    }
+  ]
+}
