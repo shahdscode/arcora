@@ -61,6 +61,7 @@ class FeaturePipelineSummary:
     season_count: int
     complete_seasons_count: int
     partial_seasons: list[int]
+    partial_season_2022_breakdown: dict[str, int]
     stage_distribution: dict[str, int]
     category_feature_counts: dict[str, int]
     feature_dtype_counts: dict[str, int]
@@ -199,6 +200,19 @@ def analyze_feature_dataset(
     partial_seasons = sorted(
         dataset_df.loc[dataset_df["is_partial_season"], "season"].unique().astype(int).tolist()
     )
+    s2022_df = dataset_df[dataset_df["season"] == 2022]
+    s2022_stage_counts = {
+        str(k): int(v) for k, v in s2022_df["game_type"].value_counts().items()
+    }
+    partial_2022_breakdown = {
+        "canonical_total_games": 542,
+        "canonical_regular_season_games": 477,
+        "canonical_preseason_games_excluded": 65,
+        "retained_eligible_games": int(len(s2022_df)),
+        "retained_regular_season_games": s2022_stage_counts.get("Regular Season", 0),
+        "retained_playoff_games": s2022_stage_counts.get("Playoffs", 0),
+        "retained_play_in_games": s2022_stage_counts.get("Play-In", 0),
+    }
 
     return FeaturePipelineSummary(
         generated_at_utc=datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -212,6 +226,7 @@ def analyze_feature_dataset(
         season_count=len(seasons),
         complete_seasons_count=len(seasons) - len(partial_seasons),
         partial_seasons=partial_seasons,
+        partial_season_2022_breakdown=partial_2022_breakdown,
         stage_distribution=stage_dist,
         category_feature_counts=cat_counts,
         feature_dtype_counts=dtype_counts,
@@ -276,24 +291,30 @@ def render_feature_quality_report_markdown(summary: FeaturePipelineSummary) -> s
             "",
             "### 2.1 Exact Eligible Game Reconciliation (`26,523` -> `24,848`)",
             "",
-            "| Dataset Stage / Filter | Game Count | Delta | Explanation |",
-            "| :--- | ---: | ---: | :--- |",
-            "| **Canonical Completed Games (`data/processed/games.parquet`)** | "
-            "`26,523` | — | All deduplicated `Final` games across 2003–2022. |",
-            "| **Excluded: Preseason Games (`game_type == 'Preseason'`, prefix `'1'`)** | "
-            "`0` | **`-1,675`** | **100% of the 1,675 excluded rows are Preseason games** "
-            "(exhibition rotations; excluded from ML dataset and all rolling/historical "
-            "lookbacks). |",
-            "| **Retained: Regular Season (`game_type == 'Regular Season'`, prefix `'2'`)** | "
-            "`23,244` | — | All completed regular-season games (`93.54%` of eligible "
-            "dataset). |",
-            "| **Retained: Playoffs (`game_type == 'Playoffs'`, prefix `'4'`)** | "
-            "`1,591` | — | All completed playoff games (`6.40%` of eligible dataset). |",
-            "| **Retained: Play-In (`game_type == 'Play-In'`, prefix `'5'`)** | "
-            "`13` | — | All completed play-in tournament games (`0.05%` of eligible dataset). |",
-            "| **Final ML Feature Dataset (`data/features/nba_game_features.parquet`)** | "
-            "**`24,848`** | **`-1,675`** | **`26,523 - 1,675 = 24,848` "
-            "(`23,244 + 1,591 + 13 = 24,848`).** |",
+            "| Competition Stage (`game_type`) | Source Count (`games.parquet`) | "
+            "Excluded Count | Retained Count (`nba_game_features.parquet`) | Explanation |",
+            "| :--- | ---: | ---: | ---: | :--- |",
+            "| **Preseason (`GAME_ID` prefix `'1'`)** | **`1,675`** | **`-1,675`** | **`0`** | "
+            "**100% of the 1,675 excluded games are Preseason games** (exhibition rotations; "
+            "excluded from ML dataset and all rolling/historical lookbacks). |",
+            "| **Regular Season (`GAME_ID` prefix `'2'`)** | `23,244` | `0` | **`23,244`** | "
+            "All completed regular-season games retained (`93.54%` of eligible dataset). |",
+            "| **Playoffs (`GAME_ID` prefix `'4'`)** | `1,591` | `0` | **`1,591`** | "
+            "All completed playoff games retained (`6.40%` of eligible dataset). |",
+            "| **Play-In (`GAME_ID` prefix `'5'`)** | `13` | `0` | **`13`** | "
+            "All completed play-in tournament games retained (`0.05%` of eligible dataset). |",
+            "| **Total Games** | **`26,523`** | **`-1,675`** | **`24,848`** | "
+            "**`26,523 - 1,675 = 24,848` (`23,244 + 1,591 + 13 = 24,848`).** |",
+            "",
+            "### 2.2 Partial `2022–23` Season (`season == 2022`) Breakdown",
+            "",
+            "| Competition Stage (`season == 2022`) | Source Count (`games.parquet`) | "
+            "Excluded Count | Retained Count (`nba_game_features.parquet`) |",
+            "| :--- | ---: | ---: | ---: |",
+            "| **Regular Season** | `477` | `0` | **`477`** |",
+            "| **Preseason** | `65` | `-65` | **`0`** |",
+            "| **Playoffs / Play-In** | `0` | `0` | **`0`** |",
+            "| **Total (`2022–23` through `2022-12-22`)** | **`542`** | **`-65`** | **`477`** |",
             "",
             "---",
             "",

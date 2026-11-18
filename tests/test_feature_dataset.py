@@ -64,3 +64,45 @@ def test_final_feature_dataset_pipeline_and_reproducibility(tmp_path: Path) -> N
     # Re-run to verify idempotency and exact reproducibility
     df2 = pd.read_parquet(parquet_path)
     pd.testing.assert_frame_equal(df1, df2)
+
+
+def test_season_2022_breakdown_and_preseason_reconciliation() -> None:
+    """Verify exact 2022-23 season game_type breakdown and 1,675 preseason exclusion."""
+    cfg = ArcoraConfig.from_env()
+    games_df = pd.read_parquet(cfg.processed_data_dir / "games.parquet")
+    features_df = pd.read_parquet(cfg.features_data_dir / FEATURE_PARQUET_FILENAME)
+
+    # Full dataset reconciliation: 26,523 - 1,675 Preseason = 24,848 eligible games
+    assert len(games_df) == 26523
+    assert int(games_df["game_id"].nunique()) == 26523
+    full_counts = games_df["game_type"].value_counts().to_dict()
+    assert full_counts == {
+        "Regular Season": 23244,
+        "Preseason": 1675,
+        "Playoffs": 1591,
+        "Play-In": 13,
+    }
+
+    assert len(features_df) == 24848
+    assert int(features_df["game_id"].nunique()) == 24848
+    assert len(games_df) - len(features_df) == 1675
+    assert int((features_df["game_type"] == "Preseason").sum()) == 0
+
+    # Season 2022 (2022-23 partial season through 2022-12-22) reconciliation:
+    # 542 canonical games = 477 Regular Season + 65 Preseason
+    s2022_games = games_df[games_df["season"] == 2022]
+    assert len(s2022_games) == 542
+    assert int(s2022_games["game_id"].nunique()) == 542
+    s2022_counts = s2022_games["game_type"].value_counts().to_dict()
+    assert s2022_counts == {
+        "Regular Season": 477,
+        "Preseason": 65,
+    }
+
+    # In nba_game_features.parquet, all 65 Preseason games are excluded, leaving 477 games
+    s2022_features = features_df[features_df["season"] == 2022]
+    assert len(s2022_features) == 477
+    assert int(s2022_features["game_id"].nunique()) == 477
+    assert (s2022_features["game_type"] == "Regular Season").all()
+    assert s2022_features["is_partial_season"].all()
+

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-18T13:19:24Z",
+  "generated_at_utc": "2026-11-18T13:28:21Z",
   "output_parquet_path": "data/features/nba_game_features.parquet",
   "log_file": "logs/feature_engineering.log",
   "total_games": 24848,
@@ -12,6 +12,15 @@
   "partial_seasons": [
     2022
   ],
+  "partial_season_2022_breakdown": {
+    "canonical_total_games": 542,
+    "canonical_regular_season_games": 477,
+    "canonical_preseason_games_excluded": 65,
+    "retained_eligible_games": 477,
+    "retained_regular_season_games": 477,
+    "retained_playoff_games": 0,
+    "retained_play_in_games": 0
+  },
   "stage_distribution": {
     "Regular Season": 23244,
     "Playoffs": 1591,
