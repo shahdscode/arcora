@@ -5,14 +5,15 @@
 | Metric | Value |
 | :--- | :--- |
 | **Overall Validation Status** | **PASSED** |
-| **Evaluated At (UTC)** | `2026-11-16T13:44:14Z` |
-| **Total Validation Rules Executed** | 19 |
-| **Rules Passed** | 19 |
+| **Evaluated At (UTC)** | `2026-11-17T11:18:04Z` |
+| **Total Validation Rules Executed** | 25 |
+| **Rules Passed** | 25 |
 | **Rules Failed** | 0 |
 | **`teams` Validated Rows** | 30 |
 | **`players` Validated Rows** | 2,687 |
 | **`games` Validated Rows** | 26,523 |
 | **`player_game_stats` Validated Rows** | 668,338 |
+| **`standings` Validated Rows** | 210,313 |
 
 ---
 
@@ -38,7 +39,13 @@
 | `VAL-016` | `player_game_stats` | `fk_player_game_stats_game_id_to_games` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.game_id' values (668,338 rows) reference valid 'games.game_id' keys. |
 | `VAL-017` | `player_game_stats` | `fk_player_game_stats_team_id_to_teams` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.team_id' values (668,338 rows) reference valid 'teams.team_id' keys. |
 | `VAL-018` | `player_game_stats` | `fk_player_game_stats_player_id_to_players` | **PASS** | 0 / 668,338 | 100% of 'player_game_stats.player_id' values (668,338 rows) reference valid 'players.player_id' keys. |
-| `VAL-019` | `players` | `fk_players_primary_team_id_to_teams` | **PASS** | 0 / 2,687 | 100% of 'players.primary_team_id' values (2,687 rows) reference valid 'teams.team_id' keys. |
+| `VAL-019` | `players` | `valid_player_career_counts_and_seasons` | **PASS** | 0 / 2,687 | All 2,687 players have valid season spans and 0 <= career_games_played <= career_games_logged. |
+| `VAL-020` | `games` | `valid_game_status_and_type` | **PASS** | 0 / 26,523 | All 26,523 games have game_status == 'Final' and valid game_type classifications. |
+| `VAL-021` | `player_game_stats` | `player_dnp_and_rebound_consistency` | **PASS** | 0 / 668,338 | All 668,338 player_game_stats rows satisfy DNP zero-stat consistency and reb == oreb + dreb. |
+| `VAL-022` | `standings` | `unique_pk_standings` | **PASS** | 0 / 210,313 | All 210,313 records in 'standings' have unique (team_id, season, season_type, standings_date) keys. |
+| `VAL-023` | `standings` | `non_null_critical_standings` | **PASS** | 0 / 210,313 | Zero missing values across 15 critical columns in 'standings'. |
+| `VAL-024` | `standings` | `fk_standings_team_id_to_teams` | **PASS** | 0 / 210,313 | 100% of 'standings.team_id' values (210,313 rows) reference valid 'teams.team_id' keys. |
+| `VAL-025` | `standings` | `valid_standings_records_and_domains` | **PASS** | 0 / 210,313 | All 210,313 standings rows satisfy games_played == wins + losses, win_pct in [0, 1], and valid conference/season_type labels. |
 
 ---
 
@@ -64,14 +71,29 @@
 | `VAL-016` | `player_game_stats` | Foreign key `player_game_stats.game_id` must reference an existing `games.game_id`. |
 | `VAL-017` | `player_game_stats` | Foreign key `player_game_stats.team_id` must reference an existing `teams.team_id`. |
 | `VAL-018` | `player_game_stats` | Foreign key `player_game_stats.player_id` must reference an existing `players.player_id`. |
-| `VAL-019` | `players` | Foreign key `players.primary_team_id` must reference an existing `teams.team_id`. |
+| `VAL-019` | `players` | Players must have `last_season >= first_season` and `0 <= career_games_played <= career_games_logged`. |
+| `VAL-020` | `games` | All canonical `games` must have `game_status == 'Final'` and a valid `game_type`. |
+| `VAL-021` | `player_game_stats` | DNP rows (`did_play == False`) must have 0 minutes/points, and `reb == oreb + dreb`. |
+| `VAL-022` | `standings` | Primary key (team_id, season, season_type, standings_date) in `standings` must contain zero duplicates. |
+| `VAL-023` | `standings` | Critical columns in `standings` must not contain null/NaN values. |
+| `VAL-024` | `standings` | Foreign key `standings.team_id` must reference an existing `teams.team_id`. |
+| `VAL-025` | `standings` | Standings must satisfy `games_played == wins + losses`, `win_pct` in [0, 1], and valid `conference` and `season_type`. |
 
 ---
 
-## 4. Detected Raw Issues Resolved Prior to Validation
+## 4. Raw-to-Canonical Row Reconciliation & Resolved Issues
 
+| Canonical Entity | Raw Source Rows | Excluded / Collapsed Rows | Canonical Parquet Rows | Exact Reconciliation Breakdown |
+| :--- | ---: | ---: | ---: | :--- |
+| `teams` | 30 | 0 | 30 | All 30 NBA franchises preserved (`4` missing `arena_capacity` stored as nullable `Int64`). |
+| `games` | 26,651 | -128 | 26,523 | `-99` unscored Oct 2003 preseason rows (`PTS_home` is NaN) and `-29` duplicate Dec 2020 `GAME_ID` rows (`26,651 - 99 - 29 = 26,523`). |
+| `player_game_stats` | 668,628 | -290 | 668,338 | `-1` invalid participant-team row (`GAME_ID=10500109, PLAYER_ID=2564, TEAM_ID=1610612756` where PHX did not play in IND @ ATL) and `-289` duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows across 12 duplicated Dec 2020 games (`668,628 - 1 - 289 = 668,338`). |
+| `players` | 7,228 | -4,541 (net) | 2,687 | `7,228` team-season roster rows (2009–2019) collapsed to `1,769` unique players (`-5,459` multi-season duplicates) plus `+918` historical players (2003–2008, 2020–2022) backfilled from `games_details.csv` (`1,769 + 918 = 2,687`). |
+| `standings` | 210,342 | -29 | 210,313 | `-29` duplicate `(TEAM_ID, SEASON_ID, STANDINGSDATE)` rows removed (`210,342 - 29 = 210,313`). |
+
+### Summary of Resolved Raw Data Anomalies
 - **Duplicate Game IDs (`VAL-001`)**: 29 duplicate `GAME_ID` records in raw `games.csv` (caused by floating-point rounding discrepancies in December 2020 games) were deduplicated during canonical ingestion.
-- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`)**: 99 rows in raw `games.csv` with all-null box scores were removed so that 100% of canonical `games` rows have valid positive integer scores.
-- **Duplicate Player Box-Score Keys (`VAL-004`)**: 289 duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows in raw `games_details.csv` were deduplicated.
-- **Malformed/Negative Minutes Played (`VAL-008`)**: 12 negative `MIN` strings (e.g. `'-9'`) and 109,690 DNP null rows in `games_details.csv` were standardized to `minutes_played >= 0.0` with an explicit `did_play` boolean indicator.
-- **Unmapped Historical Players (`VAL-018`)**: 918 distinct `PLAYER_ID`s present in `games_details.csv` (2003–2008 and 2020–2022) but absent from `players.csv` (which only covered 2009–2019) were unified into canonical `players.parquet`, achieving 100% foreign-key referential integrity.
+- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`, `VAL-020`)**: 99 rows in raw `games.csv` with all-null box scores were removed so that 100% of canonical `games` rows have `game_status == 'Final'` and valid positive integer scores.
+- **Player Box-Score 290-Row Reconciliation (`VAL-004`, `VAL-015`)**: Exactly 290 rows were excluded from `games_details.csv` (`668,628 -> 668,338`): 1 row where `TEAM_ID = 1610612756` (PHX) did not match either participating team in `GAME_ID = 10500109` (IND @ ATL), and 289 duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows.
+- **Malformed/Negative Minutes Played (`VAL-008`, `VAL-021`)**: 12 negative `MIN` strings (e.g. `'-9'`), 1,463 `MM:60` rounding strings, and 109,681 DNP null rows in `games_details.csv` were standardized to `minutes_played >= 0.0` with an explicit `did_play` boolean indicator.
+- **Unmapped Historical Players (`VAL-018`, `VAL-019`)**: 918 distinct `PLAYER_ID`s present in `games_details.csv` (2003–2008 and 2020–2022) but absent from `players.csv` (which only covered 2009–2019) were unified into canonical `players.parquet`, achieving 100% foreign-key referential integrity.

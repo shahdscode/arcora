@@ -226,10 +226,15 @@ def inspect_raw_dataset(
     all_dates = games_df["GAME_DATE_EST"].dropna().astype(str)
     rank_dates = ranking_df["STANDINGSDATE"].dropna().astype(str)
 
+    try:
+        rel_raw = raw_dir.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        rel_raw = raw_dir.as_posix()
+
     return DatasetAcquisitionReport(
         dataset=dict(DATASET_METADATA),
         retrieved_at_utc=retrieval_timestamp,
-        raw_data_dir=str(raw_dir),
+        raw_data_dir=rel_raw,
         files=file_metas,
         total_size_bytes=sum(m.size_bytes for m in file_metas),
         total_rows_across_files=sum(m.row_count for m in file_metas),
@@ -340,8 +345,8 @@ def render_coverage_summary_markdown(report: DatasetAcquisitionReport) -> str:
     min_lbl = f"{min_season}-{(min_season + 1) % 100:02d}"
     max_lbl = f"{max_season}-{(max_season + 1) % 100:02d}"
     seasons_str = (
-        f"{report.season_count} seasons (`{min_season}` to `{max_season}`, "
-        f"i.e. {min_lbl} through {max_lbl})"
+        f"{report.season_count} season IDs (`{min_season}` to `{max_season}`): "
+        f"19 complete seasons ({min_lbl}–2021-22) + 1 partial season ({max_lbl} through 2022-12-22)"
     )
     games_date_str = f"`{report.overall_min_game_date}` to `{report.overall_max_game_date}`"
     rank_date_str = f"`{report.ranking_min_date}` to `{report.ranking_max_date}`"
@@ -390,8 +395,21 @@ def render_coverage_summary_markdown(report: DatasetAcquisitionReport) -> str:
             "",
             "## 3. Historical Coverage Notes",
             "",
-            "- **Preseason, Regular Season, Play-In, and Playoffs**: The `games.csv` table "
-            "includes regular-season, preseason, and postseason games across each NBA season.",
+            "- **19 Complete Seasons + 1 Partial Season (`2022-23`)**: Seasons `2003-04` through "
+            "`2021-22` (19 seasons) include full regular-season and postseason schedules. Season "
+            "`2022-23` (`SEASON = 2022`) is a **partial in-progress season** ending on the "
+            "dataset snapshot date `2022-12-22` (`542` games: `477` Regular Season, `65` "
+            "Preseason, `0` Playoffs). Downstream training/validation splits must account for "
+            "this cutoff.",
+            "- **Game Stage Breakdown (26,651 Raw Rows -> 26,523 Canonical Completed Games)**: "
+            "The dataset is **not** exclusively regular-season games; it spans four competition "
+            "stages encoded by the leading digit of `GAME_ID`:",
+            "  - **Regular Season (`2` prefix)**: `23,273` raw rows -> `23,244` canonical games "
+            "(after removing `29` duplicate December 2020 `GAME_ID` rows).",
+            "  - **Preseason (`1` prefix)**: `1,774` raw rows -> `1,675` canonical completed games "
+            "(after removing `99` unscored October 2003 preseason rows).",
+            "  - **Playoffs (`4` prefix)**: `1,591` raw rows -> `1,591` canonical games.",
+            "  - **Play-In Tournament (`5` prefix)**: `13` raw rows -> `13` canonical games.",
             "- **Expansion from 29 to 30 Franchises**: The `2003` (2003-04) season has 29 active "
             "NBA franchises; the Charlotte Bobcats (later Hornets, `TEAM_ID = 1610612766`) "
             "joined in the `2004` (2004-05) season, bringing total active franchises to 30 "

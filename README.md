@@ -31,7 +31,8 @@ arcora/
 ├── .gitignore                # Git exclusion rules
 ├── LICENSE                   # MIT License
 ├── pyproject.toml            # Project metadata, dependencies, and tool configurations
-├── requirements.txt          # Pinned/minimum dependency list
+├── requirements.txt          # Minimum dependency specifications
+├── requirements-lock.txt     # Exact pinned dependency lockfile for reproducibility
 └── README.md                 # Project documentation and setup guide
 ```
 
@@ -70,6 +71,8 @@ Install the package in editable mode along with development dependencies:
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+# Or for exact pinned reproducible versions:
+# pip install -r requirements-lock.txt
 pip install -e . --no-build-isolation
 ```
 

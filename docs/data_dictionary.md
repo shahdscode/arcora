@@ -40,8 +40,8 @@ This document provides field-level definitions, data types, keys, source mapping
 | `player_name` | `string` | `string` | `VARCHAR(128)` | No |  | `players.PLAYER_NAME / games_details.PLAYER_NAME` | non-empty | Standardized full name of the player. |
 | `first_season` | `integer` | `int64` | `INTEGER` | No |  | `MIN(SEASON) across appearances` | 2003 <= first_season <= 2022 | First NBA season year (YYYY) the player appears in the dataset. |
 | `last_season` | `integer` | `int64` | `INTEGER` | No |  | `MAX(SEASON) across appearances` | last_season >= first_season | Most recent NBA season year (YYYY) the player appears in the dataset. |
-| `primary_team_id` | `integer` | `int64` | `BIGINT` | No | FK (teams.team_id) | `Most recent TEAM_ID for player` | FK -> teams.team_id | Most recent NBA team identifier associated with the player. |
-| `career_games_logged` | `integer` | `int64` | `INTEGER` | No |  | `COUNT(DISTINCT game_id) in player_game_stats` | >= 0 | Total number of game box-score entries logged for the player. |
+| `career_games_played` | `integer` | `int64` | `INTEGER` | No |  | `COUNT(DISTINCT game_id) WHERE did_play == True` | >= 0, <= career_games_logged | Total number of games in which the player actively entered the game. |
+| `career_games_logged` | `integer` | `int64` | `INTEGER` | No |  | `COUNT(DISTINCT game_id) in player_game_stats` | >= career_games_played | Total number of game box-score entries logged (including DNP/inactive). |
 
 ## Entity: `games` (`data/processed/games.parquet`)
 
@@ -115,3 +115,29 @@ This document provides field-level definitions, data types, keys, source mapping
 | `pf` | `integer` | `int64` | `INTEGER` | No |  | `games_details.PF` | >= 0 | Personal fouls committed. |
 | `pts` | `integer` | `int64` | `INTEGER` | No |  | `games_details.PTS` | >= 0 | Total points scored by the player. |
 | `plus_minus` | `float` | `float64` | `DOUBLE PRECISION` | Yes |  | `games_details.PLUS_MINUS` | — | On-court point differential while player was in the game. |
+
+## Entity: `standings` (`data/processed/standings.parquet`)
+
+- **Description**: Daily NBA team standings snapshot table tracking conference, games played, wins, losses, winning percentage, and home/road splits across seasons.
+- **Grain**: One row per team per season per season_type per standings_date.
+- **Primary Key**: (`team_id`, `season`, `season_type`, `standings_date`)
+- **Source Files**: `ranking.csv`
+
+| Field Name | Logical Type | Pandas / Parquet Dtype | SQL Type | Nullable | Key | Source Mapping | Constraints | Description |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :--- | :--- |
+| `team_id` | `integer` | `int64` | `BIGINT` | No | PK, FK (teams.team_id) | `ranking.TEAM_ID` | FK -> teams.team_id | Franchise ID linking to canonical teams table. |
+| `season` | `integer` | `int64` | `INTEGER` | No | PK | `Derived from last 4 digits of ranking.SEASON_ID` | 2002 <= season <= 2022 | Starting calendar year of the NBA season (e.g., 2022 for 2022-23). |
+| `season_label` | `string` | `string` | `CHAR(7)` | No |  | `Derived: YYYY-YY from season` | — | Formatted NBA season label (e.g., '2022-23'). |
+| `season_type` | `string` | `string` | `VARCHAR(32)` | No | PK | `Derived from leading digit of ranking.SEASON_ID` | in {'Preseason', 'Regular Season'} | Competition stage ('Preseason' or 'Regular Season'). |
+| `standings_date` | `date` | `datetime64[ns]` | `DATE` | No | PK | `ranking.STANDINGSDATE` | — | Calendar date of the daily standings snapshot (YYYY-MM-DD). |
+| `conference` | `string` | `string` | `VARCHAR(16)` | No |  | `ranking.CONFERENCE` | in {'East', 'West'} | NBA conference ('East' or 'West'). |
+| `team_name` | `string` | `string` | `VARCHAR(64)` | No |  | `ranking.TEAM` | — | Team city/market label recorded in standings. |
+| `games_played` | `integer` | `int64` | `INTEGER` | No |  | `ranking.G` | == wins + losses | Cumulative games played as of standings_date. |
+| `wins` | `integer` | `int64` | `INTEGER` | No |  | `ranking.W` | >= 0 | Cumulative wins as of standings_date. |
+| `losses` | `integer` | `int64` | `INTEGER` | No |  | `ranking.L` | >= 0 | Cumulative losses as of standings_date. |
+| `win_pct` | `float` | `float64` | `DOUBLE PRECISION` | No |  | `ranking.W_PCT` | 0.0 <= value <= 1.0 | Cumulative winning percentage (0.0 to 1.0). |
+| `home_wins` | `integer` | `int64` | `INTEGER` | No |  | `Parsed wins from ranking.HOME_RECORD ('W-L')` | >= 0 | Cumulative home wins as of standings_date. |
+| `home_losses` | `integer` | `int64` | `INTEGER` | No |  | `Parsed losses from ranking.HOME_RECORD ('W-L')` | >= 0 | Cumulative home losses as of standings_date. |
+| `road_wins` | `integer` | `int64` | `INTEGER` | No |  | `Parsed wins from ranking.ROAD_RECORD ('W-L')` | >= 0 | Cumulative road wins as of standings_date. |
+| `road_losses` | `integer` | `int64` | `INTEGER` | No |  | `Parsed losses from ranking.ROAD_RECORD ('W-L')` | >= 0 | Cumulative road losses as of standings_date. |
+| `return_to_play` | `float` | `float64` | `DOUBLE PRECISION` | Yes |  | `ranking.RETURNTOPLAY` | — | 2019-20 Orlando Bubble restart indicator (nullable outside 2019-20). |

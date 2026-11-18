@@ -21,6 +21,7 @@ from arcora.models.schema import (
     GAMES_ENTITY,
     PLAYER_GAME_STATS_ENTITY,
     PLAYERS_ENTITY,
+    STANDINGS_ENTITY,
     TEAMS_ENTITY,
 )
 
@@ -453,11 +454,159 @@ def check_player_game_team_matches_game_participants(
     )
 
 
+def check_players_career_game_counts(players_df: pd.DataFrame) -> ValidationCheckResult:
+    """Verify career_games_played <= career_games_logged and non-negative."""
+    total = int(len(players_df))
+    invalid_mask = (
+        (players_df["career_games_played"] < 0)
+        | (players_df["career_games_logged"] < 0)
+        | (players_df["career_games_played"] > players_df["career_games_logged"])
+        | (players_df["last_season"] < players_df["first_season"])
+    )
+    failed_cnt = int(invalid_mask.sum())
+    if failed_cnt == 0:
+        msg = (
+            f"All {total:,} players have valid season spans and "
+            "0 <= career_games_played <= career_games_logged."
+        )
+    else:
+        bad_ids = players_df.loc[invalid_mask, "player_id"].head(5).tolist()
+        msg = (
+            f"Found {failed_cnt:,} players with invalid season span or career game counts; "
+            f"sample player_ids: {bad_ids}"
+        )
+    return ValidationCheckResult(
+        rule_id="VAL-019",
+        rule_name="valid_player_career_counts_and_seasons",
+        entity="players",
+        passed=(failed_cnt == 0),
+        failed_records=failed_cnt,
+        total_records=total,
+        message=msg,
+        rule_description=(
+            "Players must have `last_season >= first_season` and "
+            "`0 <= career_games_played <= career_games_logged`."
+        ),
+    )
+
+
+def check_game_status_and_type(games_df: pd.DataFrame) -> ValidationCheckResult:
+    """Verify all canonical games have game_status == 'Final' and a valid game_type."""
+    total = int(len(games_df))
+    valid_types = {"Preseason", "Regular Season", "All-Star", "Playoffs", "Play-In"}
+    invalid_mask = (games_df["game_status"] != "Final") | (
+        ~games_df["game_type"].isin(valid_types)
+    )
+    failed_cnt = int(invalid_mask.sum())
+    if failed_cnt == 0:
+        msg = (
+            f"All {total:,} games have game_status == 'Final' and valid game_type classifications."
+        )
+    else:
+        bad_ids = games_df.loc[invalid_mask, "game_id"].head(5).tolist()
+        msg = (
+            f"Found {failed_cnt:,} games with non-Final status or invalid game_type; "
+            f"sample game_ids: {bad_ids}"
+        )
+    return ValidationCheckResult(
+        rule_id="VAL-020",
+        rule_name="valid_game_status_and_type",
+        entity="games",
+        passed=(failed_cnt == 0),
+        failed_records=failed_cnt,
+        total_records=total,
+        message=msg,
+        rule_description=(
+            "All canonical `games` must have `game_status == 'Final'` and a valid `game_type`."
+        ),
+    )
+
+
+def check_player_dnp_and_rebound_consistency(pstats_df: pd.DataFrame) -> ValidationCheckResult:
+    """Verify DNP rows have zero minutes/points and reb == oreb + dreb across all rows."""
+    total = int(len(pstats_df))
+    dnp_violation = (~pstats_df["did_play"]) & (
+        (pstats_df["minutes_played"] != 0.0) | (pstats_df["pts"] != 0)
+    )
+    reb_violation = pstats_df["reb"] != (pstats_df["oreb"] + pstats_df["dreb"])
+    invalid_mask = dnp_violation | reb_violation
+    failed_cnt = int(invalid_mask.sum())
+    if failed_cnt == 0:
+        msg = (
+            f"All {total:,} player_game_stats rows satisfy DNP zero-stat consistency and "
+            "reb == oreb + dreb."
+        )
+    else:
+        bad_rows = (
+            pstats_df.loc[invalid_mask, ["game_id", "player_id"]].head(3).to_dict(orient="records")
+        )
+        msg = (
+            f"Found {failed_cnt:,} player_game_stats rows failing DNP or rebound consistency; "
+            f"sample: {bad_rows}"
+        )
+    return ValidationCheckResult(
+        rule_id="VAL-021",
+        rule_name="player_dnp_and_rebound_consistency",
+        entity="player_game_stats",
+        passed=(failed_cnt == 0),
+        failed_records=failed_cnt,
+        total_records=total,
+        message=msg,
+        rule_description=(
+            "DNP rows (`did_play == False`) must have 0 minutes/points, and `reb == oreb + dreb`."
+        ),
+    )
+
+
+def check_standings_integrity(standings_df: pd.DataFrame) -> ValidationCheckResult:
+    """Verify standings games_played == wins + losses, win_pct in [0, 1], and valid labels."""
+    total = int(len(standings_df))
+    invalid_mask = (
+        (standings_df["games_played"] != standings_df["wins"] + standings_df["losses"])
+        | (standings_df["wins"] < 0)
+        | (standings_df["losses"] < 0)
+        | (standings_df["win_pct"] < 0.0)
+        | (standings_df["win_pct"] > 1.0)
+        | (~standings_df["conference"].isin(["East", "West"]))
+        | (~standings_df["season_type"].isin(["Preseason", "Regular Season"]))
+    )
+    failed_cnt = int(invalid_mask.sum())
+    if failed_cnt == 0:
+        msg = (
+            f"All {total:,} standings rows satisfy games_played == wins + losses, "
+            "win_pct in [0, 1], and valid conference/season_type labels."
+        )
+    else:
+        bad_rows = (
+            standings_df.loc[invalid_mask, ["team_id", "standings_date"]]
+            .head(3)
+            .to_dict(orient="records")
+        )
+        msg = (
+            f"Found {failed_cnt:,} standings rows failing record or domain checks; "
+            f"sample: {bad_rows}"
+        )
+    return ValidationCheckResult(
+        rule_id="VAL-025",
+        rule_name="valid_standings_records_and_domains",
+        entity="standings",
+        passed=(failed_cnt == 0),
+        failed_records=failed_cnt,
+        total_records=total,
+        message=msg,
+        rule_description=(
+            "Standings must satisfy `games_played == wins + losses`, `win_pct` in [0, 1], "
+            "and valid `conference` and `season_type`."
+        ),
+    )
+
+
 def run_validation_suite_on_frames(
     teams_df: pd.DataFrame,
     players_df: pd.DataFrame,
     games_df: pd.DataFrame,
     pstats_df: pd.DataFrame,
+    standings_df: pd.DataFrame | None = None,
     processed_data_dir: str = "data/processed",
 ) -> DataQualitySummary:
     """Execute all automated validation rules on the four canonical DataFrames."""
@@ -534,16 +683,46 @@ def run_validation_suite_on_frames(
             "player_id",
             "VAL-018",
         ),
-        check_foreign_key_reference(
-            players_df,
-            "players",
-            "primary_team_id",
-            teams_df,
-            "teams",
-            "team_id",
-            "VAL-019",
-        ),
+        check_players_career_game_counts(players_df),
+        check_game_status_and_type(games_df),
+        check_player_dnp_and_rebound_consistency(pstats_df),
     ]
+
+    entity_counts: dict[str, int] = {
+        "teams": int(len(teams_df)),
+        "players": int(len(players_df)),
+        "games": int(len(games_df)),
+        "player_game_stats": int(len(pstats_df)),
+    }
+
+    if standings_df is not None:
+        results.extend(
+            [
+                check_no_duplicate_primary_keys(
+                    standings_df,
+                    "standings",
+                    STANDINGS_ENTITY.primary_key,
+                    "VAL-022",
+                ),
+                check_missing_critical_values(
+                    standings_df,
+                    "standings",
+                    STANDINGS_ENTITY.non_nullable_columns,
+                    "VAL-023",
+                ),
+                check_foreign_key_reference(
+                    standings_df,
+                    "standings",
+                    "team_id",
+                    teams_df,
+                    "teams",
+                    "team_id",
+                    "VAL-024",
+                ),
+                check_standings_integrity(standings_df),
+            ]
+        )
+        entity_counts["standings"] = int(len(standings_df))
 
     passed_cnt = sum(1 for r in results if r.passed)
     failed_cnt = len(results) - passed_cnt
@@ -556,12 +735,7 @@ def run_validation_suite_on_frames(
         total_checks=len(results),
         passed_checks=passed_cnt,
         failed_checks=failed_cnt,
-        entity_row_counts={
-            "teams": int(len(teams_df)),
-            "players": int(len(players_df)),
-            "games": int(len(games_df)),
-            "player_game_stats": int(len(pstats_df)),
-        },
+        entity_row_counts=entity_counts,
         results=results,
     )
 
@@ -579,13 +753,20 @@ def run_validation_suite(processed_dir: Path) -> DataQualitySummary:
     players_df = pd.read_parquet(processed_dir / PLAYERS_ENTITY.storage_file)
     games_df = pd.read_parquet(processed_dir / GAMES_ENTITY.storage_file)
     pstats_df = pd.read_parquet(processed_dir / PLAYER_GAME_STATS_ENTITY.storage_file)
+    standings_df = pd.read_parquet(processed_dir / STANDINGS_ENTITY.storage_file)
+
+    try:
+        rel_dir = processed_dir.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        rel_dir = processed_dir.as_posix()
 
     return run_validation_suite_on_frames(
         teams_df=teams_df,
         players_df=players_df,
         games_df=games_df,
         pstats_df=pstats_df,
-        processed_data_dir=str(processed_dir),
+        standings_df=standings_df,
+        processed_data_dir=rel_dir,
     )
 
 
@@ -609,6 +790,7 @@ def render_data_quality_report_markdown(summary: DataQualitySummary) -> str:
         f"| **`games` Validated Rows** | {summary.entity_row_counts['games']:,} |",
         f"| **`player_game_stats` Validated Rows** | "
         f"{summary.entity_row_counts['player_game_stats']:,} |",
+        f"| **`standings` Validated Rows** | {summary.entity_row_counts.get('standings', 0):,} |",
         "",
         "---",
         "",
@@ -644,23 +826,46 @@ def render_data_quality_report_markdown(summary: DataQualitySummary) -> str:
             "",
             "---",
             "",
-            "## 4. Detected Raw Issues Resolved Prior to Validation",
+            "## 4. Raw-to-Canonical Row Reconciliation & Resolved Issues",
             "",
+            "| Canonical Entity | Raw Source Rows | Excluded / Collapsed Rows | "
+            "Canonical Parquet Rows | Exact Reconciliation Breakdown |",
+            "| :--- | ---: | ---: | ---: | :--- |",
+            "| `teams` | 30 | 0 | 30 | All 30 NBA franchises preserved (`4` missing "
+            "`arena_capacity` stored as nullable `Int64`). |",
+            "| `games` | 26,651 | -128 | 26,523 | `-99` unscored Oct 2003 preseason rows "
+            "(`PTS_home` is NaN) and `-29` duplicate Dec 2020 `GAME_ID` rows "
+            "(`26,651 - 99 - 29 = 26,523`). |",
+            "| `player_game_stats` | 668,628 | -290 | 668,338 | `-1` invalid participant-team "
+            "row (`GAME_ID=10500109, PLAYER_ID=2564, TEAM_ID=1610612756` where PHX did not play "
+            "in IND @ ATL) and `-289` duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows across 12 "
+            "duplicated Dec 2020 games (`668,628 - 1 - 289 = 668,338`). |",
+            "| `players` | 7,228 | -4,541 (net) | 2,687 | `7,228` team-season roster rows "
+            "(2009–2019) collapsed to `1,769` unique players (`-5,459` multi-season duplicates) "
+            "plus `+918` historical players (2003–2008, 2020–2022) backfilled from "
+            "`games_details.csv` (`1,769 + 918 = 2,687`). |",
+            "| `standings` | 210,342 | -29 | 210,313 | `-29` duplicate `(TEAM_ID, SEASON_ID, "
+            "STANDINGSDATE)` rows removed (`210,342 - 29 = 210,313`). |",
+            "",
+            "### Summary of Resolved Raw Data Anomalies",
             "- **Duplicate Game IDs (`VAL-001`)**: 29 duplicate `GAME_ID` records in raw "
             "`games.csv` (caused by floating-point rounding discrepancies in December 2020 "
             "games) were deduplicated during canonical ingestion.",
-            "- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`)**: 99 rows in raw "
-            "`games.csv` with all-null box scores were removed so that 100% of canonical "
-            "`games` rows have valid positive integer scores.",
-            "- **Duplicate Player Box-Score Keys (`VAL-004`)**: 289 duplicate `(GAME_ID, TEAM_ID, "
-            "PLAYER_ID)` rows in raw `games_details.csv` were deduplicated.",
-            "- **Malformed/Negative Minutes Played (`VAL-008`)**: 12 negative `MIN` strings (e.g. "
-            "`'-9'`) and 109,690 DNP null rows in `games_details.csv` were standardized to "
-            "`minutes_played >= 0.0` with an explicit `did_play` boolean indicator.",
-            "- **Unmapped Historical Players (`VAL-018`)**: 918 distinct `PLAYER_ID`s present in "
-            "`games_details.csv` (2003–2008 and 2020–2022) but absent from `players.csv` (which "
-            "only covered 2009–2019) were unified into canonical `players.parquet`, achieving "
-            "100% foreign-key referential integrity.",
+            "- **Unscored 2003 Preseason Games (`VAL-007`, `VAL-009`, `VAL-020`)**: 99 rows in "
+            "raw `games.csv` with all-null box scores were removed so that 100% of canonical "
+            "`games` rows have `game_status == 'Final'` and valid positive integer scores.",
+            "- **Player Box-Score 290-Row Reconciliation (`VAL-004`, `VAL-015`)**: Exactly 290 "
+            "rows were excluded from `games_details.csv` (`668,628 -> 668,338`): 1 row where "
+            "`TEAM_ID = 1610612756` (PHX) did not match either participating team in `GAME_ID = "
+            "10500109` (IND @ ATL), and 289 duplicate `(GAME_ID, TEAM_ID, PLAYER_ID)` rows.",
+            "- **Malformed/Negative Minutes Played (`VAL-008`, `VAL-021`)**: 12 negative `MIN` "
+            "strings (e.g. `'-9'`), 1,463 `MM:60` rounding strings, and 109,681 DNP null rows "
+            "in `games_details.csv` were standardized to `minutes_played >= 0.0` with an "
+            "explicit `did_play` boolean indicator.",
+            "- **Unmapped Historical Players (`VAL-018`, `VAL-019`)**: 918 distinct `PLAYER_ID`s "
+            "present in `games_details.csv` (2003–2008 and 2020–2022) but absent from "
+            "`players.csv` (which only covered 2009–2019) were unified into canonical "
+            "`players.parquet`, achieving 100% foreign-key referential integrity.",
             "",
         ]
     )

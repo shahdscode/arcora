@@ -1,8 +1,8 @@
 {
-  "executed_at_utc": "2026-11-16T13:44:14Z",
-  "raw_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/raw",
-  "processed_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/processed",
-  "log_file": "/Users/shaahdmaansour/Desktop/arcora/logs/ingestion.log",
+  "executed_at_utc": "2026-11-17T11:18:02Z",
+  "raw_data_dir": "data/raw",
+  "processed_data_dir": "data/processed",
+  "log_file": "logs/ingestion.log",
   "entities": {
     "teams": {
       "entity_name": "teams",
@@ -27,7 +27,10 @@
         "general_manager",
         "head_coach",
         "dleague_affiliation"
-      ]
+      ],
+      "corrections_applied": {
+        "missing_arena_capacity_preserved_null": 4
+      }
     },
     "players": {
       "entity_name": "players",
@@ -41,9 +44,12 @@
         "player_name",
         "first_season",
         "last_season",
-        "primary_team_id",
+        "career_games_played",
         "career_games_logged"
-      ]
+      ],
+      "corrections_applied": {
+        "historical_players_backfilled_from_box_scores": 918
+      }
     },
     "games": {
       "entity_name": "games",
@@ -76,7 +82,13 @@
         "away_fg3_pct",
         "away_ast",
         "away_reb"
-      ]
+      ],
+      "corrections_applied": {
+        "non_final_games_dropped": 0,
+        "unscored_games_dropped": 99,
+        "invalid_team_games_dropped": 0,
+        "shooting_pct_clipped_to_unit_interval": 0
+      }
     },
     "player_game_stats": {
       "entity_name": "player_game_stats",
@@ -84,7 +96,7 @@
       "raw_rows_read": 668628,
       "rows_written": 668338,
       "duplicates_removed": 289,
-      "malformed_or_missing_handled": 109682,
+      "malformed_or_missing_handled": 111144,
       "columns": [
         "game_id",
         "team_id",
@@ -116,7 +128,46 @@
         "pf",
         "pts",
         "plus_minus"
-      ]
+      ],
+      "corrections_applied": {
+        "orphan_rows_dropped": 1,
+        "dnp_rows_zero_filled": 109669,
+        "malformed_minutes_reset_to_zero": 1474,
+        "fga_raised_to_fgm": 0,
+        "fg3a_raised_to_fg3m": 0,
+        "fta_raised_to_ftm": 0,
+        "shooting_pct_clipped_to_unit_interval": 0
+      }
+    },
+    "standings": {
+      "entity_name": "standings",
+      "output_file": "standings.parquet",
+      "raw_rows_read": 210342,
+      "rows_written": 210313,
+      "duplicates_removed": 29,
+      "malformed_or_missing_handled": 0,
+      "columns": [
+        "team_id",
+        "season",
+        "season_label",
+        "season_type",
+        "standings_date",
+        "conference",
+        "team_name",
+        "games_played",
+        "wins",
+        "losses",
+        "win_pct",
+        "home_wins",
+        "home_losses",
+        "road_wins",
+        "road_losses",
+        "return_to_play"
+      ],
+      "corrections_applied": {
+        "invalid_team_rows_dropped": 0,
+        "win_pct_clipped_to_unit_interval": 0
+      }
     }
   }
 }

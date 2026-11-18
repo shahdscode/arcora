@@ -12,23 +12,27 @@ from arcora.validation.checks import (
     check_foreign_key_reference,
     check_game_dates_and_seasons,
     check_game_scores_and_numeric_types,
+    check_game_status_and_type,
     check_missing_critical_values,
     check_no_duplicate_primary_keys,
+    check_player_dnp_and_rebound_consistency,
     check_player_game_team_matches_game_participants,
     check_player_stats_numeric_integrity,
+    check_players_career_game_counts,
+    check_standings_integrity,
     run_validation_suite,
     write_validation_artifacts,
 )
 
 
 def test_processed_datasets_pass_all_quality_checks(tmp_path: Path) -> None:
-    """Verify that the canonical processed Parquet datasets pass all 19 quality checks."""
+    """Verify that the canonical processed Parquet datasets pass all 25 quality checks."""
     cfg = ArcoraConfig.from_env()
     summary = run_validation_suite(cfg.processed_data_dir)
 
     assert summary.overall_passed is True
-    assert summary.total_checks == 19
-    assert summary.passed_checks == 19
+    assert summary.total_checks == 25
+    assert summary.passed_checks == 25
     assert summary.failed_checks == 0
 
     for res in summary.results:
@@ -158,3 +162,50 @@ def test_validation_detects_missing_critical_values_and_foreign_keys() -> None:
     part_res = check_player_game_team_matches_game_participants(pstats, games)
     assert part_res.passed is False
     assert part_res.failed_records == 1
+
+
+def test_validation_detects_new_canonical_rule_violations() -> None:
+    """Verify checks for career counts, game status/type, DNP/rebounds, and standings."""
+    players = pd.DataFrame(
+        {
+            "player_id": [1],
+            "first_season": [2020],
+            "last_season": [2021],
+            "career_games_played": [50],
+            "career_games_logged": [40],
+        }
+    )
+    assert check_players_career_game_counts(players).passed is False
+
+    bad_games = pd.DataFrame(
+        {"game_id": [1], "game_status": ["Scheduled"], "game_type": ["Invalid"]}
+    )
+    assert check_game_status_and_type(bad_games).passed is False
+
+    bad_pstats = pd.DataFrame(
+        {
+            "game_id": [1],
+            "player_id": [10],
+            "did_play": [False],
+            "minutes_played": [5.0],
+            "pts": [2],
+            "oreb": [1],
+            "dreb": [2],
+            "reb": [5],
+        }
+    )
+    assert check_player_dnp_and_rebound_consistency(bad_pstats).passed is False
+
+    bad_standings = pd.DataFrame(
+        {
+            "team_id": [1610612737],
+            "standings_date": pd.to_datetime(["2022-12-01"]),
+            "games_played": [20],
+            "wins": [10],
+            "losses": [9],
+            "win_pct": [0.5],
+            "conference": ["North"],
+            "season_type": ["Regular Season"],
+        }
+    )
+    assert check_standings_integrity(bad_standings).passed is False

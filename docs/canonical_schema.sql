@@ -25,10 +25,9 @@ CREATE TABLE players (
     player_name VARCHAR(128) NOT NULL,
     first_season INTEGER NOT NULL,
     last_season INTEGER NOT NULL,
-    primary_team_id BIGINT NOT NULL,
+    career_games_played INTEGER NOT NULL,
     career_games_logged INTEGER NOT NULL,
-    CONSTRAINT pk_players PRIMARY KEY (player_id),
-    CONSTRAINT fk_players_primary_team_id FOREIGN KEY (primary_team_id) REFERENCES teams (team_id)
+    CONSTRAINT pk_players PRIMARY KEY (player_id)
 );
 
 CREATE TABLE games (
@@ -95,4 +94,25 @@ CREATE TABLE player_game_stats (
     CONSTRAINT fk_player_game_stats_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
     CONSTRAINT fk_player_game_stats_team_id FOREIGN KEY (team_id) REFERENCES teams (team_id),
     CONSTRAINT fk_player_game_stats_player_id FOREIGN KEY (player_id) REFERENCES players (player_id)
+);
+
+CREATE TABLE standings (
+    team_id BIGINT NOT NULL,
+    season INTEGER NOT NULL,
+    season_label CHAR(7) NOT NULL,
+    season_type VARCHAR(32) NOT NULL,
+    standings_date DATE NOT NULL,
+    conference VARCHAR(16) NOT NULL,
+    team_name VARCHAR(64) NOT NULL,
+    games_played INTEGER NOT NULL,
+    wins INTEGER NOT NULL,
+    losses INTEGER NOT NULL,
+    win_pct DOUBLE PRECISION NOT NULL,
+    home_wins INTEGER NOT NULL,
+    home_losses INTEGER NOT NULL,
+    road_wins INTEGER NOT NULL,
+    road_losses INTEGER NOT NULL,
+    return_to_play DOUBLE PRECISION NULL,
+    CONSTRAINT pk_standings PRIMARY KEY (team_id, season, season_type, standings_date),
+    CONSTRAINT fk_standings_team_id FOREIGN KEY (team_id) REFERENCES teams (team_id)
 );

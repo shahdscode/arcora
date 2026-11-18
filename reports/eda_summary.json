@@ -561,6 +561,17 @@
       "rationale": "Captures secular offensive evolution (league 3PAr rose from 18.8% in 2003 to 39.2% in 2021-22) and variance in scoring outcomes."
     },
     {
+      "feature_name": "standings_win_pct_and_conference_rank_diff",
+      "category": "Standings & Season Progression",
+      "target_relevance": "home_win, point_margin",
+      "computation_window": "Latest daily standings snapshot strictly before game_date (standings_date < game_date)",
+      "source_entities": [
+        "standings",
+        "games"
+      ],
+      "rationale": "As-of pre-game conference rank, cumulative winning percentage, and home/road split records reconstructed strictly prior to tip-off (standings_date < game_date) capture season-long contention without temporal leakage."
+    },
+    {
       "feature_name": "head_to_head_season_series_margin",
       "category": "Matchup History",
       "target_relevance": "point_margin, home_win",

@@ -1,8 +1,8 @@
 erDiagram
     teams ||--o{ games : "hosts (home_team_id)"
     teams ||--o{ games : "visits (away_team_id)"
-    teams ||--o{ players : "rosters (primary_team_id)"
     teams ||--o{ player_game_stats : "fields (team_id)"
+    teams ||--o{ standings : "ranks (team_id)"
     games ||--o{ player_game_stats : "includes (game_id)"
     players ||--o{ player_game_stats : "records (player_id)"
 
@@ -28,7 +28,7 @@ erDiagram
         string player_name
         integer first_season
         integer last_season
-        integer primary_team_id FK
+        integer career_games_played
         integer career_games_logged
     }
     games {
@@ -87,4 +87,22 @@ erDiagram
         integer pf
         integer pts
         float plus_minus
+    }
+    standings {
+        integer team_id PK,FK
+        integer season PK
+        string season_label
+        string season_type PK
+        date standings_date PK
+        string conference
+        string team_name
+        integer games_played
+        integer wins
+        integer losses
+        float win_pct
+        integer home_wins
+        integer home_losses
+        integer road_wins
+        integer road_losses
+        float return_to_play
     }

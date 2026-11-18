@@ -250,6 +250,21 @@ def get_candidate_features() -> list[CandidateFeatureSpec]:
             ),
         ),
         CandidateFeatureSpec(
+            feature_name="standings_win_pct_and_conference_rank_diff",
+            category="Standings & Season Progression",
+            target_relevance="home_win, point_margin",
+            computation_window=(
+                "Latest daily standings snapshot strictly before game_date "
+                "(standings_date < game_date)"
+            ),
+            source_entities=["standings", "games"],
+            rationale=(
+                "As-of pre-game conference rank, cumulative winning percentage, and home/road "
+                "split records reconstructed strictly prior to tip-off (standings_date < "
+                "game_date) capture season-long contention without temporal leakage."
+            ),
+        ),
+        CandidateFeatureSpec(
             feature_name="head_to_head_season_series_margin",
             category="Matchup History",
             target_relevance="point_margin, home_win",
@@ -402,8 +417,9 @@ def generate_eda_visualizations(
     plt.close(fig)
     saved_paths.append(fig3_path)
 
-    # 4. Home-court advantage across seasons and franchises
+    # 4. Home-court advantage across seasons and franchises (excluding All-Star exhibitions)
     fig4_path = figures_dir / "04_home_court_advantage.png"
+    hca_games = games_df[games_df["game_type"] != "All-Star"]
     fig, axes = plt.subplots(1, 2, figsize=(15, 5.5))
 
     axes[0].plot(
@@ -413,7 +429,7 @@ def generate_eda_visualizations(
         color="navy",
         linewidth=2.2,
     )
-    overall_hw = float(games_df["home_win"].mean()) * 100.0
+    overall_hw = float(hca_games["home_win"].mean()) * 100.0
     axes[0].axhline(
         overall_hw,
         color="crimson",
@@ -422,23 +438,23 @@ def generate_eda_visualizations(
     )
     axes[0].axhline(50.0, color="gray", linestyle=":", label="50% Parity")
     axes[0].tick_params(axis="x", rotation=45)
-    axes[0].set_title("Home-Court Win Percentage by Season", fontweight="bold")
+    axes[0].set_title("Home-Court Win Percentage by Season (Excl. All-Star)", fontweight="bold")
     axes[0].set_ylabel("Home Win Percentage (%)")
     axes[0].set_ylim(48, 66)
     axes[0].legend()
 
     team_map = dict(zip(teams_df["team_id"], teams_df["abbreviation"], strict=False))
     home_by_team = (
-        games_df.assign(home_abbr=games_df["home_team_id"].map(team_map))
+        hca_games.assign(home_abbr=hca_games["home_team_id"].map(team_map))
         .groupby("home_abbr")["home_win"]
         .mean()
         .sort_values(ascending=True)
         * 100.0
     )
     away_by_team = (
-        games_df.assign(
-            away_abbr=games_df["away_team_id"].map(team_map),
-            away_win=~games_df["home_win"],
+        hca_games.assign(
+            away_abbr=hca_games["away_team_id"].map(team_map),
+            away_win=~hca_games["home_win"],
         )
         .groupby("away_abbr")["away_win"]
         .mean()
@@ -496,7 +512,10 @@ def generate_eda_visualizations(
         vmax=1.0,
         ax=ax,
     )
-    ax.set_title("Correlation Matrix of Game Box-Score Differentials & Outcomes", fontweight="bold")
+    ax.set_title(
+        "Descriptive Post-Game Correlation Matrix (Box-Score Differentials vs. Outcomes)",
+        fontweight="bold",
+    )
     fig.tight_layout()
     fig.savefig(fig5_path, dpi=150)
     plt.close(fig)
@@ -543,6 +562,7 @@ def run_exploratory_data_analysis(
     for season_val, grp in games_df.groupby("season", sort=True):
         s_int = int(str(season_val))
         s_lbl = str(grp["season_label"].iloc[0])
+        hca_grp = grp[grp["game_type"] != "All-Star"]
         h_teams = set(grp["home_team_id"].tolist())
         a_teams = set(grp["away_team_id"].tolist())
         anom_note = ANOMALOUS_SEASONS_NOTES.get(s_int, "")
@@ -559,7 +579,7 @@ def run_exploratory_data_analysis(
                 mean_away_pts=round(float(grp["away_pts"].mean()), 2),
                 mean_total_pts=round(float(grp["total_pts"].mean()), 2),
                 mean_point_margin=round(float(grp["point_margin"].mean()), 2),
-                home_win_rate=round(float(grp["home_win"].mean()), 4),
+                home_win_rate=round(float(hca_grp["home_win"].mean()), 4),
                 is_anomalous_season=bool(anom_note),
                 anomaly_reason=anom_note or "Standard full NBA schedule",
             )
@@ -630,6 +650,7 @@ def run_exploratory_data_analysis(
             str(col): int(cnt) for col, cnt in df.isna().sum().items() if int(cnt) > 0
         }
 
+    non_allstar_games = games_df[games_df["game_type"] != "All-Star"]
     reg_games = games_df[games_df["game_type"] == "Regular Season"]
     po_games = games_df[games_df["game_type"] == "Playoffs"]
 
@@ -638,7 +659,7 @@ def run_exploratory_data_analysis(
         total_player_game_rows=int(len(pstats_df)),
         total_unique_players=int(len(players_df)),
         total_teams=int(len(teams_df)),
-        overall_home_win_rate=round(float(games_df["home_win"].mean()), 4),
+        overall_home_win_rate=round(float(non_allstar_games["home_win"].mean()), 4),
         regular_season_home_win_rate=round(float(reg_games["home_win"].mean()), 4),
         playoff_home_win_rate=round(float(po_games["home_win"].mean()), 4),
         home_pts_distribution=compute_distribution_stats(games_df["home_pts"]),
@@ -712,7 +733,10 @@ def render_eda_findings_markdown(summary: EDAReportSummary) -> str:
         f"- **Total Points Spread**: Combined game totals average **{tp.mean:.2f} points** "
         f"(IQR: {tp.p25:.0f} to {tp.p75:.0f} points) with a slight positive skew "
         f"({tp.skewness:.2f}) driven by high-pace modern games and multi-overtime contests.",
-        "- **Box-Score Drivers of Point Margin (Pearson $r$)**:",
+        "- **Descriptive Post-Game Box-Score Correlations (Pearson $r$, Ex-Post Only)**:",
+        "  > *Note*: The correlations below measure in-game box-score differentials against "
+        "the realized `point_margin`. These post-game statistics are **not** available before "
+        "tip-off and must only be used via strictly lagged historical windows for prediction.",
         f"  - Field Goal % Differential (`home_fg_pct - away_fg_pct`): "
         f"**r = {summary.correlations_with_point_margin['fg_pct_diff']:+.3f}**",
         f"  - Assist Differential (`home_ast - away_ast`): "
@@ -746,18 +770,20 @@ def render_eda_findings_markdown(summary: EDAReportSummary) -> str:
         [
             "",
             "### 3.1 Evolution of Scoring & Home-Court Advantage",
-            "- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.6 PPG** in "
-            "`2003-04` (dead-ball era) to **224.4 PPG** in `2019-20` and **226.0 PPG** in "
+            "- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.0 PPG** in "
+            "`2003-04` (dead-ball era) to **222.7 PPG** in `2019-20` and **225.5 PPG** in "
             "`2022-23`, driven by the league-wide surge in 3-point attempt rate (from ~18.8% "
             "of field goal attempts in 2003-04 to ~39.2% in 2021-22).",
             "- **Structural Decline and COVID Dip in Home-Court Advantage**:",
             "  - From `2003-04` through `2018-19`, home win rates consistently hovered between "
-            "**57.8% and 61.2%**.",
+            "**57.4% and 62.2%**.",
             "  - During `2019-20` (Orlando Bubble) and `2020-21` (empty/restricted arenas), home "
-            "win rates dropped sharply to **55.1%** and **54.4%**, before partially rebounding "
-            "to **55.4%** (`2021-22`) and **58.5%** (`2022-23`).",
-            "  - **Playoff Home-Court Advantage** (**61.7%**) exceeds the regular-season average "
-            "(**58.9%**), reflecting higher seeding quality and intense postseason crowd impact.",
+            "win rates dropped sharply to **53.7%** and **54.4%**, before partially rebounding "
+            "to **55.3%** (`2021-22`) and **58.9%** (`2022-23`).",
+            "  - **Playoff Home-Court Advantage** "
+            f"(**{summary.playoff_home_win_rate * 100:.2f}%**) exceeds the regular-season "
+            f"average (**{summary.regular_season_home_win_rate * 100:.2f}%**), "
+            "reflecting higher seeding quality and intense postseason crowd impact.",
             "",
             "### 3.2 Extreme & Notable Historical Game Results",
             "",
@@ -817,16 +843,29 @@ def render_eda_findings_markdown(summary: EDAReportSummary) -> str:
             "",
             "## 6. Data Limitations Affecting Downstream Modeling",
             "",
+            "- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete "
+            "seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through "
+            "`2022-12-22`, 542 games: 477 Regular Season, 65 Preseason, 0 Playoffs)**. "
+            "Season-level aggregations and train/validation/test splits must account for "
+            "`2022-23` being truncated in late December.",
+            "- **Multiple Competition Stages in `games.parquet` (`26,523` Total Games)**: "
+            "Canonical `games.parquet` includes `23,244` Regular Season games (`87.64%`), "
+            "`1,675` completed Preseason games (`6.32%`), `1,591` Playoff games (`6.00%`), and "
+            "`13` Play-In games (`0.05%`). Preseason games exhibit compressed starter minutes "
+            "and higher variance; models targeting regular-season and playoff games should "
+            "filter out `game_type == 'Preseason'`.",
             "- **Non-Stationarity Across NBA Eras**: Because league-wide average total points "
             "increased by nearly 40 PPG between 2003 and 2022, raw scoring totals must be "
             "normalized relative to the trailing seasonal league average or modeled with "
             "era-adaptive features.",
-            "- **Preseason vs. Regular Season Noise**: Preseason games exhibit compressed "
-            "starter minutes and lower predictability; models targeting regular-season and "
-            "playoff outcomes should filter out or separately weight `game_type == 'Preseason'`.",
-            "- **In-Game Box-Score Leakage Prevention**: Columns like `home_fg_pct`, `home_reb`, "
-            "and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST "
-            "only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.",
+            "- **In-Game Box-Score & Standings Leakage Prevention**:",
+            "  - Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are "
+            "post-game outcomes. Predictive models MUST only use strictly lagged rolling windows "
+            "(`shift(1)`) computed prior to tip-off.",
+            "  - Similarly, `standings.parquet` contains daily snapshots (`standings_date`). "
+            "When constructing standings features for a game on `game_date`, features must be "
+            "reconstructed using an as-of join with `standings_date < game_date` (never end-of-"
+            "season or same-day post-game standings).",
             "- **Absence of Pre-Game Injury Report Feed**: While `player_game_stats` shows who "
             "played (`did_play`) ex-post, pre-game availability must be approximated from "
             "recent rotation participation unless external injury feeds are joined.",

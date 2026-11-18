@@ -10,7 +10,7 @@
 | **Original URL** | https://www.kaggle.com/datasets/nathanlauga/nba-games |
 | **Direct Download Endpoint** | `https://www.kaggle.com/api/v1/datasets/download/nathanlauga/nba-games` |
 | **Upstream Data Origin** | NBA Official Stats API (stats.nba.com) |
-| **Retrieval Date (UTC)** | `2026-11-16T13:28:46Z` |
+| **Retrieval Date (UTC)** | `2026-11-18T12:35:33Z` |
 | **Local Storage Path** | `data/raw/` |
 
 ## 2. License and Usage Restrictions

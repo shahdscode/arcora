@@ -32,7 +32,8 @@
 ### Key Scoring Insights
 - **Home vs. Away Scoring Advantage**: Home teams average **103.45 PPG** compared to **100.63 PPG** for away teams, yielding an average home scoring margin of **+2.82 points** (median **+4 points**).
 - **Total Points Spread**: Combined game totals average **204.08 points** (IQR: 188 to 219 points) with a slight positive skew (0.24) driven by high-pace modern games and multi-overtime contests.
-- **Box-Score Drivers of Point Margin (Pearson $r$)**:
+- **Descriptive Post-Game Box-Score Correlations (Pearson $r$, Ex-Post Only)**:
+  > *Note*: The correlations below measure in-game box-score differentials against the realized `point_margin`. These post-game statistics are **not** available before tip-off and must only be used via strictly lagged historical windows for prediction.
   - Field Goal % Differential (`home_fg_pct - away_fg_pct`): **r = +0.772**
   - Assist Differential (`home_ast - away_ast`): **r = +0.601**
   - 3-Point % Differential (`home_fg3_pct - away_fg3_pct`): **r = +0.508**
@@ -67,11 +68,11 @@
 | `2022-23` | 542 | 477 | 0 | 65 | 30 | 114.3 | 111.2 | 225.5 | +3.05 | 58.9% | Partial in-progress season captured through dataset cutoff date (2022-12-22). |
 
 ### 3.1 Evolution of Scoring & Home-Court Advantage
-- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.6 PPG** in `2003-04` (dead-ball era) to **224.4 PPG** in `2019-20` and **226.0 PPG** in `2022-23`, driven by the league-wide surge in 3-point attempt rate (from ~18.8% of field goal attempts in 2003-04 to ~39.2% in 2021-22).
+- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.0 PPG** in `2003-04` (dead-ball era) to **222.7 PPG** in `2019-20` and **225.5 PPG** in `2022-23`, driven by the league-wide surge in 3-point attempt rate (from ~18.8% of field goal attempts in 2003-04 to ~39.2% in 2021-22).
 - **Structural Decline and COVID Dip in Home-Court Advantage**:
-  - From `2003-04` through `2018-19`, home win rates consistently hovered between **57.8% and 61.2%**.
-  - During `2019-20` (Orlando Bubble) and `2020-21` (empty/restricted arenas), home win rates dropped sharply to **55.1%** and **54.4%**, before partially rebounding to **55.4%** (`2021-22`) and **58.5%** (`2022-23`).
-  - **Playoff Home-Court Advantage** (**61.7%**) exceeds the regular-season average (**58.9%**), reflecting higher seeding quality and intense postseason crowd impact.
+  - From `2003-04` through `2018-19`, home win rates consistently hovered between **57.4% and 62.2%**.
+  - During `2019-20` (Orlando Bubble) and `2020-21` (empty/restricted arenas), home win rates dropped sharply to **53.7%** and **54.4%**, before partially rebounding to **55.3%** (`2021-22`) and **58.9%** (`2022-23`).
+  - **Playoff Home-Court Advantage** (**63.10%**) exceeds the regular-season average (**58.82%**), reflecting higher seeding quality and intense postseason crowd impact.
 
 ### 3.2 Extreme & Notable Historical Game Results
 
@@ -99,6 +100,7 @@
 | `rolling_rebound_and_assist_margin` | Ball Movement & Possession Control | `point_margin, home_win` | Last 10 games prior to tip-off | `games`, `player_game_stats` | In-game rebound differential (r = +0.405 with point_margin) and assist differential (r = +0.478 with point_margin) are strong structural drivers. |
 | `active_starters_minutes_and_pie_availability` | Roster & Player Availability | `home_win, point_margin` | Rolling 10-game top-5 rotation player impact | `player_game_stats`, `players` | Aggregating recent scoring and plus/minus of available starters accounts for key player injuries, trades, and load management. |
 | `three_point_attempt_rate_3par` | Modern Spacing & Shot Profile | `total_pts, home_pts, away_pts` | Season-to-date and rolling 10-game FG3A / FGA | `player_game_stats` | Captures secular offensive evolution (league 3PAr rose from 18.8% in 2003 to 39.2% in 2021-22) and variance in scoring outcomes. |
+| `standings_win_pct_and_conference_rank_diff` | Standings & Season Progression | `home_win, point_margin` | Latest daily standings snapshot strictly before game_date (standings_date < game_date) | `standings`, `games` | As-of pre-game conference rank, cumulative winning percentage, and home/road split records reconstructed strictly prior to tip-off (standings_date < game_date) capture season-long contention without temporal leakage. |
 | `head_to_head_season_series_margin` | Matchup History | `point_margin, home_win` | Trailing 3-season head-to-head matchups | `games` | Captures stylistic matchup advantages between specific franchises and division rivals. |
 
 ---
@@ -116,7 +118,10 @@
 
 ## 6. Data Limitations Affecting Downstream Modeling
 
+- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through `2022-12-22`, 542 games: 477 Regular Season, 65 Preseason, 0 Playoffs)**. Season-level aggregations and train/validation/test splits must account for `2022-23` being truncated in late December.
+- **Multiple Competition Stages in `games.parquet` (`26,523` Total Games)**: Canonical `games.parquet` includes `23,244` Regular Season games (`87.64%`), `1,675` completed Preseason games (`6.32%`), `1,591` Playoff games (`6.00%`), and `13` Play-In games (`0.05%`). Preseason games exhibit compressed starter minutes and higher variance; models targeting regular-season and playoff games should filter out `game_type == 'Preseason'`.
 - **Non-Stationarity Across NBA Eras**: Because league-wide average total points increased by nearly 40 PPG between 2003 and 2022, raw scoring totals must be normalized relative to the trailing seasonal league average or modeled with era-adaptive features.
-- **Preseason vs. Regular Season Noise**: Preseason games exhibit compressed starter minutes and lower predictability; models targeting regular-season and playoff outcomes should filter out or separately weight `game_type == 'Preseason'`.
-- **In-Game Box-Score Leakage Prevention**: Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.
+- **In-Game Box-Score & Standings Leakage Prevention**:
+  - Columns like `home_fg_pct`, `home_reb`, and `home_ast` in `games.parquet` are post-game outcomes. Predictive models MUST only use strictly lagged rolling windows (`shift(1)`) computed prior to tip-off.
+  - Similarly, `standings.parquet` contains daily snapshots (`standings_date`). When constructing standings features for a game on `game_date`, features must be reconstructed using an as-of join with `standings_date < game_date` (never end-of-season or same-day post-game standings).
 - **Absence of Pre-Game Injury Report Feed**: While `player_game_stats` shows who played (`did_play`) ex-post, pre-game availability must be approximated from recent rotation participation unless external injury feeds are joined.

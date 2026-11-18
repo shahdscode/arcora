@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -17,8 +17,24 @@ from arcora.models.schema import (
     GAMES_ENTITY,
     PLAYER_GAME_STATS_ENTITY,
     PLAYERS_ENTITY,
+    STANDINGS_ENTITY,
     TEAMS_ENTITY,
 )
+
+
+def _portable_path(path: Path, anchor: Path | None = None) -> str:
+    """Return a project-relative POSIX path when under anchor, else path name/str."""
+    resolved = path.resolve()
+    if anchor is not None:
+        try:
+            return resolved.relative_to(anchor.resolve()).as_posix()
+        except ValueError:
+            pass
+    cwd = Path.cwd().resolve()
+    try:
+        return resolved.relative_to(cwd).as_posix()
+    except ValueError:
+        return resolved.as_posix()
 
 
 @dataclass(frozen=True)
@@ -32,6 +48,7 @@ class EntityIngestionStats:
     duplicates_removed: int
     malformed_or_missing_handled: int
     columns: list[str]
+    corrections_applied: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -104,7 +121,7 @@ def parse_minutes_value(val: str | float | int | None) -> tuple[float, bool]:
                 return 0.0, True
             mins = float(parts[0])
             secs = float(parts[1])
-            if mins < 0 or secs < 0:
+            if mins < 0 or secs < 0 or secs >= 60:
                 return 0.0, True
             return round(mins + (secs / 60.0), 4), False
         numeric = float(text)
@@ -172,6 +189,7 @@ def transform_teams(
         duplicates_removed=dups_before,
         malformed_or_missing_handled=missing_arena,
         columns=list(out.columns),
+        corrections_applied={"missing_arena_capacity_preserved_null": missing_arena},
     )
     logger.info("Transformed teams: %d raw -> %d clean rows", raw_count, len(out))
     return out, stats
@@ -185,6 +203,15 @@ def transform_games(
     """Transform raw games.csv into the canonical games entity."""
     raw_count = int(len(games_raw))
     df = games_raw.copy()
+
+    non_final_mask = df["GAME_STATUS_TEXT"].astype(str).str.strip() != "Final"
+    non_final_count = int(non_final_mask.sum())
+    if non_final_count > 0:
+        logger.warning(
+            "Dropping %d non-Final game rows (GAME_STATUS_TEXT != 'Final')",
+            non_final_count,
+        )
+        df = df[~non_final_mask].copy()
 
     critical_score_cols = [
         "PTS_home",
@@ -224,6 +251,24 @@ def transform_games(
     if dups_count > 0:
         logger.warning("Removing %d duplicate GAME_ID rows from games.csv", dups_count)
         df = df.drop_duplicates(subset=["GAME_ID"], keep="first").copy()
+
+    pct_raw_cols = [
+        "FG_PCT_home",
+        "FT_PCT_home",
+        "FG3_PCT_home",
+        "FG_PCT_away",
+        "FT_PCT_away",
+        "FG3_PCT_away",
+    ]
+    pct_clipped_count = 0
+    for pcol in pct_raw_cols:
+        s_num = df[pcol].astype("float64")
+        pct_clipped_count += int(((s_num < 0.0) | (s_num > 1.0)).sum())
+    if pct_clipped_count > 0:
+        logger.warning(
+            "Clipped %d out-of-range shooting percentage values to [0.0, 1.0] in games",
+            pct_clipped_count,
+        )
 
     home_pts = df["PTS_home"].round().astype("int64")
     away_pts = df["PTS_away"].round().astype("int64")
@@ -269,8 +314,14 @@ def transform_games(
         raw_rows_read=raw_count,
         rows_written=int(len(out)),
         duplicates_removed=dups_count,
-        malformed_or_missing_handled=missing_count + invalid_teams_count,
+        malformed_or_missing_handled=non_final_count + missing_count + invalid_teams_count,
         columns=list(out.columns),
+        corrections_applied={
+            "non_final_games_dropped": non_final_count,
+            "unscored_games_dropped": missing_count,
+            "invalid_team_games_dropped": invalid_teams_count,
+            "shooting_pct_clipped_to_unit_interval": pct_clipped_count,
+        },
     )
     logger.info(
         "Transformed games: %d raw -> %d clean rows (removed %d duplicates, %d unscored)",
@@ -359,15 +410,30 @@ def transform_player_game_stats(
     def _int_stat(col_name: str) -> pd.Series:
         return df[col_name].fillna(0.0).round().clip(lower=0).astype("int64")
 
-    def _pct_stat(col_name: str) -> pd.Series:
-        return df[col_name].fillna(0.0).astype("float64").round(3).clip(0.0, 1.0)
+    def _pct_stat(col_name: str) -> tuple[pd.Series, int]:
+        raw_s = df[col_name].fillna(0.0).astype("float64")
+        clipped_cnt = int(((raw_s < 0.0) | (raw_s > 1.0)).sum())
+        return raw_s.round(3).clip(0.0, 1.0), clipped_cnt
 
     fgm = _int_stat("FGM")
-    fga = np.maximum(_int_stat("FGA"), fgm)
+    raw_fga = _int_stat("FGA")
+    fga_fixed_cnt = int((raw_fga < fgm).sum())
+    fga = pd.Series(np.maximum(raw_fga, fgm), index=df.index, dtype="int64")
+
     fg3m = _int_stat("FG3M")
-    fg3a = np.maximum(_int_stat("FG3A"), fg3m)
+    raw_fg3a = _int_stat("FG3A")
+    fg3a_fixed_cnt = int((raw_fg3a < fg3m).sum())
+    fg3a = pd.Series(np.maximum(raw_fg3a, fg3m), index=df.index, dtype="int64")
+
     ftm = _int_stat("FTM")
-    fta = np.maximum(_int_stat("FTA"), ftm)
+    raw_fta = _int_stat("FTA")
+    fta_fixed_cnt = int((raw_fta < ftm).sum())
+    fta = pd.Series(np.maximum(raw_fta, ftm), index=df.index, dtype="int64")
+
+    fg_pct_s, fg_pct_clipped = _pct_stat("FG_PCT")
+    fg3_pct_s, fg3_pct_clipped = _pct_stat("FG3_PCT")
+    ft_pct_s, ft_pct_clipped = _pct_stat("FT_PCT")
+
     oreb = _int_stat("OREB")
     dreb = _int_stat("DREB")
     reb = _int_stat("REB")
@@ -391,13 +457,13 @@ def transform_player_game_stats(
             "minutes_played": minutes_series,
             "fgm": fgm,
             "fga": fga,
-            "fg_pct": _pct_stat("FG_PCT"),
+            "fg_pct": fg_pct_s,
             "fg3m": fg3m,
             "fg3a": fg3a,
-            "fg3_pct": _pct_stat("FG3_PCT"),
+            "fg3_pct": fg3_pct_s,
             "ftm": ftm,
             "fta": fta,
-            "ft_pct": _pct_stat("FT_PCT"),
+            "ft_pct": ft_pct_s,
             "oreb": oreb,
             "dreb": dreb,
             "reb": reb,
@@ -416,14 +482,34 @@ def transform_player_game_stats(
         .reset_index(drop=True)
     )
 
+    corrections = {
+        "orphan_rows_dropped": orphan_count,
+        "dnp_rows_zero_filled": dnp_count,
+        "malformed_minutes_reset_to_zero": malformed_min_count,
+        "fga_raised_to_fgm": fga_fixed_cnt,
+        "fg3a_raised_to_fg3m": fg3a_fixed_cnt,
+        "fta_raised_to_ftm": fta_fixed_cnt,
+        "shooting_pct_clipped_to_unit_interval": (
+            fg_pct_clipped + fg3_pct_clipped + ft_pct_clipped
+        ),
+    }
+
     stats = EntityIngestionStats(
         entity_name="player_game_stats",
         output_file=PLAYER_GAME_STATS_ENTITY.storage_file,
         raw_rows_read=raw_count,
         rows_written=int(len(out)),
         duplicates_removed=dups_count,
-        malformed_or_missing_handled=dnp_count + malformed_min_count + orphan_count,
+        malformed_or_missing_handled=(
+            dnp_count
+            + malformed_min_count
+            + orphan_count
+            + fga_fixed_cnt
+            + fg3a_fixed_cnt
+            + fta_fixed_cnt
+        ),
         columns=list(out.columns),
+        corrections_applied=corrections,
     )
     logger.info(
         "Transformed player_game_stats: %d raw -> %d clean rows "
@@ -488,6 +574,13 @@ def transform_players(
         .reindex(first_season.index, fill_value=0)
         .astype("int64")
     )
+    games_played = (
+        player_stats_df[player_stats_df["did_play"]]
+        .groupby("player_id")["game_id"]
+        .nunique()
+        .reindex(first_season.index, fill_value=0)
+        .astype("int64")
+    )
 
     out = pd.DataFrame(
         {
@@ -495,7 +588,7 @@ def transform_players(
             "player_name": latest_rows["player_name"].astype("string").to_numpy(),
             "first_season": first_season.to_numpy(),
             "last_season": last_season.to_numpy(),
-            "primary_team_id": latest_rows["team_id"].astype("int64").to_numpy(),
+            "career_games_played": games_played.to_numpy(),
             "career_games_logged": games_logged.to_numpy(),
         }
     )
@@ -513,6 +606,9 @@ def transform_players(
         duplicates_removed=dups_collapsed,
         malformed_or_missing_handled=backfilled_players,
         columns=list(out.columns),
+        corrections_applied={
+            "historical_players_backfilled_from_box_scores": backfilled_players,
+        },
     )
     logger.info(
         "Transformed players: %d roster rows + box-score appearances -> %d unique players "
@@ -520,6 +616,108 @@ def transform_players(
         raw_count,
         len(out),
         backfilled_players,
+    )
+    return out, stats
+
+
+def _split_record_column(series: pd.Series) -> tuple[pd.Series, pd.Series]:
+    """Split 'W-L' record strings into integer wins and losses Series."""
+    parts = series.astype(str).str.strip().str.split("-", expand=True)
+    wins = pd.to_numeric(parts[0], errors="coerce").fillna(0).astype("int64")
+    losses = pd.to_numeric(parts[1], errors="coerce").fillna(0).astype("int64")
+    return wins, losses
+
+
+def transform_standings(
+    ranking_raw: pd.DataFrame,
+    valid_team_ids: set[int],
+    logger: logging.Logger,
+) -> tuple[pd.DataFrame, EntityIngestionStats]:
+    """Transform raw ranking.csv into the canonical standings entity."""
+    raw_count = int(len(ranking_raw))
+    df = ranking_raw.copy()
+
+    invalid_team_mask = ~df["TEAM_ID"].isin(valid_team_ids)
+    invalid_team_count = int(invalid_team_mask.sum())
+    if invalid_team_count > 0:
+        logger.warning(
+            "Dropping %d standings rows with unmapped TEAM_ID",
+            invalid_team_count,
+        )
+        df = df[~invalid_team_mask].copy()
+
+    pk_raw = ["TEAM_ID", "SEASON_ID", "STANDINGSDATE"]
+    dups_count = int(df.duplicated(subset=pk_raw).sum())
+    if dups_count > 0:
+        logger.warning(
+            "Removing %d duplicate (TEAM_ID, SEASON_ID, STANDINGSDATE) rows from ranking.csv",
+            dups_count,
+        )
+        df = df.drop_duplicates(subset=pk_raw, keep="first").copy()
+
+    sid_str = df["SEASON_ID"].astype(str).str.strip()
+    season_series = sid_str.str[-4:].astype("int64")
+    season_type_series = (
+        sid_str.str[0]
+        .map({"1": "Preseason", "2": "Regular Season"})
+        .fillna("Regular Season")
+        .astype("string")
+    )
+
+    home_wins, home_losses = _split_record_column(df["HOME_RECORD"])
+    road_wins, road_losses = _split_record_column(df["ROAD_RECORD"])
+
+    raw_wpct = df["W_PCT"].astype("float64")
+    wpct_clipped = int(((raw_wpct < 0.0) | (raw_wpct > 1.0)).sum())
+
+    out = pd.DataFrame(
+        {
+            "team_id": df["TEAM_ID"].astype("int64"),
+            "season": season_series,
+            "season_label": season_series.map(format_season_label).astype("string"),
+            "season_type": season_type_series,
+            "standings_date": pd.to_datetime(
+                df["STANDINGSDATE"].astype(str).str.strip(), format="%Y-%m-%d"
+            ),
+            "conference": df["CONFERENCE"].astype(str).str.strip().astype("string"),
+            "team_name": df["TEAM"].astype(str).str.strip().astype("string"),
+            "games_played": df["G"].astype("int64"),
+            "wins": df["W"].astype("int64"),
+            "losses": df["L"].astype("int64"),
+            "win_pct": raw_wpct.round(3).clip(0.0, 1.0),
+            "home_wins": home_wins,
+            "home_losses": home_losses,
+            "road_wins": road_wins,
+            "road_losses": road_losses,
+            "return_to_play": pd.to_numeric(df["RETURNTOPLAY"], errors="coerce").astype(
+                "float64"
+            ),
+        }
+    )
+    out = (
+        out[STANDINGS_ENTITY.column_names]
+        .sort_values(["standings_date", "season", "season_type", "team_id"])
+        .reset_index(drop=True)
+    )
+
+    stats = EntityIngestionStats(
+        entity_name="standings",
+        output_file=STANDINGS_ENTITY.storage_file,
+        raw_rows_read=raw_count,
+        rows_written=int(len(out)),
+        duplicates_removed=dups_count,
+        malformed_or_missing_handled=invalid_team_count + wpct_clipped,
+        columns=list(out.columns),
+        corrections_applied={
+            "invalid_team_rows_dropped": invalid_team_count,
+            "win_pct_clipped_to_unit_interval": wpct_clipped,
+        },
+    )
+    logger.info(
+        "Transformed standings: %d raw -> %d clean rows (removed %d duplicates)",
+        raw_count,
+        len(out),
+        dups_count,
     )
     return out, stats
 
@@ -555,6 +753,7 @@ def run_ingestion_pipeline(
     games_raw = pd.read_csv(raw_dir / "games.csv", low_memory=False)
     details_raw = pd.read_csv(raw_dir / "games_details.csv", low_memory=False)
     players_raw = pd.read_csv(raw_dir / "players.csv", low_memory=False)
+    ranking_raw = pd.read_csv(raw_dir / "ranking.csv", low_memory=False)
 
     teams_df, teams_stats = transform_teams(teams_raw, logger)
     valid_team_ids = set(teams_df["team_id"].astype(int).tolist())
@@ -569,24 +768,28 @@ def run_ingestion_pipeline(
         players_raw, player_stats_df, games_df, valid_team_ids, logger
     )
 
+    standings_df, standings_stats = transform_standings(ranking_raw, valid_team_ids, logger)
+
     export_parquet_idempotent(teams_df, processed_dir / TEAMS_ENTITY.storage_file)
     export_parquet_idempotent(players_df, processed_dir / PLAYERS_ENTITY.storage_file)
     export_parquet_idempotent(games_df, processed_dir / GAMES_ENTITY.storage_file)
     export_parquet_idempotent(
         player_stats_df, processed_dir / PLAYER_GAME_STATS_ENTITY.storage_file
     )
+    export_parquet_idempotent(standings_df, processed_dir / STANDINGS_ENTITY.storage_file)
 
     executed_at = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     result = IngestionPipelineResult(
         executed_at_utc=executed_at,
-        raw_data_dir=str(raw_dir),
-        processed_data_dir=str(processed_dir),
-        log_file=str(log_file),
+        raw_data_dir=_portable_path(raw_dir),
+        processed_data_dir=_portable_path(processed_dir),
+        log_file=_portable_path(log_file),
         entities={
             "teams": teams_stats,
             "players": players_stats,
             "games": games_stats,
             "player_game_stats": pstats_stats,
+            "standings": standings_stats,
         },
     )
 

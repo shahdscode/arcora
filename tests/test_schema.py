@@ -9,6 +9,7 @@ from arcora.models.schema import (
     GAMES_ENTITY,
     PLAYER_GAME_STATS_ENTITY,
     PLAYERS_ENTITY,
+    STANDINGS_ENTITY,
     TEAMS_ENTITY,
     generate_mermaid_erd,
     generate_sql_ddl,
@@ -17,17 +18,27 @@ from arcora.models.schema import (
 
 
 def test_canonical_entities_defined() -> None:
-    """Verify all 4 required core entities and their primary/foreign keys are defined."""
+    """Verify all 5 required core entities and their primary/foreign keys are defined."""
     assert set(CANONICAL_ENTITIES.keys()) == {
         "teams",
         "players",
         "games",
         "player_game_stats",
+        "standings",
     }
     assert TEAMS_ENTITY.primary_key == ("team_id",)
     assert PLAYERS_ENTITY.primary_key == ("player_id",)
+    assert "primary_team_id" not in PLAYERS_ENTITY.column_names
+    assert "career_games_played" in PLAYERS_ENTITY.column_names
+    assert "career_games_logged" in PLAYERS_ENTITY.column_names
     assert GAMES_ENTITY.primary_key == ("game_id",)
     assert PLAYER_GAME_STATS_ENTITY.primary_key == ("game_id", "team_id", "player_id")
+    assert STANDINGS_ENTITY.primary_key == (
+        "team_id",
+        "season",
+        "season_type",
+        "standings_date",
+    )
 
 
 def test_snake_case_naming_and_foreign_keys() -> None:
@@ -49,6 +60,7 @@ def test_schema_documentation_generation(tmp_path: Path) -> None:
     assert "CREATE TABLE players" in ddl
     assert "CREATE TABLE games" in ddl
     assert "CREATE TABLE player_game_stats" in ddl
+    assert "CREATE TABLE standings" in ddl
 
     erd = generate_mermaid_erd()
     assert "erDiagram" in erd

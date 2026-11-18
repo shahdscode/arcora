@@ -1,15 +1,16 @@
 {
-  "evaluated_at_utc": "2026-11-16T13:44:14Z",
-  "processed_data_dir": "/Users/shaahdmaansour/Desktop/arcora/data/processed",
+  "evaluated_at_utc": "2026-11-17T11:18:04Z",
+  "processed_data_dir": "data/processed",
   "overall_passed": true,
-  "total_checks": 19,
-  "passed_checks": 19,
+  "total_checks": 25,
+  "passed_checks": 25,
   "failed_checks": 0,
   "entity_row_counts": {
     "teams": 30,
     "players": 2687,
     "games": 26523,
-    "player_game_stats": 668338
+    "player_game_stats": 668338,
+    "standings": 210313
   },
   "results": [
     {
@@ -194,13 +195,73 @@
     },
     {
       "rule_id": "VAL-019",
-      "rule_name": "fk_players_primary_team_id_to_teams",
+      "rule_name": "valid_player_career_counts_and_seasons",
       "entity": "players",
       "passed": true,
       "failed_records": 0,
       "total_records": 2687,
-      "message": "100% of 'players.primary_team_id' values (2,687 rows) reference valid 'teams.team_id' keys.",
-      "rule_description": "Foreign key `players.primary_team_id` must reference an existing `teams.team_id`."
+      "message": "All 2,687 players have valid season spans and 0 <= career_games_played <= career_games_logged.",
+      "rule_description": "Players must have `last_season >= first_season` and `0 <= career_games_played <= career_games_logged`."
+    },
+    {
+      "rule_id": "VAL-020",
+      "rule_name": "valid_game_status_and_type",
+      "entity": "games",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 26523,
+      "message": "All 26,523 games have game_status == 'Final' and valid game_type classifications.",
+      "rule_description": "All canonical `games` must have `game_status == 'Final'` and a valid `game_type`."
+    },
+    {
+      "rule_id": "VAL-021",
+      "rule_name": "player_dnp_and_rebound_consistency",
+      "entity": "player_game_stats",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 668338,
+      "message": "All 668,338 player_game_stats rows satisfy DNP zero-stat consistency and reb == oreb + dreb.",
+      "rule_description": "DNP rows (`did_play == False`) must have 0 minutes/points, and `reb == oreb + dreb`."
+    },
+    {
+      "rule_id": "VAL-022",
+      "rule_name": "unique_pk_standings",
+      "entity": "standings",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 210313,
+      "message": "All 210,313 records in 'standings' have unique (team_id, season, season_type, standings_date) keys.",
+      "rule_description": "Primary key (team_id, season, season_type, standings_date) in `standings` must contain zero duplicates."
+    },
+    {
+      "rule_id": "VAL-023",
+      "rule_name": "non_null_critical_standings",
+      "entity": "standings",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 210313,
+      "message": "Zero missing values across 15 critical columns in 'standings'.",
+      "rule_description": "Critical columns in `standings` must not contain null/NaN values."
+    },
+    {
+      "rule_id": "VAL-024",
+      "rule_name": "fk_standings_team_id_to_teams",
+      "entity": "standings",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 210313,
+      "message": "100% of 'standings.team_id' values (210,313 rows) reference valid 'teams.team_id' keys.",
+      "rule_description": "Foreign key `standings.team_id` must reference an existing `teams.team_id`."
+    },
+    {
+      "rule_id": "VAL-025",
+      "rule_name": "valid_standings_records_and_domains",
+      "entity": "standings",
+      "passed": true,
+      "failed_records": 0,
+      "total_records": 210313,
+      "message": "All 210,313 standings rows satisfy games_played == wins + losses, win_pct in [0, 1], and valid conference/season_type labels.",
+      "rule_description": "Standings must satisfy `games_played == wins + losses`, `win_pct` in [0, 1], and valid `conference` and `season_type`."
     }
   ]
 }
