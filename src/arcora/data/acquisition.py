@@ -398,7 +398,7 @@ def render_coverage_summary_markdown(report: DatasetAcquisitionReport) -> str:
             "- **19 Complete Seasons + 1 Partial Season (`2022-23`)**: Seasons `2003-04` through "
             "`2021-22` (19 seasons) include full regular-season and postseason schedules. Season "
             "`2022-23` (`SEASON = 2022`) is a **partial in-progress season** ending on the "
-            "dataset snapshot date `2022-12-22` (`542` games: `472` Regular Season, `70` "
+            "dataset snapshot date `2022-12-22` (`542` games: `477` Regular Season, `65` "
             "Preseason, `0` Playoffs). Downstream training/validation splits must account for "
             "this cutoff.",
             "- **Game Stage Breakdown (26,651 Raw Rows -> 26,523 Canonical Completed Games)**: "

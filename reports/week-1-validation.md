@@ -17,7 +17,7 @@
 - **Seasons covered (19 Complete + 1 Partial Season):**
   - `20` distinct `season` identifiers (`2003` to `2022`, i.e., `2003-04` through `2022-23`, spanning `2003-10-05` to `2022-12-22`).
   - **19 Complete Seasons (`2003-04` through `2021-22`):** Include full regular-season and playoff schedules (note that `2011-12` was a 66-game lockout season, and `2019-20` / `2020-21` were COVID-shortened seasons).
-  - **1 Partial In-Progress Season (`2022-23`, `season = 2022`):** Truncated at the dataset snapshot cutoff date `2022-12-22` (`542` completed games: `472` Regular Season, `70` Preseason, `0` Playoffs). Downstream training/validation splits must account for `2022-23` being an incomplete season.
+  - **1 Partial In-Progress Season (`2022-23`, `season = 2022`):** Truncated at the dataset snapshot cutoff date `2022-12-22` (`542` completed games: `477` Regular Season, `65` Preseason, `0` Playoffs). Downstream training/validation splits must account for `2022-23` being an incomplete season.
 - **Total games & competition stage breakdown (`26,523` canonical completed games):**
   - The `26,523` games in `games.parquet` are **not** exclusively regular-season games; they are explicitly classified via `game_type` (derived from the leading digit of the NBA `GAME_ID`):
     - **Regular Season (`2` prefix):** `23,244` games (`87.64%` of canonical games; `23,273` raw rows minus `29` duplicate Dec 2020 `GAME_ID` rows)
@@ -76,7 +76,7 @@
 - **Total tests:** `24`
 - **Passed:** `24`
 - **Failed:** `0`
-- **Coverage:** `94%` statement coverage across `src/arcora/` (`1,305` statements, `72` missed), verified under **Python 3.12** via `pytest -v --cov=arcora --cov-report=term-missing`, with `0` errors from `ruff check src tests scripts` and `0` errors from `mypy src` (strict mode).
+- **Coverage:** `94%` statement coverage across `src/arcora/` (`1,305` statements, `72` missed), verified under **Python 3.12 (`3.12.16`)** via `pytest -v --cov=arcora --cov-report=term-missing`, with `0` errors from `ruff check src tests scripts` and `0` errors from `mypy src` (strict mode).
 
 ---
 
@@ -85,31 +85,36 @@
 - **Score & point-margin distributions (`games.parquet`, $N = 26,523$):**
   | Metric | Mean | Std Dev | Min | 25th Pct | Median | 75th Pct | Max | Skewness |
   | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-  | **Home Points (`home_pts`)** | `103.45` | `13.28` | `59` | `94` | `103` | `112` | `168` | `+0.228` |
-  | **Away Points (`away_pts`)** | `100.63` | `13.36` | `33` | `91` | `100` | `109` | `168` | `+0.242` |
-  | **Total Points (`total_pts`)** | `204.08` | `23.70` | `99` | `188` | `203` | `220` | `336` | `+0.264` |
-  | **Point Margin (`home_pts - away_pts`)** | `+2.82` | `13.63` | `-73` | `-6` | `+3` | `+12` | `+68` | `-0.025` |
+  | **Home Points (`home_pts`)** | `103.45` | `13.28` | `36` | `94` | `103` | `112` | `168` | `+0.173` |
+  | **Away Points (`away_pts`)** | `100.63` | `13.43` | `33` | `91` | `100` | `110` | `168` | `+0.186` |
+  | **Total Points (`total_pts`)** | `204.08` | `23.04` | `69` | `188` | `203` | `219` | `329` | `+0.245` |
+  | **Point Margin (`home_pts - away_pts`)** | `+2.82` | `13.52` | `-68` | `-7` | `+4` | `+11` | `+73` | `-0.025` |
 - **Home-court advantage analyzed:**
-  - **Overall Home Win Rate (excluding All-Star exhibitions):** `58.92%` (`+2.82` mean point margin, `+3.0` median margin).
-  - **Regular Season Home Win Rate:** `58.92%` (`23,244` games).
-  - **Playoffs Home Win Rate:** `61.72%` (`1,591` games).
-  - **Historical Trajectory & COVID-19 Anomaly:** Between `2003-04` and `2018-19`, seasonal home win rates ranged between `57.8%` and `61.2%`. During the COVID-impacted `2019-20` (Orlando Bubble) and `2020-21` (restricted attendance) seasons, home win rates dropped to **`55.1%`** and **`54.4%`**, before recovering to `55.4%` (`2021-22`) and `58.5%` (`2022-23`).
+  - **Overall Home Win Rate (excluding All-Star exhibitions):** `58.92%` (`+2.82` mean point margin, `+4.0` median margin).
+  - **Regular Season Home Win Rate:** `58.82%` (`23,244` games).
+  - **Playoffs Home Win Rate:** `63.10%` (`1,591` games).
+  - **Historical Trajectory & COVID-19 Anomaly:** Between `2003-04` and `2018-19`, seasonal home win rates ranged between `57.4%` and `62.2%`. During the COVID-impacted `2019-20` (Orlando Bubble) and `2020-21` (restricted attendance) seasons, home win rates dropped to **`53.7%`** and **`54.4%`**, before recovering to `55.3%` (`2021-22`) and `58.9%` (`2022-23`).
 - **Secular Scoring & 3-Point Evolution:**
-  - Combined game scoring increased by **+39.4 PPG** from `186.6` PPG in `2003-04` (`94.9` Home / `91.7` Away) to `226.0` PPG in `2022-23` (`114.4` Home / `111.6` Away).
+  - Combined game scoring increased by **+39.5 PPG** from `186.0` PPG in `2003-04` (`94.9` Home / `91.1` Away) to `225.5` PPG in `2022-23` (`114.3` Home / `111.2` Away).
   - Over the same period, the league-wide 3-point attempt rate (`FG3A / FGA` from `player_game_stats`) more than doubled from **`18.8%`** (`2003-04`) to **`39.2%`** (`2021-22`).
 - **Descriptive Post-Game Box-Score Correlations with `point_margin` (Ex-Post Only):**
-  - `fg_pct_diff` (`home_fg_pct - away_fg_pct`): $r = +0.6295$
-  - `ast_diff` (`home_ast - away_ast`): $r = +0.4789$
-  - `fg3_pct_diff` (`home_fg3_pct - away_fg3_pct`): $r = +0.4227$
-  - `reb_diff` (`home_reb - away_reb`): $r = +0.4050$
-  - `ft_pct_diff` (`home_ft_pct - away_ft_pct`): $r = +0.1846$
+  - `fg_pct_diff` (`home_fg_pct - away_fg_pct`): $r = +0.7722$
+  - `ast_diff` (`home_ast - away_ast`): $r = +0.6009$
+  - `fg3_pct_diff` (`home_fg3_pct - away_fg3_pct`): $r = +0.5082$
+  - `reb_diff` (`home_reb - away_reb`): $r = +0.4561$
+  - `ft_pct_diff` (`home_ft_pct - away_ft_pct`): $r = +0.1723$
   - *(Explicitly labeled in `reports/eda_findings_report.md` as descriptive post-game correlations that are unavailable prior to tip-off.)*
-- **Extreme historical games identified:**
-  - **Highest Combined Total Points:** `336` pts (`MIL` `168` @ `ATL` `168` -> `4OT` on `2019-03-01`, `game_id=21800928`, `161-168` in `CHI @ ATL`)
-  - **Lowest Combined Total Points:** `99` pts (`DEN` `33` @ `NOH` `66` on `2003-10-16` preseason, `game_id=10300060`)
-  - **Largest Away Victory Margin:** `-73` home margin (`MEM` `152` vs `OKC` `79` on `2021-12-02`, `game_id=22100328` / preseason `-68`)
+- **Extreme historical games identified (`games.parquet` verified):**
+  | Category | Game ID | Date | Season | Matchup (Away @ Home) | Score (Away - Home) | Total Points | Home Margin |
+  | :--- | :---: | :---: | :---: | :---: | :---: | ---: | ---: |
+  | **Highest Combined Total Points** | `21800928` | `2019-03-01` | `2018-19` | `CHI @ ATL` | `168 - 161` | `329` (`168 + 161`) | `-7` (`161 - 168`) |
+  | **Lowest Combined Total Points** | `10700072` | `2007-10-19` | `2007-08` | `BKN @ BOS` | `33 - 36` | `69` (`33 + 36`) | `+3` (`36 - 33`) |
+  | **Largest Home Victory Margin** | `22100330` | `2021-12-02` | `2021-22` | `OKC @ MEM` | `79 - 152` | `231` (`79 + 152`) | `+73` (`152 - 79`) |
+  | **Largest Away Victory Margin** | `12100048` | `2021-10-13` | `2021-22` | `DAL @ CHA` | `127 - 59` | `186` (`127 + 59`) | `-68` (`59 - 127`) |
+  | **Highest Single-Game Home Team Score** | `20700989` | `2008-03-16` | `2007-08` | `OKC @ DEN` | `116 - 168` | `284` (`116 + 168`) | `+52` (`168 - 116`) |
+  | **Highest Single-Game Away Team Score** | `21800928` | `2019-03-01` | `2018-19` | `CHI @ ATL` | `168 - 161` | `329` (`168 + 161`) | `-7` (`161 - 168`) |
 - **Missingness analyzed:**
-  - Quantified across both raw CSVs and canonical Parquet tables (`99` unscored 2003 preseason games dropped; `109,681` DNP player rows flagged with `did_play = False`, `412,675` bench/DNP null `start_position`, `558,665` active-player null `comment`, `133,314` null `plus_minus`; `4` null `arena_capacity` in `teams`; `206,323` null `return_to_play` outside the 2019–20 bubble in `standings`).
+  - Quantified across both raw CSVs and canonical Parquet tables (`99` unscored 2003 preseason games dropped; `109,681` DNP player rows flagged with `did_play = False`, `412,676` bench/DNP null `start_position`, `558,666` active-player null `comment`, `133,315` null `plus_minus`; `4` null `arena_capacity` in `teams`; `206,323` null `return_to_play` outside the 2019–20 bubble in `standings`).
 
 ---
 
@@ -121,10 +126,10 @@
   - In-game box-score columns in `games.parquet` (`home_fg_pct`, `home_reb`, `home_ast`, etc.) and `player_game_stats.parquet` are post-game outcomes.
   - **Week 2 Control:** All rolling team and player efficiency features must be computed using strictly lagged historical windows (`shift(1)`) ordered by `(game_date, game_id)` prior to tip-off.
 - **Issue 3 — Partial `2022-23` Season & Competition Stage Filtering:**
-  - `2022-23` ends on `2022-12-22` (`542` games) and `games.parquet` contains `1,675` completed `Preseason` games alongside `23,244` `Regular Season`, `1,591` `Playoffs`, and `13` `Play-In` games.
+  - `2022-23` ends on `2022-12-22` (`542` games: `477` Regular Season, `65` Preseason) and `games.parquet` contains `1,675` completed `Preseason` games alongside `23,244` `Regular Season`, `1,591` `Playoffs`, and `13` `Play-In` games.
   - **Week 2 Control:** Filter out `game_type == 'Preseason'` when constructing regular-season/playoff rolling features and model evaluation splits, and treat `2022-23` as an out-of-time test window rather than a full season.
 - **Issue 4 — Secular Offensive Inflation (2003–2022):**
-  - League scoring increased from `186.6` PPG (`2003-04`) to `226.0` PPG (`2022-23`).
+  - League scoring increased from `186.0` PPG (`2003-04`) to `225.5` PPG (`2022-23`).
   - **Week 2 Control:** Normalize offensive/defensive ratings relative to trailing seasonal league-average efficiency and pace.
 
 ---

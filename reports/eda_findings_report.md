@@ -68,11 +68,11 @@
 | `2022-23` | 542 | 477 | 0 | 65 | 30 | 114.3 | 111.2 | 225.5 | +3.05 | 58.9% | Partial in-progress season captured through dataset cutoff date (2022-12-22). |
 
 ### 3.1 Evolution of Scoring & Home-Court Advantage
-- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.6 PPG** in `2003-04` (dead-ball era) to **224.4 PPG** in `2019-20` and **226.0 PPG** in `2022-23`, driven by the league-wide surge in 3-point attempt rate (from ~18.8% of field goal attempts in 2003-04 to ~39.2% in 2021-22).
+- **Pace-and-Space Scoring Surge**: Combined scoring climbed from **186.0 PPG** in `2003-04` (dead-ball era) to **222.7 PPG** in `2019-20` and **225.5 PPG** in `2022-23`, driven by the league-wide surge in 3-point attempt rate (from ~18.8% of field goal attempts in 2003-04 to ~39.2% in 2021-22).
 - **Structural Decline and COVID Dip in Home-Court Advantage**:
-  - From `2003-04` through `2018-19`, home win rates consistently hovered between **57.8% and 61.2%**.
-  - During `2019-20` (Orlando Bubble) and `2020-21` (empty/restricted arenas), home win rates dropped sharply to **55.1%** and **54.4%**, before partially rebounding to **55.4%** (`2021-22`) and **58.5%** (`2022-23`).
-  - **Playoff Home-Court Advantage** (**61.7%**) exceeds the regular-season average (**58.9%**), reflecting higher seeding quality and intense postseason crowd impact.
+  - From `2003-04` through `2018-19`, home win rates consistently hovered between **57.4% and 62.2%**.
+  - During `2019-20` (Orlando Bubble) and `2020-21` (empty/restricted arenas), home win rates dropped sharply to **53.7%** and **54.4%**, before partially rebounding to **55.3%** (`2021-22`) and **58.9%** (`2022-23`).
+  - **Playoff Home-Court Advantage** (**63.10%**) exceeds the regular-season average (**58.82%**), reflecting higher seeding quality and intense postseason crowd impact.
 
 ### 3.2 Extreme & Notable Historical Game Results
 
@@ -118,7 +118,7 @@
 
 ## 6. Data Limitations Affecting Downstream Modeling
 
-- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through `2022-12-22`, 542 games: 472 Regular Season, 70 Preseason, 0 Playoffs)**. Season-level aggregations and train/validation/test splits must account for `2022-23` being truncated in late December.
+- **Partial 2022–23 Season (`SEASON = 2022`)**: The dataset covers **19 complete seasons (`2003-04` through `2021-22`)** and **1 partial season (`2022-23` through `2022-12-22`, 542 games: 477 Regular Season, 65 Preseason, 0 Playoffs)**. Season-level aggregations and train/validation/test splits must account for `2022-23` being truncated in late December.
 - **Multiple Competition Stages in `games.parquet` (`26,523` Total Games)**: Canonical `games.parquet` includes `23,244` Regular Season games (`87.64%`), `1,675` completed Preseason games (`6.32%`), `1,591` Playoff games (`6.00%`), and `13` Play-In games (`0.05%`). Preseason games exhibit compressed starter minutes and higher variance; models targeting regular-season and playoff games should filter out `game_type == 'Preseason'`.
 - **Non-Stationarity Across NBA Eras**: Because league-wide average total points increased by nearly 40 PPG between 2003 and 2022, raw scoring totals must be normalized relative to the trailing seasonal league average or modeled with era-adaptive features.
 - **In-Game Box-Score & Standings Leakage Prevention**:

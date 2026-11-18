@@ -39,7 +39,7 @@
 
 ## 3. Historical Coverage Notes
 
-- **19 Complete Seasons + 1 Partial Season (`2022-23`)**: Seasons `2003-04` through `2021-22` (19 seasons) include full regular-season and postseason schedules. Season `2022-23` (`SEASON = 2022`) is a **partial in-progress season** ending on the dataset snapshot date `2022-12-22` (`542` games: `472` Regular Season, `70` Preseason, `0` Playoffs). Downstream training/validation splits must account for this cutoff.
+- **19 Complete Seasons + 1 Partial Season (`2022-23`)**: Seasons `2003-04` through `2021-22` (19 seasons) include full regular-season and postseason schedules. Season `2022-23` (`SEASON = 2022`) is a **partial in-progress season** ending on the dataset snapshot date `2022-12-22` (`542` games: `477` Regular Season, `65` Preseason, `0` Playoffs). Downstream training/validation splits must account for this cutoff.
 - **Game Stage Breakdown (26,651 Raw Rows -> 26,523 Canonical Completed Games)**: The dataset is **not** exclusively regular-season games; it spans four competition stages encoded by the leading digit of `GAME_ID`:
   - **Regular Season (`2` prefix)**: `23,273` raw rows -> `23,244` canonical games (after removing `29` duplicate December 2020 `GAME_ID` rows).
   - **Preseason (`1` prefix)**: `1,774` raw rows -> `1,675` canonical completed games (after removing `99` unscored October 2003 preseason rows).
