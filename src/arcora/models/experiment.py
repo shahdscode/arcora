@@ -43,6 +43,7 @@ from arcora.models.modeling_strategy import (
 from arcora.models.splits import SPLIT_DEFINITIONS_BY_NAME, TRAIN_SPLIT, VALIDATION_SPLIT
 
 FamilyTrainer = Callable[[ModelingData, Sequence[str]], list[TrainedModel]]
+ReportSections = Callable[[list[TrainedModel], ModelingData], list[str]]
 DEFAULT_EVAL_SPLITS: tuple[str, ...] = (TRAIN_SPLIT, VALIDATION_SPLIT)
 BASELINE_FAMILY: str = "baseline"
 
@@ -55,11 +56,12 @@ class ModelFamily:
     display_name: str
     description: str
     trainer: FamilyTrainer
+    report_sections: ReportSections | None = None
 
 
 def get_model_families() -> dict[str, ModelFamily]:
     """Return the registry of available model families (in training order)."""
-    from arcora.models import baselines
+    from arcora.models import baselines, linear_models
 
     return {
         baselines.MODEL_FAMILY: ModelFamily(
@@ -67,6 +69,13 @@ def get_model_families() -> dict[str, ModelFamily]:
             display_name="Naive Baselines",
             description=baselines.FAMILY_DESCRIPTION,
             trainer=baselines.train_baseline_models,
+        ),
+        linear_models.MODEL_FAMILY: ModelFamily(
+            name=linear_models.MODEL_FAMILY,
+            display_name="Linear and Logistic Regression",
+            description=linear_models.FAMILY_DESCRIPTION,
+            trainer=linear_models.train_linear_models,
+            report_sections=linear_models.linear_report_sections,
         ),
     }
 
@@ -250,8 +259,8 @@ def render_family_report(
         params = ", ".join(f"`{k}={v}`" for k, v in sorted(any_result.params.items()))
         lines.append(f"| `{name}` | `{target}` | {params} |")
 
-    for section in extra_sections:
-        lines.extend(["", section])
+    if extra_sections:
+        lines.extend(["", *extra_sections])
 
     sample = results[0].reproducibility if results else {}
     if sample:
@@ -286,7 +295,7 @@ def run_model_family(
     targets: Sequence[str] = MODEL_TARGETS,
     eval_splits: Sequence[str] = DEFAULT_EVAL_SPLITS,
     allow_locked: bool = False,
-    extra_report_sections: Callable[[list[TrainedModel], ModelingData], list[str]] | None = None,
+    extra_report_sections: ReportSections | None = None,
 ) -> FamilyRunOutput:
     """Train, evaluate, persist, and report one model family."""
     families = get_model_families()
@@ -333,7 +342,8 @@ def run_model_family(
     written["results_csv"] = csv_path
 
     baseline_results = [] if family_name == BASELINE_FAMILY else load_baseline_results(results_dir)
-    sections = extra_report_sections(models, data) if extra_report_sections else []
+    section_builder = extra_report_sections or family.report_sections
+    sections = section_builder(models, data) if section_builder else []
     report_path = results_dir / f"{family_name}_report.md"
     report_path.write_text(
         render_family_report(family, results, baseline_results, sections), encoding="utf-8"

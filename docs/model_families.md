@@ -67,3 +67,47 @@ training references are used instead: **average home score**, **average away sco
   baselines therefore have **negative validation R²** — they are anchored to the 2003-19 scoring
   level. Models that use season-to-date features adapt to the current scoring environment and are
   far less affected.
+
+---
+
+## 2. Linear and Logistic Regression (`linear`, Issue #20)
+
+Module: `src/arcora/models/linear_models.py`
+
+Every model is a scikit-learn `Pipeline`:
+
+```text
+SimpleImputer(strategy="median", keep_empty_features=True) -> StandardScaler -> estimator
+```
+
+- Imputation medians and scaling statistics are learned **from the training split only** and are
+  saved inside the artifact, so inference never rebuilds preprocessing manually.
+- `keep_empty_features=True` keeps the output width equal to the 242 inputs, so feature ordering
+  is stable.
+- The approved missing-value indicators (`*_insufficient_*`, `*_is_season_opener`) are kept as
+  inputs; imputation only fills the numeric `NaN` values they describe.
+
+| Model | Targets | Regularization | Selection |
+| :--- | :--- | :--- | :--- |
+| `linear_regression` | 4 regression targets | None (OLS) | — |
+| `ridge_regression` | 4 regression targets | L2, `alpha ∈ {1, 10, 100, 1e3, 1e4, 3e4, 1e5, 3e5}` | Lowest validation MAE |
+| `lasso_regression` | 4 regression targets | L1, `alpha ∈ {0.01, 0.03, 0.1, 0.3, 1, 3}` | Lowest validation MAE |
+| `logistic_regression` | `home_win` | L2, `C ∈ {1e-4, 3e-4, 1e-3, 3e-3, 0.01, 0.1}` | Lowest validation log loss |
+
+Each grid candidate is fitted on the training split and scored on validation; the full grid is
+stored in `training_metadata.validation_selection`. Because validation is used to pick the
+penalty, validation scores of tuned models are slightly optimistic — the locked test split exists
+to measure that.
+
+### Observations
+
+- Strong shrinkage is preferred for `home_pts` and `total_pts` (`alpha ≈ 3e4`). The training era
+  (2003-19) scored less than the validation seasons, and heavy regularization reduces reliance on
+  era-specific level effects.
+- **Class imbalance**: the training home-win rate is ~0.60 and the validation rate ~0.55 (the
+  2020-21 season was played with limited or no crowds). `class_weight="balanced"` raises balanced
+  accuracy slightly but worsens log loss and Brier score, so the unweighted model is kept for
+  probability quality. The comparison is stored in
+  `training_metadata.class_imbalance_investigation`.
+- Standardized coefficients are reported for interpretability only: home, away, and difference
+  features are strongly collinear, so individual coefficients are not causal effects.

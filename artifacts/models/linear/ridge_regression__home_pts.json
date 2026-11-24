@@ -1,0 +1,101 @@
+{
+  "artifact_format_version": "1.0",
+  "model_id": "ridge_regression__home_pts",
+  "model_name": "ridge_regression",
+  "model_family": "linear",
+  "target": "home_pts",
+  "task": "regression",
+  "estimator_class": "Pipeline",
+  "params": {
+    "preprocessing": "SimpleImputer(median)+StandardScaler",
+    "estimator": "Ridge",
+    "alpha": 30000.0,
+    "alpha_grid": [
+      1.0,
+      10.0,
+      100.0,
+      1000.0,
+      10000.0,
+      30000.0,
+      100000.0,
+      300000.0
+    ],
+    "random_state": 42
+  },
+  "training_metadata": {
+    "fit_split": "train",
+    "validation_selection": {
+      "selection_split": "validation",
+      "selection_metric": "mae",
+      "param": "alpha",
+      "grid": [
+        {
+          "alpha": 1.0,
+          "validation_mae": 9.47323735644192,
+          "fit_seconds": 0.3191042090038536
+        },
+        {
+          "alpha": 10.0,
+          "validation_mae": 9.472203183871747,
+          "fit_seconds": 0.32904304200201295
+        },
+        {
+          "alpha": 100.0,
+          "validation_mae": 9.472626816167631,
+          "fit_seconds": 0.3268008750019362
+        },
+        {
+          "alpha": 1000.0,
+          "validation_mae": 9.46848867535471,
+          "fit_seconds": 0.3228966249880614
+        },
+        {
+          "alpha": 10000.0,
+          "validation_mae": 9.457100897818973,
+          "fit_seconds": 0.32360000000335276
+        },
+        {
+          "alpha": 30000.0,
+          "validation_mae": 9.44693515666929,
+          "fit_seconds": 0.32644550000259187
+        },
+        {
+          "alpha": 100000.0,
+          "validation_mae": 9.463070006707934,
+          "fit_seconds": 0.32289208300062455
+        },
+        {
+          "alpha": 300000.0,
+          "validation_mae": 9.80372307469306,
+          "fit_seconds": 0.3266570830019191
+        }
+      ],
+      "selected_value": 30000.0,
+      "selected_validation_score": 9.44693515666929,
+      "fit_seconds": 0.32644550000259187
+    },
+    "fit_seconds": 0.32644550000259187
+  },
+  "n_features": 242,
+  "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+  "feature_list_file": "feature_list.json",
+  "library_versions": {
+    "python": "3.12.16",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "joblib": "1.6.0"
+  },
+  "artifact_file": "ridge_regression__home_pts.joblib",
+  "artifact_sha256": "a53cddfe65a123b299652ef603f15b5c273da11ed4ebfe25d850dee95079044d",
+  "artifact_bytes": 11963,
+  "saved_at": "2026-11-24T09:08:21+00:00",
+  "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+  "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+  "validation_metrics": {
+    "mae": 9.44693515666929,
+    "rmse": 11.965135008803452,
+    "r2": 0.09215864363589488
+  }
+}
