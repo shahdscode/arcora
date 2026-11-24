@@ -61,6 +61,22 @@ def _f(value: Any, digits: int = 3) -> str:
     return f"{float(value):.{digits}f}"
 
 
+def _delta(row: Any) -> str:
+    """Absolute difference ``model - best baseline`` in metric units (negative = better)."""
+    value = row.get("improvement_vs_baseline")
+    if value is None or pd.isna(value):
+        return "—"
+    return f"{-float(value):+.4f}"
+
+
+def _pct(row: Any) -> str:
+    """Relative loss reduction ``(baseline - model) / baseline`` in percent (positive = better)."""
+    value = row.get("improvement_vs_baseline_pct")
+    if value is None or pd.isna(value):
+        return "—"
+    return f"{float(value):+.2f}%"
+
+
 def _load_json(path: Path) -> dict[str, Any]:
     if not path.is_file():
         return {}
@@ -72,25 +88,25 @@ def _ranking_table(ranked: pd.DataFrame, target: str) -> list[str]:
     sub = ranked[ranked["target"] == target].sort_values("rank")
     if target in REGRESSION_TARGETS:
         lines = [
-            "| Rank | Model | Family | MAE | RMSE | R² | vs best baseline |",
-            "| ---: | :--- | :--- | ---: | ---: | ---: | ---: |",
+            "| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |",
+            "| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |",
         ]
         for r in sub.to_dict("records"):
             lines.append(
                 f"| {r['rank']} | `{r['model_name']}` | {r['model_family']} | {_f(r['mae'])} | "
-                f"{_f(r['rmse'])} | {_f(r['r2'], 4)} | {_f(r['improvement_vs_baseline_pct'], 2)}% |"
+                f"{_f(r['rmse'])} | {_f(r['r2'], 4)} | {_delta(r)} | {_pct(r)} |"
             )
         return lines
     lines = [
         "| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | "
-        "vs best baseline |",
-        "| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "Δ log loss vs best baseline | Log-loss reduction |",
+        "| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for r in sub.to_dict("records"):
         lines.append(
             f"| {r['rank']} | `{r['model_name']}` | {r['model_family']} | {_f(r['log_loss'], 4)} | "
             f"{_f(r['brier'], 4)} | {_f(r['roc_auc'], 4)} | {_f(r['accuracy'], 4)} | "
-            f"{_f(r['balanced_accuracy'], 4)} | {_f(r['improvement_vs_baseline_pct'], 2)}% |"
+            f"{_f(r['balanced_accuracy'], 4)} | {_delta(r)} | {_pct(r)} |"
         )
     return lines
 
@@ -182,6 +198,11 @@ def render_week3_report(
     lines.extend(
         [
             "",
+            "Split sizes differ from the illustrative figures in the Week 2 report "
+            "(20,762 / 2,282 / 1,327); the season definitions are unchanged and the counts above "
+            "are computed from the dataset. The cause is documented in "
+            "[`docs/modeling_strategy.md`](../docs/modeling_strategy.md#split-count-reconciliation-week-2-plan-vs-dataset).",
+            "",
             f"Split integrity checks: **{passed_splits}/{len(summary.split_checks)} passed** (no "
             "game in multiple splits, strict date ordering, same-day games never cross a "
             "boundary, partial 2022-23 season isolated). Full definitions: "
@@ -211,6 +232,14 @@ def render_week3_report(
             "accuracy, balanced accuracy, precision, recall, ROC-AUC, and Brier score are also "
             "reported. All metrics come from one implementation "
             "(`src/arcora/evaluation/metrics.py`).",
+            "- **Reading the baseline comparisons.** *Δ vs best baseline* is the absolute "
+            "difference `model − baseline` in the metric's own units (points of MAE, or nats of "
+            "log loss); negative is better. *Relative loss reduction* is "
+            "`(baseline − model) / baseline × 100`, where the denominator is the best baseline's "
+            "MAE or log loss on validation; positive is better. It is a percentage reduction in "
+            "loss, not a gain in accuracy points. The best baseline is the lowest-loss baseline "
+            "per target, which is always a non-degenerate model; `most_frequent_baseline` "
+            "(0/1 probabilities) can never be the probability benchmark.",
             "- Comparisons are refused unless every result shares the same dataset, split, and "
             "feature fingerprints. A paired bootstrap over validation games tests whether the best "
             "model's improvement over the best baseline is meaningful.",
@@ -230,9 +259,9 @@ def render_week3_report(
             "",
             "## 7. Best-Performing Model per Task",
             "",
-            "| Target | Best model | Family | Validation score | Best baseline | Improvement | "
-            "Bootstrap 95% CI (Δ loss) | Significant |",
-            "| :--- | :--- | :--- | ---: | ---: | ---: | :--- | :---: |",
+            "| Target | Best model | Family | Validation score | Best baseline | Absolute Δ | "
+            "Relative loss reduction | Bootstrap 95% CI (Δ loss) | Significant |",
+            "| :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |",
         ]
     )
     paired = {p["target"]: p for p in comparison.get("paired_bootstrap_vs_baseline", [])}
@@ -244,7 +273,7 @@ def render_week3_report(
         lines.append(
             f"| `{r['target']}` | `{r['model_name']}` | {r['model_family']} | "
             f"{_f(r['primary_score'], 4)} {r['primary_metric']} | "
-            f"{_f(r['best_baseline_score'], 4)} | {_f(r['improvement_vs_baseline_pct'], 2)}% | "
+            f"{_f(r['best_baseline_score'], 4)} | {_delta(r)} | {_pct(r)} | "
             f"{ci} | {sig} |"
         )
 

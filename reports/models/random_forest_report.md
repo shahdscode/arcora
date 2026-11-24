@@ -6,7 +6,7 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 
 ## Regression (validation)
 
-| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline |
+| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline (model − baseline) |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | `random_forest_regressor` | `home_pts` | 9.478 | 12.010 | 0.0854 | 7.278 | -0.057 |
 | `random_forest_regressor` | `away_pts` | 9.394 | 11.814 | 0.0902 | 7.316 | -0.035 |
@@ -15,7 +15,7 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 
 ## Classification — `home_win` (validation)
 
-| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline |
+| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline (model − baseline) |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `random_forest_classifier` | 0.6340 | 0.6163 | 0.6290 | 0.8055 | 0.6824 | 0.6393 | 0.2242 | -0.0123 |
 
@@ -45,11 +45,11 @@ Best model per family on the primary metric (MAE for regression, log loss for `h
 
 | Model | Target | Fit seconds | Mean tree depth | Mean leaves per tree |
 | :--- | :--- | ---: | ---: | ---: |
-| `random_forest_regressor` | `home_pts` | 11.1 | 14.0 | 386 |
-| `random_forest_regressor` | `away_pts` | 11.2 | 14.0 | 384 |
-| `random_forest_regressor` | `total_pts` | 11.1 | 14.0 | 386 |
-| `random_forest_regressor` | `point_margin` | 12.6 | 14.0 | 346 |
-| `random_forest_classifier` | `home_win` | 2.9 | 14.0 | 363 |
+| `random_forest_regressor` | `home_pts` | 12.1 | 14.0 | 386 |
+| `random_forest_regressor` | `away_pts` | 11.9 | 14.0 | 384 |
+| `random_forest_regressor` | `total_pts` | 12.3 | 14.0 | 386 |
+| `random_forest_regressor` | `point_margin` | 13.1 | 14.0 | 346 |
+| `random_forest_classifier` | `home_win` | 3.1 | 14.0 | 363 |
 
 Feature importance (exploratory): see [`random_forest_feature_importance.md`](random_forest_feature_importance.md).
 

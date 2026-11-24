@@ -207,7 +207,7 @@ def render_family_report(
     header = "| Model | Target | MAE | RMSE | R² | Train MAE |"
     sep = "| :--- | :--- | ---: | ---: | ---: | ---: |"
     if show_delta:
-        header += " Δ MAE vs best baseline |"
+        header += " Δ MAE vs best baseline (model − baseline) |"
         sep += " ---: |"
     lines.extend([header, sep])
     for (name, target), per_split in by_key.items():
@@ -235,7 +235,7 @@ def render_family_report(
     )
     sep = "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"
     if show_delta:
-        header += " Δ log loss vs best baseline |"
+        header += " Δ log loss vs best baseline (model − baseline) |"
         sep += " ---: |"
     lines.extend([header, sep])
     for (name, target), per_split in by_key.items():

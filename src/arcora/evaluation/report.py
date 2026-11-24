@@ -131,8 +131,11 @@ def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
         )
     ax.axhline(0, color=TEXT_SECONDARY, linewidth=1)
     ax.set_xticks(x, [f"{t}\n({'log loss' if t == 'home_win' else 'MAE'})" for t in targets])
-    ax.set_ylabel("Improvement over best baseline (%)", color=TEXT_SECONDARY)
-    ax.set_title("Validation improvement over the best naive baseline (higher is better)")
+    ax.set_ylabel("Relative loss reduction vs best baseline (%)", color=TEXT_SECONDARY)
+    ax.set_title(
+        "Validation: (baseline loss − model loss) / baseline loss  (higher is better)",
+        fontsize=11,
+    )
     ax.legend(title="Model family", frameon=False)
     _style(ax)
     return _save(fig, path)
@@ -297,14 +300,20 @@ def render_evaluation_markdown(
         "",
         "## Best model per target",
         "",
-        "| Target | Metric | Best model | Family | Score | Best baseline | Improvement |",
-        "| :--- | :--- | :--- | :--- | ---: | ---: | ---: |",
+        "*Absolute Δ* = model − best baseline in metric units (negative is better). *Relative "
+        "loss reduction* = (baseline − model) / baseline × 100, with the best baseline's MAE or "
+        "log loss as denominator (positive is better).",
+        "",
+        "| Target | Metric | Best model | Family | Score | Best baseline | Absolute Δ | "
+        "Relative loss reduction |",
+        "| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: |",
     ]
     for row in best_models(ranked).to_dict("records"):
         lines.append(
             f"| `{row['target']}` | {row['primary_metric']} | `{row['model_name']}` | "
             f"{row['model_family']} | {_fmt(row['primary_score'])} | "
-            f"{_fmt(row['best_baseline_score'])} | {_fmt(row['improvement_vs_baseline_pct'], 2)}% |"
+            f"{_fmt(row['best_baseline_score'])} | {-float(row['improvement_vs_baseline']):+.4f} | "
+            f"{float(row['improvement_vs_baseline_pct']):+.2f}% |"
         )
 
     lines.extend(
@@ -332,7 +341,10 @@ def render_evaluation_markdown(
     reg = ranked[ranked["task"] == "regression"].copy()
     lines.extend(
         _md_table(
-            reg.assign(improvement_pct=reg["improvement_vs_baseline_pct"]),
+            reg.assign(
+                delta_mae=-reg["improvement_vs_baseline"],
+                mae_reduction_pct=reg["improvement_vs_baseline_pct"],
+            ),
             [
                 "target",
                 "rank",
@@ -341,7 +353,8 @@ def render_evaluation_markdown(
                 "mae",
                 "rmse",
                 "r2",
-                "improvement_pct",
+                "delta_mae",
+                "mae_reduction_pct",
             ],
         )
     )

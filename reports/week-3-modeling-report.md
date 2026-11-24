@@ -6,7 +6,7 @@ This report documents Arcora's first NBA game prediction models: naive baselines
 python scripts/train_models.py
 ```
 
-- **Run**: 2026-11-24T09:30:07+00:00 → 2026-11-24T09:31:53+00:00 (106s, mode `train`)
+- **Run**: 2026-11-24T10:03:27+00:00 → 2026-11-24T10:05:19+00:00 (112s, mode `train`)
 - **Models evaluated**: 38 across 4 families and 5 targets
 - **Overall status**: PASSED (leakage, split, artifact, and reproducibility checks)
 
@@ -39,6 +39,8 @@ python scripts/train_models.py
 | `test` | 2021-22 | 1,323 | 2021-10-19 → 2022-06-16 | Primary locked evaluation |
 | `holdout` | 2022-23 | 477 | 2022-10-18 → 2022-12-22 | Secondary out-of-time partial-season holdout |
 
+Split sizes differ from the illustrative figures in the Week 2 report (20,762 / 2,282 / 1,327); the season definitions are unchanged and the counts above are computed from the dataset. The cause is documented in [`docs/modeling_strategy.md`](../docs/modeling_strategy.md#split-count-reconciliation-week-2-plan-vs-dataset).
+
 Split integrity checks: **7/7 passed** (no game in multiple splits, strict date ordering, same-day games never cross a boundary, partial 2022-23 season isolated). Full definitions: [`docs/modeling_strategy.md`](../docs/modeling_strategy.md).
 
 ## 3. Models Implemented
@@ -57,82 +59,83 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 - Every model is fitted on the training split only; imputers, scalers, and baseline statistics included.
 - Model selection (Ridge/Lasso penalties, logistic `C`, XGBoost early stopping) uses the validation split only, so tuned models' validation scores are mildly optimistic.
 - Primary metrics: **MAE** for regression and **log loss** for `home_win`; RMSE, R², accuracy, balanced accuracy, precision, recall, ROC-AUC, and Brier score are also reported. All metrics come from one implementation (`src/arcora/evaluation/metrics.py`).
+- **Reading the baseline comparisons.** *Δ vs best baseline* is the absolute difference `model − baseline` in the metric's own units (points of MAE, or nats of log loss); negative is better. *Relative loss reduction* is `(baseline − model) / baseline × 100`, where the denominator is the best baseline's MAE or log loss on validation; positive is better. It is a percentage reduction in loss, not a gain in accuracy points. The best baseline is the lowest-loss baseline per target, which is always a non-degenerate model; `most_frequent_baseline` (0/1 probabilities) can never be the probability benchmark.
 - Comparisons are refused unless every result shares the same dataset, split, and feature fingerprints. A paired bootstrap over validation games tests whether the best model's improvement over the best baseline is meaningful.
 
 ## 5. Regression Model Comparison (validation)
 
 ### `home_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | vs best baseline |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: |
-| 1 | `ridge_regression` | linear | 9.447 | 11.965 | 0.0922 | 0.92% |
-| 2 | `lasso_regression` | linear | 9.459 | 11.980 | 0.0900 | 0.79% |
-| 3 | `linear_regression` | linear | 9.470 | 11.995 | 0.0876 | 0.68% |
-| 4 | `random_forest_regressor` | random_forest | 9.478 | 12.010 | 0.0854 | 0.59% |
-| 5 | `xgboost_regressor` | xgboost | 9.489 | 12.016 | 0.0845 | 0.48% |
-| 6 | `historical_reference` | baseline | 9.535 | 12.067 | 0.0766 | 0.00% |
-| 7 | `median_baseline` | baseline | 13.232 | 16.443 | -0.7144 | -38.78% |
-| 8 | `mean_baseline` | baseline | 13.298 | 16.510 | -0.7285 | -39.47% |
+| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `ridge_regression` | linear | 9.447 | 11.965 | 0.0922 | -0.0878 | +0.92% |
+| 2 | `lasso_regression` | linear | 9.459 | 11.980 | 0.0900 | -0.0755 | +0.79% |
+| 3 | `linear_regression` | linear | 9.470 | 11.995 | 0.0876 | -0.0649 | +0.68% |
+| 4 | `random_forest_regressor` | random_forest | 9.478 | 12.010 | 0.0854 | -0.0565 | +0.59% |
+| 5 | `xgboost_regressor` | xgboost | 9.489 | 12.016 | 0.0845 | -0.0459 | +0.48% |
+| 6 | `historical_reference` | baseline | 9.535 | 12.067 | 0.0766 | -0.0000 | +0.00% |
+| 7 | `median_baseline` | baseline | 13.232 | 16.443 | -0.7144 | +3.6974 | -38.78% |
+| 8 | `mean_baseline` | baseline | 13.298 | 16.510 | -0.7285 | +3.7631 | -39.47% |
 
 ### `away_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | vs best baseline |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: |
-| 1 | `lasso_regression` | linear | 9.379 | 11.744 | 0.1010 | 0.52% |
-| 2 | `ridge_regression` | linear | 9.383 | 11.756 | 0.0991 | 0.48% |
-| 3 | `random_forest_regressor` | random_forest | 9.394 | 11.814 | 0.0902 | 0.37% |
-| 4 | `xgboost_regressor` | xgboost | 9.401 | 11.842 | 0.0860 | 0.29% |
-| 5 | `historical_reference` | baseline | 9.429 | 11.887 | 0.0789 | 0.00% |
-| 6 | `linear_regression` | linear | 9.446 | 11.844 | 0.0856 | -0.18% |
-| 7 | `mean_baseline` | baseline | 14.238 | 17.372 | -0.9671 | -51.00% |
-| 8 | `median_baseline` | baseline | 14.809 | 17.961 | -1.1027 | -57.07% |
+| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `lasso_regression` | linear | 9.379 | 11.744 | 0.1010 | -0.0494 | +0.52% |
+| 2 | `ridge_regression` | linear | 9.383 | 11.756 | 0.0991 | -0.0454 | +0.48% |
+| 3 | `random_forest_regressor` | random_forest | 9.394 | 11.814 | 0.0902 | -0.0345 | +0.37% |
+| 4 | `xgboost_regressor` | xgboost | 9.401 | 11.842 | 0.0860 | -0.0277 | +0.29% |
+| 5 | `historical_reference` | baseline | 9.429 | 11.887 | 0.0789 | -0.0000 | +0.00% |
+| 6 | `linear_regression` | linear | 9.446 | 11.844 | 0.0856 | +0.0172 | -0.18% |
+| 7 | `mean_baseline` | baseline | 14.238 | 17.372 | -0.9671 | +4.8090 | -51.00% |
+| 8 | `median_baseline` | baseline | 14.809 | 17.961 | -1.1027 | +5.3807 | -57.07% |
 
 ### `total_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | vs best baseline |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: |
-| 1 | `ridge_regression` | linear | 15.237 | 19.342 | 0.0823 | 0.87% |
-| 2 | `lasso_regression` | linear | 15.281 | 19.387 | 0.0781 | 0.59% |
-| 3 | `random_forest_regressor` | random_forest | 15.325 | 19.475 | 0.0697 | 0.30% |
-| 4 | `historical_reference` | baseline | 15.371 | 19.512 | 0.0662 | 0.00% |
-| 5 | `xgboost_regressor` | xgboost | 15.413 | 19.565 | 0.0611 | -0.27% |
-| 6 | `linear_regression` | linear | 15.434 | 19.519 | 0.0654 | -0.41% |
-| 7 | `mean_baseline` | baseline | 25.213 | 30.530 | -1.2862 | -64.03% |
-| 8 | `median_baseline` | baseline | 25.756 | 31.074 | -1.3685 | -67.56% |
+| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `ridge_regression` | linear | 15.237 | 19.342 | 0.0823 | -0.1341 | +0.87% |
+| 2 | `lasso_regression` | linear | 15.281 | 19.387 | 0.0781 | -0.0904 | +0.59% |
+| 3 | `random_forest_regressor` | random_forest | 15.325 | 19.475 | 0.0697 | -0.0459 | +0.30% |
+| 4 | `historical_reference` | baseline | 15.371 | 19.512 | 0.0662 | -0.0000 | +0.00% |
+| 5 | `xgboost_regressor` | xgboost | 15.413 | 19.565 | 0.0611 | +0.0419 | -0.27% |
+| 6 | `linear_regression` | linear | 15.434 | 19.519 | 0.0654 | +0.0632 | -0.41% |
+| 7 | `mean_baseline` | baseline | 25.213 | 30.530 | -1.2862 | +9.8423 | -64.03% |
+| 8 | `median_baseline` | baseline | 25.756 | 31.074 | -1.3685 | +10.3853 | -67.56% |
 
 ### `point_margin`
 
-| Rank | Model | Family | MAE | RMSE | R² | vs best baseline |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: |
-| 1 | `random_forest_regressor` | random_forest | 10.748 | 13.631 | 0.1339 | 1.98% |
-| 2 | `xgboost_regressor` | xgboost | 10.755 | 13.649 | 0.1317 | 1.92% |
-| 3 | `lasso_regression` | linear | 10.777 | 13.670 | 0.1290 | 1.72% |
-| 4 | `ridge_regression` | linear | 10.818 | 13.681 | 0.1275 | 1.34% |
-| 5 | `linear_regression` | linear | 10.837 | 13.686 | 0.1269 | 1.17% |
-| 6 | `historical_reference` | baseline | 10.965 | 13.898 | 0.0997 | 0.00% |
-| 7 | `mean_baseline` | baseline | 11.679 | 14.720 | -0.0100 | -6.51% |
-| 8 | `median_baseline` | baseline | 11.732 | 14.841 | -0.0267 | -6.99% |
+| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| 1 | `random_forest_regressor` | random_forest | 10.748 | 13.631 | 0.1339 | -0.2172 | +1.98% |
+| 2 | `xgboost_regressor` | xgboost | 10.755 | 13.649 | 0.1317 | -0.2100 | +1.92% |
+| 3 | `lasso_regression` | linear | 10.777 | 13.670 | 0.1290 | -0.1885 | +1.72% |
+| 4 | `ridge_regression` | linear | 10.818 | 13.681 | 0.1275 | -0.1471 | +1.34% |
+| 5 | `linear_regression` | linear | 10.837 | 13.686 | 0.1269 | -0.1286 | +1.17% |
+| 6 | `historical_reference` | baseline | 10.965 | 13.898 | 0.0997 | -0.0000 | +0.00% |
+| 7 | `mean_baseline` | baseline | 11.679 | 14.720 | -0.0100 | +0.7139 | -6.51% |
+| 8 | `median_baseline` | baseline | 11.732 | 14.841 | -0.0267 | +0.7670 | -6.99% |
 
 ## 6. Classification Model Comparison — `home_win` (validation)
 
-| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | vs best baseline |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | `random_forest_classifier` | random_forest | 0.6393 | 0.2242 | 0.6824 | 0.6340 | 0.6163 | 1.89% |
-| 2 | `xgboost_classifier` | xgboost | 0.6402 | 0.2243 | 0.6824 | 0.6396 | 0.6255 | 1.75% |
-| 3 | `logistic_regression` | linear | 0.6428 | 0.2255 | 0.6787 | 0.6283 | 0.6136 | 1.35% |
-| 4 | `historical_reference` | baseline | 0.6516 | 0.2297 | 0.6744 | 0.6175 | 0.5902 | 0.00% |
-| 5 | `prior_baseline` | baseline | 0.6943 | 0.2505 | 0.5000 | 0.5467 | 0.5000 | -6.54% |
-| 6 | `most_frequent_baseline` | baseline | 15.6577 | 0.4533 | 0.5000 | 0.5467 | 0.5000 | -2302.87% |
+| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | Δ log loss vs best baseline | Log-loss reduction |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | `random_forest_classifier` | random_forest | 0.6393 | 0.2242 | 0.6824 | 0.6340 | 0.6163 | -0.0123 | +1.89% |
+| 2 | `xgboost_classifier` | xgboost | 0.6402 | 0.2243 | 0.6824 | 0.6396 | 0.6255 | -0.0114 | +1.75% |
+| 3 | `logistic_regression` | linear | 0.6428 | 0.2255 | 0.6787 | 0.6283 | 0.6136 | -0.0088 | +1.35% |
+| 4 | `historical_reference` | baseline | 0.6516 | 0.2297 | 0.6744 | 0.6175 | 0.5902 | -0.0000 | +0.00% |
+| 5 | `prior_baseline` | baseline | 0.6943 | 0.2505 | 0.5000 | 0.5467 | 0.5000 | +0.0426 | -6.54% |
+| 6 | `most_frequent_baseline` | baseline | 15.6577 | 0.4533 | 0.5000 | 0.5467 | 0.5000 | +15.0061 | -2302.87% |
 
 ## 7. Best-Performing Model per Task
 
-| Target | Best model | Family | Validation score | Best baseline | Improvement | Bootstrap 95% CI (Δ loss) | Significant |
-| :--- | :--- | :--- | ---: | ---: | ---: | :--- | :---: |
-| `home_pts` | `ridge_regression` | linear | 9.4469 mae | 9.5347 | 0.92% | [-0.1514, -0.0208] | Yes |
-| `away_pts` | `lasso_regression` | linear | 9.3794 mae | 9.4288 | 0.52% | [-0.1280, +0.0250] | No |
-| `total_pts` | `ridge_regression` | linear | 15.2369 mae | 15.3710 | 0.87% | [-0.2462, -0.0213] | Yes |
-| `point_margin` | `random_forest_regressor` | random_forest | 10.7479 mae | 10.9651 | 1.98% | [-0.3166, -0.1158] | Yes |
-| `home_win` | `random_forest_classifier` | random_forest | 0.6393 log_loss | 0.6516 | 1.89% | [-0.0187, -0.0057] | Yes |
+| Target | Best model | Family | Validation score | Best baseline | Absolute Δ | Relative loss reduction | Bootstrap 95% CI (Δ loss) | Significant |
+| :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |
+| `home_pts` | `ridge_regression` | linear | 9.4469 mae | 9.5347 | -0.0878 | +0.92% | [-0.1514, -0.0208] | Yes |
+| `away_pts` | `lasso_regression` | linear | 9.3794 mae | 9.4288 | -0.0494 | +0.52% | [-0.1280, +0.0250] | No |
+| `total_pts` | `ridge_regression` | linear | 15.2369 mae | 15.3710 | -0.1341 | +0.87% | [-0.2462, -0.0213] | Yes |
+| `point_margin` | `random_forest_regressor` | random_forest | 10.7479 mae | 10.9651 | -0.2172 | +1.98% | [-0.3166, -0.1158] | Yes |
+| `home_win` | `random_forest_classifier` | random_forest | 0.6393 log_loss | 0.6516 | -0.0123 | +1.89% | [-0.0187, -0.0057] | Yes |
 
 Best model of each family (primary metric, validation):
 

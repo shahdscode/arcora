@@ -1,7 +1,7 @@
 {
-  "started_at": "2026-11-24T09:30:07+00:00",
-  "finished_at": "2026-11-24T09:31:53+00:00",
-  "duration_seconds": 106.01078508299543,
+  "started_at": "2026-11-24T10:03:27+00:00",
+  "finished_at": "2026-11-24T10:05:19+00:00",
+  "duration_seconds": 112.40235362498788,
   "mode": "train",
   "families": [
     "baseline",
@@ -128,10 +128,10 @@
   ],
   "n_models": 38,
   "family_seconds": {
-    "baseline": 0.16751695799757726,
-    "linear": 24.53345045800961,
-    "random_forest": 56.64254075000645,
-    "xgboost": 8.668632916989736
+    "baseline": 0.1950766670051962,
+    "linear": 25.355604874988785,
+    "random_forest": 60.78385270899162,
+    "xgboost": 9.135350416996516
   },
   "artifact_checks": [
     {

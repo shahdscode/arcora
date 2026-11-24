@@ -6,7 +6,7 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 
 ## Regression (validation)
 
-| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline |
+| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline (model − baseline) |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | `linear_regression` | `home_pts` | 9.470 | 11.995 | 0.0876 | 8.536 | -0.065 |
 | `ridge_regression` | `home_pts` | 9.447 | 11.965 | 0.0922 | 8.639 | -0.088 |
@@ -23,7 +23,7 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 
 ## Classification — `home_win` (validation)
 
-| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline |
+| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline (model − baseline) |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `logistic_regression` | 0.6283 | 0.6136 | 0.6309 | 0.7715 | 0.6787 | 0.6428 | 0.2255 | -0.0088 |
 
