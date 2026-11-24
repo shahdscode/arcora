@@ -1,0 +1,40 @@
+{
+  "artifact_format_version": "1.0",
+  "model_id": "linear_regression__away_pts",
+  "model_name": "linear_regression",
+  "model_family": "linear",
+  "target": "away_pts",
+  "task": "regression",
+  "estimator_class": "Pipeline",
+  "params": {
+    "preprocessing": "SimpleImputer(median)+StandardScaler",
+    "estimator": "LinearRegression",
+    "fit_intercept": true
+  },
+  "training_metadata": {
+    "fit_split": "train",
+    "fit_seconds": 0.3305401669931598
+  },
+  "n_features": 242,
+  "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+  "feature_list_file": "feature_list.json",
+  "library_versions": {
+    "python": "3.12.16",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "joblib": "1.6.0"
+  },
+  "artifact_file": "linear_regression__away_pts.joblib",
+  "artifact_sha256": "6136d82f642de92fc14a0de45bb94a1186d4b3bca302c4ef73b763833ecd0a7e",
+  "artifact_bytes": 13563,
+  "saved_at": "2026-11-24T09:30:32+00:00",
+  "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+  "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+  "validation_metrics": {
+    "mae": 9.44599613793739,
+    "rmse": 11.84418101584556,
+    "r2": 0.08557852641489727
+  }
+}

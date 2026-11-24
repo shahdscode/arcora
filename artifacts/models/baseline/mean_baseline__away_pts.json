@@ -1,0 +1,42 @@
+{
+  "artifact_format_version": "1.0",
+  "model_id": "mean_baseline__away_pts",
+  "model_name": "mean_baseline",
+  "model_family": "baseline",
+  "target": "away_pts",
+  "task": "regression",
+  "estimator_class": "DummyRegressor",
+  "params": {
+    "strategy": "mean",
+    "estimator": "DummyRegressor"
+  },
+  "training_metadata": {
+    "fit_split": "train",
+    "n_train": 20734,
+    "learned_statistics": {
+      "constant": 98.82574515288897
+    }
+  },
+  "n_features": 242,
+  "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+  "feature_list_file": "feature_list.json",
+  "library_versions": {
+    "python": "3.12.16",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "joblib": "1.6.0"
+  },
+  "artifact_file": "mean_baseline__away_pts.joblib",
+  "artifact_sha256": "ee76fd1dc7c09ffc5f09c7d339ebf6359871d5489ffb90c640dc141bb04e8251",
+  "artifact_bytes": 2041,
+  "saved_at": "2026-11-24T09:30:08+00:00",
+  "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+  "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+  "validation_metrics": {
+    "mae": 14.237751194931663,
+    "rmse": 17.371928061077412,
+    "r2": -0.9671269500538566
+  }
+}

@@ -41,6 +41,8 @@ def test_config_from_env(tmp_path: Path, monkeypatch: object) -> None:
     assert cfg.project_root == tmp_path.resolve()
     assert cfg.raw_data_dir == (tmp_path / "data" / "raw").resolve()
     assert cfg.processed_data_dir == (tmp_path / "data" / "processed").resolve()
+    assert cfg.splits_dir == (tmp_path / "data" / "splits").resolve()
+    assert cfg.models_dir == (tmp_path / "artifacts" / "models").resolve()
     assert cfg.reports_dir == (tmp_path / "reports").resolve()
     assert cfg.figures_dir == (tmp_path / "reports" / "figures").resolve()
     assert cfg.docs_dir == (tmp_path / "docs").resolve()

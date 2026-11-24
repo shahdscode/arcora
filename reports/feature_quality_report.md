@@ -356,8 +356,8 @@
 1. **Partial `2022-23` Season Protocol (`is_partial_season == True`)**:
    - The `2022` (`2022-23`) season contains only `477` regular-season games through the dataset snapshot cutoff date `2022-12-22` (`0` Play-In or Playoff games, representing ~39% of a full regular season).
    - **Chronological Split Rule for Week 3**: Model training and full-season cross-validation must use the **19 complete seasons (`2003-04` through `2021-22`, `is_partial_season == False`, `24,371` games)**, e.g.:
-     - *Training Split*: `2003-04` through `2018-19` (16 complete seasons, `20,762` games)
-     - *Validation Split*: `2019-20` through `2020-21` (2 complete seasons, `2,282` games)
-     - *Full-Season Test Split*: `2021-22` (1 complete season, `1,327` games)
+     - *Training Split*: `2003-04` through `2018-19` (16 complete seasons, `20,734` games)
+     - *Validation Split*: `2019-20` through `2020-21` (2 complete seasons, `2,314` games)
+     - *Full-Season Test Split*: `2021-22` (1 complete season, `1,323` games)
      - *Out-of-Time Partial-Season Holdout*: `2022-23` (`is_partial_season == True`, `477` games) — evaluated separately as a live early-season forward-testing benchmark and never aggregated as a complete season.
 2. **Cold-Start Handling for Linear / Neural Models**: Tree-based gradient boosting models (LightGBM, XGBoost, CatBoost) handle early-season `NaN` values natively alongside `*_insufficient_*` and `*_is_season_opener` flags. For linear or neural models in Week 3, fit any imputation transformers strictly on the training split.

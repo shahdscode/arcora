@@ -18,6 +18,7 @@ from arcora.data.audit import run_dataset_audit, write_audit_artifacts
 from arcora.data.ingestion import run_ingestion_pipeline
 from arcora.eda.analysis import run_exploratory_data_analysis, write_eda_artifacts
 from arcora.features.pipeline import run_feature_pipeline
+from arcora.models.pipeline import main as train_models_main
 from arcora.models.schema import write_schema_documentation
 from arcora.validation.checks import run_validation_suite, write_validation_artifacts
 
@@ -48,13 +49,22 @@ def build_parser() -> argparse.ArgumentParser:
         "features",
         help="Run Week 2 ML feature engineering pipeline and leakage validation.",
     )
+    subparsers.add_parser(
+        "train",
+        add_help=False,
+        help="Run the Week 3 modeling pipeline (options: see `arcora train --help`).",
+    )
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     """Execute the Arcora CLI."""
+    raw_args = list(sys.argv[1:] if argv is None else argv)
+    if raw_args and raw_args[0] == "train":
+        return train_models_main(raw_args[1:])
+
     parser = build_parser()
-    args = parser.parse_args(argv)
+    args = parser.parse_args(raw_args)
     cfg = ArcoraConfig.from_env()
 
     if args.command in (None, "info"):

@@ -421,10 +421,10 @@ def render_feature_quality_report_markdown(summary: FeaturePipelineSummary) -> s
             "cross-validation must use the **19 complete seasons (`2003-04` through `2021-22`, "
             "`is_partial_season == False`, `24,371` games)**, e.g.:",
             "     - *Training Split*: `2003-04` through `2018-19` "
-            "(16 complete seasons, `20,762` games)",
+            "(16 complete seasons, `20,734` games)",
             "     - *Validation Split*: `2019-20` through `2020-21` "
-            "(2 complete seasons, `2,282` games)",
-            "     - *Full-Season Test Split*: `2021-22` (1 complete season, `1,327` games)",
+            "(2 complete seasons, `2,314` games)",
+            "     - *Full-Season Test Split*: `2021-22` (1 complete season, `1,323` games)",
             "     - *Out-of-Time Partial-Season Holdout*: `2022-23` (`is_partial_season == True`, "
             "`477` games) — evaluated separately as a live early-season forward-testing benchmark "
             "and never aggregated as a complete season.",

@@ -63,6 +63,10 @@ data/processed/*.csv
 data/features/*.parquet
 data/features/*.csv
 
+# Model artifacts (binary estimators and prediction caches; JSON metadata sidecars are tracked)
+artifacts/models/**/*.joblib
+artifacts/models/**/*.parquet
+
 # Logs
 logs/*.log
 

@@ -1,0 +1,188 @@
+{
+  "manifest_version": "1.0",
+  "split_strategy": "season_block_chronological",
+  "source_dataset": "data/features/nba_game_features.parquet",
+  "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+  "total_games": 24848,
+  "split_order": [
+    "train",
+    "validation",
+    "test",
+    "holdout"
+  ],
+  "splits": {
+    "train": {
+      "name": "train",
+      "role": "Model fitting",
+      "seasons": [
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018
+      ],
+      "season_labels": [
+        "2003-04",
+        "2004-05",
+        "2005-06",
+        "2006-07",
+        "2007-08",
+        "2008-09",
+        "2009-10",
+        "2010-11",
+        "2011-12",
+        "2012-13",
+        "2013-14",
+        "2014-15",
+        "2015-16",
+        "2016-17",
+        "2017-18",
+        "2018-19"
+      ],
+      "n_games": 20734,
+      "date_min": "2003-10-28",
+      "date_max": "2019-06-13",
+      "n_game_dates": 3297,
+      "game_type_counts": {
+        "Playoffs": 1336,
+        "Regular Season": 19398
+      },
+      "used_for_fitting": true,
+      "used_for_model_selection": false,
+      "locked": false,
+      "game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740"
+    },
+    "validation": {
+      "name": "validation",
+      "role": "Model comparison, early stopping, and hyperparameter selection",
+      "seasons": [
+        2019,
+        2020
+      ],
+      "season_labels": [
+        "2019-20",
+        "2020-21"
+      ],
+      "n_games": 2314,
+      "date_min": "2019-10-22",
+      "date_max": "2021-07-20",
+      "n_game_dates": 384,
+      "game_type_counts": {
+        "Play-In": 7,
+        "Playoffs": 168,
+        "Regular Season": 2139
+      },
+      "used_for_fitting": false,
+      "used_for_model_selection": true,
+      "locked": false,
+      "game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915"
+    },
+    "test": {
+      "name": "test",
+      "role": "Primary locked evaluation",
+      "seasons": [
+        2021
+      ],
+      "season_labels": [
+        "2021-22"
+      ],
+      "n_games": 1323,
+      "date_min": "2021-10-19",
+      "date_max": "2022-06-16",
+      "n_game_dates": 213,
+      "game_type_counts": {
+        "Play-In": 6,
+        "Playoffs": 87,
+        "Regular Season": 1230
+      },
+      "used_for_fitting": false,
+      "used_for_model_selection": false,
+      "locked": true,
+      "game_id_sha256": "9f984c6b8e7b7493f9e349b36c840b95e3b43076dfb5d4ba77097064dcc41b93"
+    },
+    "holdout": {
+      "name": "holdout",
+      "role": "Secondary out-of-time partial-season holdout",
+      "seasons": [
+        2022
+      ],
+      "season_labels": [
+        "2022-23"
+      ],
+      "n_games": 477,
+      "date_min": "2022-10-18",
+      "date_max": "2022-12-22",
+      "n_game_dates": 64,
+      "game_type_counts": {
+        "Regular Season": 477
+      },
+      "used_for_fitting": false,
+      "used_for_model_selection": false,
+      "locked": true,
+      "game_id_sha256": "dbe64fafb49bcf882d691f128c64833911ec7bf978ac57bded54bd15bb8491e8"
+    }
+  },
+  "integrity_checks": [
+    {
+      "check_id": "SPLIT-001",
+      "check_name": "All Splits Present and Non-Empty",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "All splits contain games."
+    },
+    {
+      "check_id": "SPLIT-002",
+      "check_name": "No Duplicate Games Within a Split",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "0 duplicated game_id rows found within splits."
+    },
+    {
+      "check_id": "SPLIT-003",
+      "check_name": "No Game Appears in Multiple Splits",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "0 game_ids assigned to more than one split."
+    },
+    {
+      "check_id": "SPLIT-004",
+      "check_name": "Strict Chronological Ordering Across Splits",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "Every split's latest game_date precedes the next split's earliest game_date."
+    },
+    {
+      "check_id": "SPLIT-005",
+      "check_name": "Same-Day Games Share a Single Split",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "0 calendar dates have games in more than one split."
+    },
+    {
+      "check_id": "SPLIT-006",
+      "check_name": "Split Membership Matches Season Definitions",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "0 rows fall outside their split's season definition."
+    },
+    {
+      "check_id": "SPLIT-007",
+      "check_name": "Partial-Season Holdout Isolation",
+      "passed": true,
+      "violations_detected": 0,
+      "details": "0 partial-season rows outside the holdout; 0 complete-season rows inside the holdout."
+    }
+  ],
+  "all_checks_passed": true
+}
