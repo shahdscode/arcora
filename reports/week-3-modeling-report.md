@@ -6,7 +6,8 @@ This report documents Arcora's first NBA game prediction models: naive baselines
 python scripts/train_models.py
 ```
 
-- **Run**: 2026-11-24T10:12:56+00:00 → 2026-11-24T10:14:45+00:00 (109s, mode `train`)
+- **Run**: 2026-11-24T10:25:16+00:00 → 2026-11-24T10:25:19+00:00 (3s, mode `reports_only`)
+- **Reports-only run**: tables and figures were re-rendered from the persisted results and artifacts of the last training run; no model was retrained or re-evaluated, and reproducibility results are carried forward from that run.
 - **Models evaluated**: 38 across 4 families and 5 targets
 - **Overall status**: PASSED (leakage, split, artifact, and reproducibility checks)
 
@@ -59,14 +60,14 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 - Every model is fitted on the training split only; imputers, scalers, and baseline statistics included.
 - Model selection (Ridge/Lasso penalties, logistic `C`, XGBoost early stopping) uses the validation split only, so tuned models' validation scores are mildly optimistic.
 - Primary metrics: **MAE** for regression and **log loss** for `home_win`; RMSE, R², accuracy, balanced accuracy, precision, recall, ROC-AUC, and Brier score are also reported. All metrics come from one implementation (`src/arcora/evaluation/metrics.py`).
-- **Reading the baseline comparisons.** *Δ vs best baseline* is the absolute difference `model − baseline` in the metric's own units (points of MAE, or nats of log loss); negative is better. *Relative loss reduction* is `(baseline − model) / baseline × 100`, where the denominator is the best baseline's MAE or log loss on validation; positive is better. It is a percentage reduction in loss, not a gain in accuracy points. The best baseline is the lowest-loss baseline per target, which is always a non-degenerate model; `most_frequent_baseline` (0/1 probabilities) can never be the probability benchmark.
+- **Reading the baseline comparisons.** `delta_vs_baseline` is the absolute difference `model − baseline` in the metric's own units (points of MAE, or nats of log loss); negative is better. `relative_loss_reduction_pct` is `(baseline − model) / baseline × 100`, where the denominator is the best baseline's MAE or log loss on validation; positive is better. It is a percentage reduction in loss, not a gain in accuracy points. The same names are used in `model_comparison.csv`, `model_comparison.json`, and every report table. The best baseline is the lowest-loss baseline per target, which is always a non-degenerate model; `most_frequent_baseline` (0/1 probabilities) can never be the probability benchmark.
 - Comparisons are refused unless every result shares the same dataset, split, and feature fingerprints. A paired bootstrap over validation games tests whether the best model's improvement over the best baseline is meaningful.
 
 ## 5. Regression Model Comparison (validation)
 
 ### `home_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| Rank | Model | Family | MAE | RMSE | R² | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | 1 | `ridge_regression` | linear | 9.447 | 11.965 | 0.0922 | -0.0878 | +0.92% |
 | 2 | `lasso_regression` | linear | 9.459 | 11.980 | 0.0900 | -0.0755 | +0.79% |
@@ -79,7 +80,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ### `away_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| Rank | Model | Family | MAE | RMSE | R² | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | 1 | `lasso_regression` | linear | 9.379 | 11.744 | 0.1010 | -0.0494 | +0.52% |
 | 2 | `ridge_regression` | linear | 9.383 | 11.756 | 0.0991 | -0.0454 | +0.48% |
@@ -92,7 +93,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ### `total_pts`
 
-| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| Rank | Model | Family | MAE | RMSE | R² | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | 1 | `ridge_regression` | linear | 15.237 | 19.342 | 0.0823 | -0.1341 | +0.87% |
 | 2 | `lasso_regression` | linear | 15.281 | 19.387 | 0.0781 | -0.0904 | +0.59% |
@@ -105,7 +106,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ### `point_margin`
 
-| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |
+| Rank | Model | Family | MAE | RMSE | R² | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | 1 | `random_forest_regressor` | random_forest | 10.748 | 13.631 | 0.1339 | -0.2172 | +1.98% |
 | 2 | `xgboost_regressor` | xgboost | 10.755 | 13.649 | 0.1317 | -0.2100 | +1.92% |
@@ -118,7 +119,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ## 6. Classification Model Comparison — `home_win` (validation)
 
-| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | Δ log loss vs best baseline | Log-loss reduction |
+| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 | `random_forest_classifier` | random_forest | 0.6393 | 0.2242 | 0.6824 | 0.6340 | 0.6163 | -0.0123 | +1.89% |
 | 2 | `xgboost_classifier` | xgboost | 0.6402 | 0.2243 | 0.6824 | 0.6396 | 0.6255 | -0.0114 | +1.75% |
@@ -129,13 +130,17 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ## 7. Best-Performing Model per Task
 
-| Target | Best model | Family | Validation score | Best baseline | Absolute Δ | Relative loss reduction | Bootstrap 95% CI (Δ loss) | Significant |
+| Target | Best model | Family | Validation score | Best baseline | `delta_vs_baseline` | `relative_loss_reduction_pct` | Bootstrap 95% CI (Δ loss) | Significant |
 | :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |
 | `home_pts` | `ridge_regression` | linear | 9.4469 mae | 9.5347 | -0.0878 | +0.92% | [-0.1514, -0.0208] | Yes |
 | `away_pts` | `lasso_regression` | linear | 9.3794 mae | 9.4288 | -0.0494 | +0.52% | [-0.1280, +0.0250] | No |
 | `total_pts` | `ridge_regression` | linear | 15.2369 mae | 15.3710 | -0.1341 | +0.87% | [-0.2462, -0.0213] | Yes |
 | `point_margin` | `random_forest_regressor` | random_forest | 10.7479 mae | 10.9651 | -0.2172 | +1.98% | [-0.3166, -0.1158] | Yes |
 | `home_win` | `random_forest_classifier` | random_forest | 0.6393 log_loss | 0.6516 | -0.0123 | +1.89% | [-0.0187, -0.0057] | Yes |
+
+### Relative loss reduction vs best baseline (chart)
+
+![relative_loss_reduction_pct by family and target](figures/models/model_loss_reduction_vs_baseline.png)
 
 Best model of each family (primary metric, validation):
 
@@ -174,8 +179,9 @@ Best model of each family (primary metric, validation):
 ## 9. Error Analysis
 
 Full breakdowns (by season, home team, away team, game type; largest errors; confusion matrix; calibration): [`model_evaluation_report.md`](model_evaluation_report.md).
+### Regression Error Summary (Validation)
 
-![Relative loss reduction vs best baseline](figures/models/model_loss_reduction_vs_baseline.png)
+Residual = predicted − actual for the best model of each regression target.
 
 | Target (best model) | Bias (mean residual) | Residual std | Within ±5 | Within ±10 |
 | :--- | ---: | ---: | ---: | ---: |

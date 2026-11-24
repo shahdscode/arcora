@@ -4,9 +4,9 @@ All models are compared on the **validation** split (2019-20 to 2020-21) with th
 
 ## Best model per target
 
-*Absolute Δ* = model − best baseline in metric units (negative is better). *Relative loss reduction* = (baseline − model) / baseline × 100, with the best baseline's MAE or log loss as denominator (positive is better).
+`delta_vs_baseline` = model loss − best baseline loss, in metric units (negative is better). `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss × 100, with the best baseline's MAE or log loss as denominator (positive is better).
 
-| Target | Metric | Best model | Family | Score | Best baseline | Absolute Δ | Relative loss reduction |
+| Target | Metric | Best model | Family | Score | Best baseline | `delta_vs_baseline` | `relative_loss_reduction_pct` |
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: |
 | `home_pts` | mae | `ridge_regression` | linear | 9.4469 | 9.5347 | -0.0878 | +0.92% |
 | `away_pts` | mae | `lasso_regression` | linear | 9.3794 | 9.4288 | -0.0494 | +0.52% |
@@ -26,11 +26,13 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 | `point_margin` | mae | `random_forest_regressor__point_margin` | `historical_reference__point_margin` | -0.2172 | [-0.3166, -0.1158] | Yes |
 | `home_win` | log_loss | `random_forest_classifier__home_win` | `historical_reference__home_win` | -0.0123 | [-0.0187, -0.0057] | Yes |
 
+## Relative loss reduction vs best baseline (chart)
+
+![relative_loss_reduction_pct by family and target](figures/models/model_loss_reduction_vs_baseline.png)
+
 ## Regression comparison (validation)
 
-![Relative loss reduction vs baseline](figures/models/model_loss_reduction_vs_baseline.png)
-
-| target | rank | model_name | model_family | mae | rmse | r2 | delta_mae | mae_reduction_pct |
+| target | rank | model_name | model_family | mae | rmse | r2 | delta_vs_baseline | relative_loss_reduction_pct |
 | :--- | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | home_pts | 1 | ridge_regression | linear | 9.447 | 11.965 | 0.092 | -0.088 | 0.921 |
 | home_pts | 2 | lasso_regression | linear | 9.459 | 11.980 | 0.090 | -0.076 | 0.792 |
@@ -67,14 +69,14 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 
 ## Classification comparison — `home_win` (validation)
 
-| rank | model_name | model_family | accuracy | balanced_accuracy | precision | recall | roc_auc | log_loss | brier |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | random_forest_classifier | random_forest | 0.634 | 0.616 | 0.629 | 0.806 | 0.682 | 0.639 | 0.224 |
-| 2 | xgboost_classifier | xgboost | 0.640 | 0.626 | 0.641 | 0.776 | 0.682 | 0.640 | 0.224 |
-| 3 | logistic_regression | linear | 0.628 | 0.614 | 0.631 | 0.772 | 0.679 | 0.643 | 0.226 |
-| 4 | historical_reference | baseline | 0.618 | 0.590 | 0.602 | 0.883 | 0.674 | 0.652 | 0.230 |
-| 5 | prior_baseline | baseline | 0.547 | 0.500 | 0.547 | 1.000 | 0.500 | 0.694 | 0.250 |
-| 6 | most_frequent_baseline | baseline | 0.547 | 0.500 | 0.547 | 1.000 | 0.500 | 15.658 | 0.453 |
+| rank | model_name | model_family | accuracy | balanced_accuracy | precision | recall | roc_auc | log_loss | brier | delta_vs_baseline | relative_loss_reduction_pct |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | random_forest_classifier | random_forest | 0.6340 | 0.6163 | 0.6290 | 0.8055 | 0.6824 | 0.6393 | 0.2242 | -0.0123 | 1.8853 |
+| 2 | xgboost_classifier | xgboost | 0.6396 | 0.6255 | 0.6406 | 0.7763 | 0.6824 | 0.6402 | 0.2243 | -0.0114 | 1.7472 |
+| 3 | logistic_regression | linear | 0.6283 | 0.6136 | 0.6309 | 0.7715 | 0.6787 | 0.6428 | 0.2255 | -0.0088 | 1.3485 |
+| 4 | historical_reference | baseline | 0.6175 | 0.5902 | 0.6025 | 0.8830 | 0.6744 | 0.6516 | 0.2297 | 0.0000 | 0.0000 |
+| 5 | prior_baseline | baseline | 0.5467 | 0.5000 | 0.5467 | 1.0000 | 0.5000 | 0.6943 | 0.2505 | 0.0426 | -6.5411 |
+| 6 | most_frequent_baseline | baseline | 0.5467 | 0.5000 | 0.5467 | 1.0000 | 0.5000 | 15.6577 | 0.4533 | 15.0061 | -2302.8688 |
 
 ## Best model per family
 
@@ -362,4 +364,4 @@ Per-season error of the best model over training and validation seasons. Trainin
 - One metric implementation for every model (`compute_metrics`); undefined metrics are stored as `null` and listed per result.
 - `validate_comparability()` refuses to compare results scored on different datasets, splits, or feature lists.
 - Error analysis is restricted to development splits; locked splits raise `PermissionError` unless explicitly allowed for a documented final evaluation.
-- Generated: 2026-11-24T10:14:45+00:00.
+- Generated: 2026-11-24T10:25:19+00:00.

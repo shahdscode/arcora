@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 from dataclasses import replace
@@ -126,6 +127,7 @@ def test_evaluate_only_reuses_artifacts_and_reproduces_metrics(
     after = pd.read_csv(root / "reports" / "model_comparison.csv")
     assert summary.mode == "evaluate_only"
     assert summary.passed
+    assert summary.reproducibility_checks  # carried forward from the training run
     assert before[["model_id", "split"]].equals(after[["model_id", "split"]])
     for metric in ("mae", "rmse", "log_loss", "brier"):
         assert np.allclose(before[metric], after[metric], equal_nan=True, atol=1e-12)
@@ -213,3 +215,45 @@ def test_cli_parser_options_and_dispatch() -> None:
     assert excinfo.value.code == 0
     with pytest.raises(SystemExit):
         build_arg_parser().parse_args(["--families", "neural_net"])
+
+
+def _digest_tree(root: Path, patterns: tuple[str, ...]) -> dict[str, str]:
+    return {
+        p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for pattern in patterns
+        for p in sorted(root.rglob(pattern))
+    }
+
+
+def test_reports_only_rerenders_without_touching_models(
+    pipeline_run: tuple[Path, ModelingPipelineSummary],
+) -> None:
+    root, _ = pipeline_run
+    protected = (
+        _digest_tree(root / "artifacts", ("*.joblib", "*.parquet", "*.json"))
+        | _digest_tree(root / "reports" / "models", ("*_results.json", "*_results.csv"))
+        | _digest_tree(root / "splits", ("*.json",))
+    )
+    before_csv = pd.read_csv(root / "reports" / "model_comparison.csv")
+
+    summary = run_modeling_pipeline(_config(root, reports_only=True))
+
+    after = (
+        _digest_tree(root / "artifacts", ("*.joblib", "*.parquet", "*.json"))
+        | _digest_tree(root / "reports" / "models", ("*_results.json", "*_results.csv"))
+        | _digest_tree(root / "splits", ("*.json",))
+    )
+    assert after == protected
+    assert summary.mode == "reports_only"
+    assert summary.passed and summary.reproducibility_checks  # carried forward
+    after_csv = pd.read_csv(root / "reports" / "model_comparison.csv")
+    for metric in ("mae", "log_loss", "delta_vs_baseline", "relative_loss_reduction_pct"):
+        assert np.allclose(before_csv[metric], after_csv[metric], equal_nan=True)
+    report = (root / "reports" / "week-3-modeling-report.md").read_text()
+    assert "Reports-only run" in report
+    assert "### Regression Error Summary (Validation)" in report
+
+
+def test_reports_only_rejects_retraining_options(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="reports_only"):
+        run_modeling_pipeline(_config(tmp_path, reports_only=True, evaluate_only=True))

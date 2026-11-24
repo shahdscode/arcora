@@ -4,20 +4,22 @@ XGBoost gradient-boosted trees (`tree_method='hist'`) with native missing-value 
 
 All models are fitted on the **training split (2003-04 to 2018-19)** and compared on the **validation split (2019-20 to 2020-21)**. The primary 2021-22 test set and the partial 2022-23 holdout are locked and were not evaluated.
 
+Baseline comparison columns: `delta_vs_baseline` = model loss − best baseline loss on validation, in metric units (negative is better); `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss × 100 (positive is better).
+
 ## Regression (validation)
 
-| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline (model − baseline) |
-| :--- | :--- | ---: | ---: | ---: | ---: | ---: |
-| `xgboost_regressor` | `home_pts` | 9.489 | 12.016 | 0.0845 | 8.253 | -0.046 |
-| `xgboost_regressor` | `away_pts` | 9.401 | 11.842 | 0.0860 | 8.183 | -0.028 |
-| `xgboost_regressor` | `total_pts` | 15.413 | 19.565 | 0.0611 | 13.671 | 0.042 |
-| `xgboost_regressor` | `point_margin` | 10.755 | 13.649 | 0.1317 | 9.213 | -0.210 |
+| Model | Target | MAE | RMSE | R² | Train MAE | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `xgboost_regressor` | `home_pts` | 9.489 | 12.016 | 0.0845 | 8.253 | -0.0459 | +0.48% |
+| `xgboost_regressor` | `away_pts` | 9.401 | 11.842 | 0.0860 | 8.183 | -0.0277 | +0.29% |
+| `xgboost_regressor` | `total_pts` | 15.413 | 19.565 | 0.0611 | 13.671 | +0.0419 | -0.27% |
+| `xgboost_regressor` | `point_margin` | 10.755 | 13.649 | 0.1317 | 9.213 | -0.2100 | +1.92% |
 
 ## Classification — `home_win` (validation)
 
-| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline (model − baseline) |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `xgboost_classifier` | 0.6396 | 0.6255 | 0.6406 | 0.7763 | 0.6824 | 0.6402 | 0.2243 | -0.0114 |
+| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `xgboost_classifier` | 0.6396 | 0.6255 | 0.6406 | 0.7763 | 0.6824 | 0.6402 | 0.2243 | -0.0114 | +1.75% |
 
 ## Hyperparameters and training configuration
 

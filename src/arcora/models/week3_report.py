@@ -88,7 +88,8 @@ def _ranking_table(ranked: pd.DataFrame, target: str) -> list[str]:
     sub = ranked[ranked["target"] == target].sort_values("rank")
     if target in REGRESSION_TARGETS:
         lines = [
-            "| Rank | Model | Family | MAE | RMSE | R² | Δ MAE vs best baseline | MAE reduction |",
+            "| Rank | Model | Family | MAE | RMSE | R² | `delta_vs_baseline` | "
+            "`relative_loss_reduction_pct` |",
             "| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |",
         ]
         for r in sub.to_dict("records"):
@@ -99,7 +100,7 @@ def _ranking_table(ranked: pd.DataFrame, target: str) -> list[str]:
         return lines
     lines = [
         "| Rank | Model | Family | Log loss | Brier | ROC-AUC | Accuracy | Balanced acc. | "
-        "Δ log loss vs best baseline | Log-loss reduction |",
+        "`delta_vs_baseline` | `relative_loss_reduction_pct` |",
         "| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for r in sub.to_dict("records"):
@@ -149,6 +150,21 @@ def render_week3_report(
         "",
         f"- **Run**: {summary.started_at} → {summary.finished_at} "
         f"({summary.duration_seconds:.0f}s, mode `{summary.mode}`)",
+        *(
+            [
+                "- **Reports-only run**: tables and figures were re-rendered from the persisted "
+                "results and artifacts of the last training run; no model was retrained or "
+                "re-evaluated, and reproducibility results are carried forward from that run.",
+            ]
+            if summary.mode == "reports_only"
+            else [
+                "- **Evaluate-only run**: saved artifacts were reloaded and re-scored without "
+                "retraining; reproducibility results are carried forward from the last training "
+                "run.",
+            ]
+            if summary.mode == "evaluate_only"
+            else []
+        ),
         f"- **Models evaluated**: {summary.n_models} across {len(summary.families)} families "
         f"and {len(summary.targets)} targets",
         f"- **Overall status**: {'PASSED' if summary.passed else 'FAILED'} (leakage, split, "
@@ -232,14 +248,16 @@ def render_week3_report(
             "accuracy, balanced accuracy, precision, recall, ROC-AUC, and Brier score are also "
             "reported. All metrics come from one implementation "
             "(`src/arcora/evaluation/metrics.py`).",
-            "- **Reading the baseline comparisons.** *Δ vs best baseline* is the absolute "
+            "- **Reading the baseline comparisons.** `delta_vs_baseline` is the absolute "
             "difference `model − baseline` in the metric's own units (points of MAE, or nats of "
-            "log loss); negative is better. *Relative loss reduction* is "
+            "log loss); negative is better. `relative_loss_reduction_pct` is "
             "`(baseline − model) / baseline × 100`, where the denominator is the best baseline's "
             "MAE or log loss on validation; positive is better. It is a percentage reduction in "
-            "loss, not a gain in accuracy points. The best baseline is the lowest-loss baseline "
-            "per target, which is always a non-degenerate model; `most_frequent_baseline` "
-            "(0/1 probabilities) can never be the probability benchmark.",
+            "loss, not a gain in accuracy points. The same names are used in "
+            "`model_comparison.csv`, `model_comparison.json`, and every report table. The best "
+            "baseline is the lowest-loss baseline per target, which is always a non-degenerate "
+            "model; `most_frequent_baseline` (0/1 probabilities) can never be the probability "
+            "benchmark.",
             "- Comparisons are refused unless every result shares the same dataset, split, and "
             "feature fingerprints. A paired bootstrap over validation games tests whether the best "
             "model's improvement over the best baseline is meaningful.",
@@ -259,8 +277,9 @@ def render_week3_report(
             "",
             "## 7. Best-Performing Model per Task",
             "",
-            "| Target | Best model | Family | Validation score | Best baseline | Absolute Δ | "
-            "Relative loss reduction | Bootstrap 95% CI (Δ loss) | Significant |",
+            "| Target | Best model | Family | Validation score | Best baseline | "
+            "`delta_vs_baseline` | `relative_loss_reduction_pct` | Bootstrap 95% CI (Δ loss) | "
+            "Significant |",
             "| :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |",
         ]
     )
@@ -279,6 +298,11 @@ def render_week3_report(
 
     lines.extend(
         [
+            "",
+            "### Relative loss reduction vs best baseline (chart)",
+            "",
+            "![relative_loss_reduction_pct by family and target]"
+            "(figures/models/model_loss_reduction_vs_baseline.png)",
             "",
             "Best model of each family (primary metric, validation):",
             "",
@@ -338,16 +362,16 @@ def render_week3_report(
             "Full breakdowns (by season, home team, away team, game type; largest errors; "
             "confusion matrix; calibration): "
             "[`model_evaluation_report.md`](model_evaluation_report.md).",
-            "",
-            "![Relative loss reduction vs best baseline]"
-            "(figures/models/model_loss_reduction_vs_baseline.png)",
-            "",
         ]
     )
     residuals = comparison.get("regression_residuals", {})
     if residuals:
         lines.extend(
             [
+                "### Regression Error Summary (Validation)",
+                "",
+                "Residual = predicted − actual for the best model of each regression target.",
+                "",
                 "| Target (best model) | Bias (mean residual) | Residual std | Within ±5 | "
                 "Within ±10 |",
                 "| :--- | ---: | ---: | ---: | ---: |",

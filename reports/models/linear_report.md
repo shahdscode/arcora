@@ -4,28 +4,30 @@ Interpretable linear models in scikit-learn pipelines (median imputation → sta
 
 All models are fitted on the **training split (2003-04 to 2018-19)** and compared on the **validation split (2019-20 to 2020-21)**. The primary 2021-22 test set and the partial 2022-23 holdout are locked and were not evaluated.
 
+Baseline comparison columns: `delta_vs_baseline` = model loss − best baseline loss on validation, in metric units (negative is better); `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss × 100 (positive is better).
+
 ## Regression (validation)
 
-| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline (model − baseline) |
-| :--- | :--- | ---: | ---: | ---: | ---: | ---: |
-| `linear_regression` | `home_pts` | 9.470 | 11.995 | 0.0876 | 8.536 | -0.065 |
-| `ridge_regression` | `home_pts` | 9.447 | 11.965 | 0.0922 | 8.639 | -0.088 |
-| `lasso_regression` | `home_pts` | 9.459 | 11.980 | 0.0900 | 8.587 | -0.076 |
-| `linear_regression` | `away_pts` | 9.446 | 11.844 | 0.0856 | 8.590 | 0.017 |
-| `ridge_regression` | `away_pts` | 9.383 | 11.756 | 0.0991 | 8.643 | -0.045 |
-| `lasso_regression` | `away_pts` | 9.379 | 11.744 | 0.1010 | 8.643 | -0.049 |
-| `linear_regression` | `total_pts` | 15.434 | 19.519 | 0.0654 | 14.155 | 0.063 |
-| `ridge_regression` | `total_pts` | 15.237 | 19.342 | 0.0823 | 14.336 | -0.134 |
-| `lasso_regression` | `total_pts` | 15.281 | 19.387 | 0.0781 | 14.381 | -0.090 |
-| `linear_regression` | `point_margin` | 10.837 | 13.686 | 0.1269 | 9.443 | -0.129 |
-| `ridge_regression` | `point_margin` | 10.818 | 13.681 | 0.1275 | 9.458 | -0.147 |
-| `lasso_regression` | `point_margin` | 10.777 | 13.670 | 0.1290 | 9.503 | -0.188 |
+| Model | Target | MAE | RMSE | R² | Train MAE | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `linear_regression` | `home_pts` | 9.470 | 11.995 | 0.0876 | 8.536 | -0.0649 | +0.68% |
+| `ridge_regression` | `home_pts` | 9.447 | 11.965 | 0.0922 | 8.639 | -0.0878 | +0.92% |
+| `lasso_regression` | `home_pts` | 9.459 | 11.980 | 0.0900 | 8.587 | -0.0755 | +0.79% |
+| `linear_regression` | `away_pts` | 9.446 | 11.844 | 0.0856 | 8.590 | +0.0172 | -0.18% |
+| `ridge_regression` | `away_pts` | 9.383 | 11.756 | 0.0991 | 8.643 | -0.0454 | +0.48% |
+| `lasso_regression` | `away_pts` | 9.379 | 11.744 | 0.1010 | 8.643 | -0.0494 | +0.52% |
+| `linear_regression` | `total_pts` | 15.434 | 19.519 | 0.0654 | 14.155 | +0.0632 | -0.41% |
+| `ridge_regression` | `total_pts` | 15.237 | 19.342 | 0.0823 | 14.336 | -0.1341 | +0.87% |
+| `lasso_regression` | `total_pts` | 15.281 | 19.387 | 0.0781 | 14.381 | -0.0904 | +0.59% |
+| `linear_regression` | `point_margin` | 10.837 | 13.686 | 0.1269 | 9.443 | -0.1286 | +1.17% |
+| `ridge_regression` | `point_margin` | 10.818 | 13.681 | 0.1275 | 9.458 | -0.1471 | +1.34% |
+| `lasso_regression` | `point_margin` | 10.777 | 13.670 | 0.1290 | 9.503 | -0.1885 | +1.72% |
 
 ## Classification — `home_win` (validation)
 
-| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline (model − baseline) |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `logistic_regression` | 0.6283 | 0.6136 | 0.6309 | 0.7715 | 0.6787 | 0.6428 | 0.2255 | -0.0088 |
+| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `logistic_regression` | 0.6283 | 0.6136 | 0.6309 | 0.7715 | 0.6787 | 0.6428 | 0.2255 | -0.0088 | +1.35% |
 
 ## Hyperparameters and training configuration
 
@@ -61,14 +63,14 @@ Best model per family on the primary metric (MAE for regression, log loss for `h
 
 | Model | Target | Parameter | Selected | Validation score | Grid |
 | :--- | :--- | :--- | ---: | ---: | :--- |
-| `ridge_regression` | `home_pts` | `alpha` | 30000.0 | 9.4469 (mae) | 1.0→9.4732, 10.0→9.4722, 100.0→9.4726, 1000.0→9.4685, 10000.0→9.4571, 30000.0→9.4469, 100000.0→9.4631, 300000.0→9.8037 |
 | `lasso_regression` | `home_pts` | `alpha` | 0.1 | 9.4592 (mae) | 0.01→9.4777, 0.03→9.4707, 0.1→9.4592, 0.3→9.4666, 1.0→9.4998, 3.0→10.4691 |
-| `ridge_regression` | `away_pts` | `alpha` | 10000.0 | 9.3834 (mae) | 1.0→9.4366, 10.0→9.4286, 100.0→9.4166, 1000.0→9.4058, 10000.0→9.3834, 30000.0→9.3843, 100000.0→9.4588, 300000.0→9.9886 |
+| `ridge_regression` | `home_pts` | `alpha` | 30000.0 | 9.4469 (mae) | 1.0→9.4732, 10.0→9.4722, 100.0→9.4726, 1000.0→9.4685, 10000.0→9.4571, 30000.0→9.4469, 100000.0→9.4631, 300000.0→9.8037 |
 | `lasso_regression` | `away_pts` | `alpha` | 0.1 | 9.3794 (mae) | 0.01→9.4027, 0.03→9.3855, 0.1→9.3794, 0.3→9.3913, 1.0→9.4683, 3.0→10.8326 |
-| `ridge_regression` | `total_pts` | `alpha` | 30000.0 | 15.2369 (mae) | 1.0→15.4278, 10.0→15.4193, 100.0→15.3975, 1000.0→15.3599, 10000.0→15.2831, 30000.0→15.2369, 100000.0→15.3030, 300000.0→16.2768 |
+| `ridge_regression` | `away_pts` | `alpha` | 10000.0 | 9.3834 (mae) | 1.0→9.4366, 10.0→9.4286, 100.0→9.4166, 1000.0→9.4058, 10000.0→9.3834, 30000.0→9.3843, 100000.0→9.4588, 300000.0→9.9886 |
 | `lasso_regression` | `total_pts` | `alpha` | 1.0 | 15.2806 (mae) | 0.01→15.3867, 0.03→15.3525, 0.1→15.3217, 0.3→15.3008, 1.0→15.2806, 3.0→15.7967 |
-| `ridge_regression` | `point_margin` | `alpha` | 1000.0 | 10.8180 (mae) | 1.0→10.8311, 10.0→10.8254, 100.0→10.8216, 1000.0→10.8180, 10000.0→10.8320, 30000.0→10.8489, 100000.0→10.8883, 300000.0→10.9775 |
+| `ridge_regression` | `total_pts` | `alpha` | 30000.0 | 15.2369 (mae) | 1.0→15.4278, 10.0→15.4193, 100.0→15.3975, 1000.0→15.3599, 10000.0→15.2831, 30000.0→15.2369, 100000.0→15.3030, 300000.0→16.2768 |
 | `lasso_regression` | `point_margin` | `alpha` | 0.1 | 10.7766 (mae) | 0.01→10.8125, 0.03→10.8011, 0.1→10.7766, 0.3→10.8163, 1.0→10.9148, 3.0→11.2104 |
+| `ridge_regression` | `point_margin` | `alpha` | 1000.0 | 10.8180 (mae) | 1.0→10.8311, 10.0→10.8254, 100.0→10.8216, 1000.0→10.8180, 10000.0→10.8320, 30000.0→10.8489, 100000.0→10.8883, 300000.0→10.9775 |
 | `logistic_regression` | `home_win` | `C` | 0.001 | 0.6428 (log_loss) | 0.0001→0.6434, 0.0003→0.6429, 0.001→0.6428, 0.003→0.6431, 0.01→0.6435, 0.1→0.6442 |
 
 ## Class imbalance investigation (`home_win`)

@@ -131,7 +131,7 @@ def plot_loss_reduction_vs_baseline(family_best: pd.DataFrame, path: Path) -> Pa
         )
     ax.axhline(0, color=TEXT_SECONDARY, linewidth=1)
     ax.set_xticks(x, [f"{t}\n({'log loss' if t == 'home_win' else 'MAE'})" for t in targets])
-    ax.set_ylabel("Relative loss reduction vs best baseline (%)", color=TEXT_SECONDARY)
+    ax.set_ylabel("relative_loss_reduction_pct (%)", color=TEXT_SECONDARY)
     ax.set_title(
         "Validation: (baseline loss − model loss) / baseline loss  (higher is better)",
         fontsize=11,
@@ -300,12 +300,12 @@ def render_evaluation_markdown(
         "",
         "## Best model per target",
         "",
-        "*Absolute Δ* = model − best baseline in metric units (negative is better). *Relative "
-        "loss reduction* = (baseline − model) / baseline × 100, with the best baseline's MAE or "
-        "log loss as denominator (positive is better).",
+        "`delta_vs_baseline` = model loss − best baseline loss, in metric units (negative is "
+        "better). `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss "
+        "× 100, with the best baseline's MAE or log loss as denominator (positive is better).",
         "",
-        "| Target | Metric | Best model | Family | Score | Best baseline | Absolute Δ | "
-        "Relative loss reduction |",
+        "| Target | Metric | Best model | Family | Score | Best baseline | `delta_vs_baseline` | "
+        "`relative_loss_reduction_pct` |",
         "| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: |",
     ]
     for row in best_models(ranked).to_dict("records"):
@@ -335,16 +335,20 @@ def render_evaluation_markdown(
             f"{'Yes' if p.significant else 'No'} |"
         )
 
-    lines.extend(["", "## Regression comparison (validation)", ""])
     if "loss_reduction" in figures:
-        lines.extend([f"![Relative loss reduction vs baseline]({figures['loss_reduction']})", ""])
+        lines.extend(
+            [
+                "",
+                "## Relative loss reduction vs best baseline (chart)",
+                "",
+                f"![relative_loss_reduction_pct by family and target]({figures['loss_reduction']})",
+            ]
+        )
+    lines.extend(["", "## Regression comparison (validation)", ""])
     reg = ranked[ranked["task"] == "regression"].copy()
     lines.extend(
         _md_table(
-            reg.assign(
-                delta_mae=reg["delta_vs_baseline"],
-                mae_reduction_pct=reg["relative_loss_reduction_pct"],
-            ),
+            reg,
             [
                 "target",
                 "rank",
@@ -353,8 +357,8 @@ def render_evaluation_markdown(
                 "mae",
                 "rmse",
                 "r2",
-                "delta_mae",
-                "mae_reduction_pct",
+                "delta_vs_baseline",
+                "relative_loss_reduction_pct",
             ],
         )
     )
@@ -374,7 +378,10 @@ def render_evaluation_markdown(
                 "roc_auc",
                 "log_loss",
                 "brier",
+                "delta_vs_baseline",
+                "relative_loss_reduction_pct",
             ],
+            4,
         )
     )
     lines.extend(

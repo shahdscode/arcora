@@ -35,7 +35,7 @@ never as 0, and are listed in each result's `undefined_metrics`:
 
   | Quantity | Formula | Units | Better |
   | :--- | :--- | :--- | :--- |
-  | `delta_vs_baseline` (Absolute Δ) | model loss − baseline loss | metric units (MAE points, log loss) | negative |
+  | `delta_vs_baseline` | model loss − baseline loss | metric units (MAE points, log loss) | negative |
   | `relative_loss_reduction_pct` | (baseline loss − model loss) / baseline loss × 100 | % of the baseline's loss | positive |
 
   The relative figure is a percentage reduction in loss, not percentage points of accuracy.

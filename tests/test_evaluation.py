@@ -144,7 +144,7 @@ def test_validate_comparability_rejects_mixed_evaluation_data() -> None:
 
 
 def test_rank_models_baseline_sign_conventions() -> None:
-    """Absolute Δ = model - baseline (negative better); reduction % positive when better."""
+    """delta_vs_baseline = model - baseline (negative better); reduction % positive if better."""
     table = comparison_table(
         [
             _result("mean_baseline", "baseline", 12.0),
@@ -360,7 +360,8 @@ def test_evaluation_report_is_generated_reproducibly(
 
     text = (out_a / "model_evaluation_report.md").read_text()
     assert "## Best model per target" in text
-    assert "Absolute Δ" in text and "Relative loss reduction" in text
+    assert "`delta_vs_baseline`" in text and "`relative_loss_reduction_pct`" in text
+    assert "delta_mae" not in text and "mae_reduction_pct" not in text
     assert "improvement" not in text.lower().split("## paired bootstrap")[0]
     assert "Paired bootstrap" in text
     assert "Error analysis — classification" in text
