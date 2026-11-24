@@ -1,0 +1,1419 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-24T09:04:10+00:00",
+  "n_results": 30,
+  "results": [
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.101171453494505,
+        "rmse": 12.72077819970685,
+        "r2": 0.0
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 101.89548567570175
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.100848847303945,
+        "rmse": 12.721207538992537,
+        "r2": -6.750318640369457e-05
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 102.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 8.834543532577458,
+        "rmse": 11.149449793047031,
+        "r2": 0.2317907860835161
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.140488724745227,
+        "rmse": 12.749312547995812,
+        "r2": 0.0
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 98.82574515288897
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.138178836693355,
+        "rmse": 12.776025418885292,
+        "r2": -0.004194870229738301
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 98.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 8.85225791355792,
+        "rmse": 11.169488094740219,
+        "r2": 0.23247416419064904
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 17.267759267486692,
+        "rmse": 21.783791090345897,
+        "r2": 0.0
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 200.72123082859073
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 17.246262178065013,
+        "rmse": 21.795727291740988,
+        "r2": -0.0010961794027659622
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 200.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 14.674480887487483,
+        "rmse": 18.607279965536645,
+        "r2": 0.27037642627807956
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.539682975960972,
+        "rmse": 13.198211342352712,
+        "r2": 0.0
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 3.069740522812771
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 10.50737918394907,
+        "rmse": 13.230954815594544,
+        "r2": -0.004967959531928301
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 4.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 9.754968565700315,
+        "rmse": 12.324955263877373,
+        "r2": 0.1279516868802969
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "most_frequent_baseline",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "accuracy": 0.5982444294395679,
+        "balanced_accuracy": 0.5,
+        "precision": 0.5982444294395679,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "log_loss": 13.876467059718312,
+        "brier": 0.40175557056043215
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "most_frequent",
+        "estimator": "DummyClassifier"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "classes": [
+            0,
+            1
+          ],
+          "class_prior": [
+            0.40175557056043215,
+            0.5982444294395679
+          ]
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "prior_baseline",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "accuracy": 0.5982444294395679,
+        "balanced_accuracy": 0.5,
+        "precision": 0.5982444294395679,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "log_loss": 0.6737170718398775,
+        "brier": 0.24034803208409372
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "prior",
+        "estimator": "DummyClassifier"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "classes": [
+            0,
+            1
+          ],
+          "class_prior": [
+            0.40175557056043215,
+            0.5982444294395679
+          ]
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "accuracy": 0.6535641940773609,
+        "balanced_accuracy": 0.5954225934165992,
+        "precision": 0.65454976022734,
+        "recall": 0.891325378910029,
+        "roc_auc": 0.6984728235054098,
+        "log_loss": 0.62447359744545,
+        "brier": 0.21710026866657
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 13.297827509152226,
+        "rmse": 16.510181623620166,
+        "r2": -0.7285361153540815
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 101.89548567570175
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 13.232065687121867,
+        "rmse": 16.44252187156748,
+        "r2": -0.7143978473827621
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 102.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 9.534714095244402,
+        "rmse": 12.067126559359544,
+        "r2": 0.07661568852149059
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 14.237751194931663,
+        "rmse": 17.371928061077412,
+        "r2": -0.9671269500538566
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 98.82574515288897
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 14.80942091616249,
+        "rmse": 17.960570951457353,
+        "r2": -1.1026966398611862
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 98.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 9.428760915065228,
+        "rmse": 11.88747842035688,
+        "r2": 0.07888081680154113
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 25.213317154967566,
+        "rmse": 30.529691494239227,
+        "r2": -1.2862460408755934
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 200.72123082859073
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 25.756266205704407,
+        "rmse": 31.074324707174483,
+        "r2": -1.3685444203007053
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 200.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 15.370978900065504,
+        "rmse": 19.51173870711624,
+        "r2": 0.06616514906432891
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "mean_baseline",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 11.678999891534696,
+        "rmse": 14.719983046013466,
+        "r2": -0.009964748263233236
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "mean",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 3.069740522812771
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "median_baseline",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 11.732065687121867,
+        "rmse": 14.841280699174943,
+        "r2": -0.02667823228145072
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "median",
+        "estimator": "DummyRegressor"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "constant": 4.0
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 10.965082449361894,
+        "rmse": 13.897748947700986,
+        "r2": 0.09971395097717217
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "most_frequent_baseline",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "accuracy": 0.5466724286949006,
+        "balanced_accuracy": 0.5,
+        "precision": 0.5466724286949006,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "log_loss": 15.65774209851581,
+        "brier": 0.4533275713050994
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "most_frequent",
+        "estimator": "DummyClassifier"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "classes": [
+            0,
+            1
+          ],
+          "class_prior": [
+            0.40175557056043215,
+            0.5982444294395679
+          ]
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "prior_baseline",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "accuracy": 0.5466724286949006,
+        "balanced_accuracy": 0.5,
+        "precision": 0.5466724286949006,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "log_loss": 0.694250749906177,
+        "brier": 0.25048135566052737
+      },
+      "undefined_metrics": [],
+      "params": {
+        "strategy": "prior",
+        "estimator": "DummyClassifier"
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "classes": [
+            0,
+            1
+          ],
+          "class_prior": [
+            0.40175557056043215,
+            0.5982444294395679
+          ]
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    },
+    {
+      "model_name": "historical_reference",
+      "model_family": "baseline",
+      "target": "home_win",
+      "task": "classification",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "accuracy": 0.6175453759723423,
+        "balanced_accuracy": 0.5902150363417823,
+        "precision": 0.6024811218985976,
+        "recall": 0.88300395256917,
+        "roc_auc": 0.6743930790476155,
+        "log_loss": 0.6516270039901145,
+        "brier": 0.2297090140275718
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "HistoricalReferenceModel",
+        "features_used": [
+          "home_hist_pts_avg",
+          "home_hist_pts_allowed_avg",
+          "away_hist_pts_avg",
+          "away_hist_pts_allowed_avg"
+        ]
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "learned_statistics": {
+          "league_home_pts": 101.89548567570175,
+          "league_away_pts": 98.82574515288897,
+          "league_home_win_rate": 0.5982444294395679,
+          "home_offset": 2.1083741538967224,
+          "away_offset": -1.0144593590649258,
+          "margin_sigma": 12.325252365729636
+        }
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:04:10+00:00"
+    }
+  ]
+}
