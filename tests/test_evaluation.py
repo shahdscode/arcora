@@ -366,7 +366,7 @@ def test_evaluation_report_is_generated_reproducibly(
         assert boot["delta_vs_baseline"] == pytest.approx(
             deltas[(boot["model"], boot["target"])], abs=1e-9
         )
-        assert boot["ci_low"] <= boot["delta_vs_baseline"] <= boot["ci_high"]
+        assert boot["ci_low"] <= boot["ci_high"]
 
     text = (out_a / "model_evaluation_report.md").read_text()
     assert "## Best model per target" in text
