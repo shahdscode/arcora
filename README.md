@@ -162,6 +162,7 @@ Common options:
 | `--output-dir DIR` / `--models-dir DIR` | Write reports / artifacts elsewhere |
 | `--reuse-manifest` | Verify splits against the existing `data/splits/split_manifest.json` |
 | `--evaluate-only` | Reload saved artifacts and regenerate evaluation and reports without training |
+| `--reports-only` | Re-render every report from persisted results; writes no artifact, prediction, results file, or manifest |
 | `--skip-artifact-validation` / `--skip-reproducibility-check` | Skip the slower verification steps |
 | `--evaluate-locked-test` | One-off, logged evaluation of validation-selected models on the 2021-22 test set (never tune against it) |
 

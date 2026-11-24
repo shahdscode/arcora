@@ -35,7 +35,53 @@ Game-type composition per split:
 | `test` | 1,230 | 6 | 87 |
 | `holdout` | 477 | 0 | 0 |
 
-> **Count correction.** The Week 2 feature quality report previously listed approximate split sizes of 20,762 / 2,282 / 1,327 games. Counting the season blocks directly in `nba_game_features.parquet` gives 20,734 / 2,314 / 1,323 (the 24,371-game total for complete seasons is unchanged). The counts above are computed from the dataset and are the authoritative values.
+### Split-count reconciliation (Week 2 plan vs dataset)
+
+The split **definitions** (season ranges) are unchanged from the Week 2 plan. Only the game counts quoted in the Week 2 feature quality report differ from the dataset:
+
+| Split | Seasons (unchanged) | Week 2 documented | Counted in dataset | Difference |
+| :--- | :--- | ---: | ---: | ---: |
+| `train` | 2003-04 to 2018-19 | 20,762 | 20,734 | -28 |
+| `validation` | 2019-20 to 2020-21 | 2,282 | 2,314 | +32 |
+| `test` | 2021-22 | 1,327 | 1,323 | -4 |
+| `holdout` | 2022-23 | 477 | 477 | +0 |
+| **Total** | 2003-04 to 2022-23 | **24,848** | **24,848** | **+0** |
+
+**Cause.** The Week 2 figures were written into the feature quality report text (commit `96933df`) as an illustrative example and were never computed from the data. Only their total was checked; the per-split values do not correspond to any season grouping of the dataset. Every data-derived definition gives the counts above:
+
+- the feature dataset's `season` column;
+- the raw `games.csv` `SEASON` column (identical season for every game);
+- season inferred from `game_date` with an August or October cutoff;
+- de-duplicated, non-preseason raw `games.csv` rows.
+
+**Same-day grouping is not the cause.** No calendar date contains games from two different seasons, so grouping by date cannot move games between season blocks (check `SPLIT-005` below, and `test_no_calendar_date_spans_two_seasons`).
+
+**Resolution.** The season definitions were kept exactly as planned; the counts computed from the dataset are authoritative and are verified by tests (`EXPECTED_SPLIT_GAME_COUNTS`). The Week 2 report text was corrected to these values.
+
+Games per season:
+
+| Split | Season | Games |
+| :--- | :--- | ---: |
+| `train` | 2003-04 | 1,271 |
+| `train` | 2004-05 | 1,314 |
+| `train` | 2005-06 | 1,319 |
+| `train` | 2006-07 | 1,309 |
+| `train` | 2007-08 | 1,316 |
+| `train` | 2008-09 | 1,315 |
+| `train` | 2009-10 | 1,312 |
+| `train` | 2010-11 | 1,311 |
+| `train` | 2011-12 | 1,074 |
+| `train` | 2012-13 | 1,314 |
+| `train` | 2013-14 | 1,319 |
+| `train` | 2014-15 | 1,311 |
+| `train` | 2015-16 | 1,316 |
+| `train` | 2016-17 | 1,309 |
+| `train` | 2017-18 | 1,312 |
+| `train` | 2018-19 | 1,312 |
+| `validation` | 2019-20 | 1,143 |
+| `validation` | 2020-21 | 1,171 |
+| `test` | 2021-22 | 1,323 |
+| `holdout` | 2022-23 | 477 |
 
 ### Isolation rules
 
@@ -92,7 +138,7 @@ The persisted manifest (`data/splits/split_manifest.json`) records a SHA-256 fin
 
 | Metric | Task | Better | Input | Formula | Undefined handling |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| MAE (`mae`) | regression | Lower | point prediction | `mean(|y - y_hat|)` | Undefined (null) only for empty inputs. |
+| MAE (`mae`) | regression | Lower | point prediction | `mean(abs(y - y_hat))` | Undefined (null) only for empty inputs. |
 | RMSE (`rmse`) | regression | Lower | point prediction | `sqrt(mean((y - y_hat)^2))` | Undefined (null) only for empty inputs. |
 | R² (`r2`) | regression | Higher | point prediction | `1 - SS_res / SS_tot` | Null when fewer than 2 rows or y is constant (SS_tot = 0). |
 | Accuracy (`accuracy`) | classification | Higher | label at threshold 0.5 | `mean(y == y_hat)` | Undefined (null) only for empty inputs. |

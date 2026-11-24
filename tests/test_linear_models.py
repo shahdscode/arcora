@@ -130,5 +130,7 @@ def test_linear_family_report_compares_with_baselines(
     run_model_family("baseline", synthetic_modeling_data, reports)
     out = run_model_family("linear", synthetic_modeling_data, reports, tmp_path / "models")
     text = out.written_files["report"].read_text()
-    assert "Δ MAE vs best baseline" in text
-    assert "Δ log loss vs best baseline" in text
+    headers = [line for line in text.splitlines() if line.startswith("| Model |")]
+    assert sum("`delta_vs_baseline`" in h for h in headers) == 2  # regression + classification
+    assert sum("`relative_loss_reduction_pct`" in h for h in headers) == 2
+    assert "Δ MAE vs best baseline" not in text

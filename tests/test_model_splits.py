@@ -191,3 +191,29 @@ def test_committed_manifest_matches_dataset() -> None:
         pytest.skip("Split manifest not generated")
     data = load_modeling_data(FEATURES_PATH, manifest_path=manifest_path, reuse_manifest=True)
     assert data.split_manifest["all_checks_passed"]
+
+
+@requires_features
+def test_no_calendar_date_spans_two_seasons() -> None:
+    """Same-day grouping cannot move games between season blocks (split reconciliation)."""
+    df = pd.read_parquet(FEATURES_PATH, columns=["game_date", "season"])
+    assert int((df.groupby("game_date")["season"].nunique() > 1).sum()) == 0
+
+
+@requires_features
+def test_split_count_reconciliation_is_documented(tmp_path: Path) -> None:
+    from arcora.models.modeling_strategy import (
+        WEEK2_DOCUMENTED_SPLIT_COUNTS,
+        render_split_count_reconciliation,
+    )
+
+    data = load_modeling_data(FEATURES_PATH, manifest_path=tmp_path / "manifest.json")
+    manifest = data.split_manifest
+    for name, expected in EXPECTED_SPLIT_GAME_COUNTS.items():
+        split = manifest["splits"][name]
+        assert sum(split["season_game_counts"].values()) == expected
+    # Season definitions are unchanged; only the documented counts differed.
+    assert sum(WEEK2_DOCUMENTED_SPLIT_COUNTS.values()) == sum(EXPECTED_SPLIT_GAME_COUNTS.values())
+    text = "\n".join(render_split_count_reconciliation(manifest))
+    assert "20,762" in text and "20,734" in text and "-28" in text and "+32" in text
+    assert "Same-day grouping is not the cause" in text

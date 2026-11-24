@@ -119,7 +119,7 @@ TEAMS_ENTITY = EntitySpec(
             nullable=False,
             is_primary_key=False,
             foreign_key=None,
-            source_mapping="Derived: city || ' ' || nickname",
+            source_mapping="Derived: CONCAT(city, ' ', nickname)",
             description="Full display name of the franchise (e.g., 'Boston Celtics').",
         ),
         FieldSpec(

@@ -30,7 +30,7 @@
     "early_stopping_split": "validation",
     "n_train": 20734,
     "n_early_stopping": 2314,
-    "fit_seconds": 1.394257916996139,
+    "fit_seconds": 1.4047421659925021,
     "best_iteration": 175,
     "n_trees_used": 176,
     "rounds_trained": 276,
@@ -52,9 +52,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "xgboost_regressor__total_pts.joblib",
-  "artifact_sha256": "64b892a741495612ebb65ed9b25b423462c2d0b6a0da39016665f7e139351bec",
+  "artifact_sha256": "fd2ce269c89dd1ce49d117ce58c1c63bd39449b0e39cb08586d1bf09b9fbbcda",
   "artifact_bytes": 125687,
-  "saved_at": "2026-11-24T09:31:36+00:00",
+  "saved_at": "2026-11-24T10:14:28+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

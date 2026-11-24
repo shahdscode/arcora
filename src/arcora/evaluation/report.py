@@ -111,8 +111,8 @@ def _save(fig: Any, path: Path) -> Path:
     return path
 
 
-def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
-    """Grouped bars: % improvement in the primary metric over the best naive baseline."""
+def plot_loss_reduction_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
+    """Grouped bars: relative loss reduction vs the best naive baseline (positive = better)."""
     families = [f for f in DEFAULT_FAMILY_ORDER if f != BASELINE_FAMILY]
     families = [f for f in families if f in set(family_best["model_family"])]
     targets = [t for t in MODEL_TARGETS if t in set(family_best["target"])]
@@ -121,7 +121,7 @@ def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
     x = np.arange(len(targets))
     for i, family in enumerate(families):
         sub = family_best[family_best["model_family"] == family].set_index("target")
-        values = [float(sub["improvement_vs_baseline_pct"].get(t, np.nan)) for t in targets]
+        values = [float(sub["relative_loss_reduction_pct"].get(t, np.nan)) for t in targets]
         ax.bar(
             x + (i - (len(families) - 1) / 2) * width,
             values,
@@ -131,8 +131,11 @@ def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
         )
     ax.axhline(0, color=TEXT_SECONDARY, linewidth=1)
     ax.set_xticks(x, [f"{t}\n({'log loss' if t == 'home_win' else 'MAE'})" for t in targets])
-    ax.set_ylabel("Improvement over best baseline (%)", color=TEXT_SECONDARY)
-    ax.set_title("Validation improvement over the best naive baseline (higher is better)")
+    ax.set_ylabel("relative_loss_reduction_pct (%)", color=TEXT_SECONDARY)
+    ax.set_title(
+        "Validation: (baseline loss − model loss) / baseline loss  (higher is better)",
+        fontsize=11,
+    )
     ax.legend(title="Model family", frameon=False)
     _style(ax)
     return _save(fig, path)
@@ -276,6 +279,19 @@ def _fmt(v: Any, digits: int = 4) -> str:
     return f"{float(v):.{digits}f}"
 
 
+def _baseline_bootstrap_record(comparison: PairedComparison) -> dict[str, Any]:
+    """Bootstrap result vs the best baseline, with the point estimate as ``delta_vs_baseline``.
+
+    The mean per-game loss difference equals ``model loss - baseline loss`` exactly (the mean of
+    per-game absolute errors is MAE and the mean of per-game log losses is log loss).
+    """
+    record = comparison.to_dict()
+    record["delta_vs_baseline"] = record.pop("mean_difference")
+    record["baseline_model"] = record.pop("model_b")
+    record["model"] = record.pop("model_a")
+    return record
+
+
 def render_evaluation_markdown(
     ranked: pd.DataFrame,
     family_best: pd.DataFrame,
@@ -297,14 +313,20 @@ def render_evaluation_markdown(
         "",
         "## Best model per target",
         "",
-        "| Target | Metric | Best model | Family | Score | Best baseline | Improvement |",
-        "| :--- | :--- | :--- | :--- | ---: | ---: | ---: |",
+        "`delta_vs_baseline` = model loss − best baseline loss, in metric units (negative is "
+        "better). `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss "
+        "× 100, with the best baseline's MAE or log loss as denominator (positive is better).",
+        "",
+        "| Target | Metric | Best model | Family | Score | Best baseline | `delta_vs_baseline` | "
+        "`relative_loss_reduction_pct` |",
+        "| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: |",
     ]
     for row in best_models(ranked).to_dict("records"):
         lines.append(
             f"| `{row['target']}` | {row['primary_metric']} | `{row['model_name']}` | "
             f"{row['model_family']} | {_fmt(row['primary_score'])} | "
-            f"{_fmt(row['best_baseline_score'])} | {_fmt(row['improvement_vs_baseline_pct'], 2)}% |"
+            f"{_fmt(row['best_baseline_score'])} | {float(row['delta_vs_baseline']):+.4f} | "
+            f"{float(row['relative_loss_reduction_pct']):+.2f}% |"
         )
 
     lines.extend(
@@ -312,10 +334,13 @@ def render_evaluation_markdown(
             "",
             "## Paired bootstrap: best model vs best naive baseline",
             "",
-            "Mean per-game loss difference (best model − baseline; negative = better), with a 95% "
-            "bootstrap interval over validation games.",
+            "`delta_vs_baseline` is the mean per-game loss difference (best model − baseline; "
+            "negative is better). It equals the difference in MAE or log loss shown above. The "
+            "95% confidence interval comes from a paired bootstrap over validation games "
+            "(2,000 resamples); *Significant* means the interval excludes zero.",
             "",
-            "| Target | Metric | Best model | Baseline | Δ loss | 95% CI | Significant |",
+            "| Target | Metric | Best model | Baseline | `delta_vs_baseline` | "
+            "95% CI (paired bootstrap) | Significant |",
             "| :--- | :--- | :--- | :--- | ---: | :--- | :---: |",
         ]
     )
@@ -326,13 +351,20 @@ def render_evaluation_markdown(
             f"{'Yes' if p.significant else 'No'} |"
         )
 
+    if "loss_reduction" in figures:
+        lines.extend(
+            [
+                "",
+                "## Relative loss reduction vs best baseline (chart)",
+                "",
+                f"![relative_loss_reduction_pct by family and target]({figures['loss_reduction']})",
+            ]
+        )
     lines.extend(["", "## Regression comparison (validation)", ""])
-    if "improvement" in figures:
-        lines.extend([f"![Improvement over baseline]({figures['improvement']})", ""])
     reg = ranked[ranked["task"] == "regression"].copy()
     lines.extend(
         _md_table(
-            reg.assign(improvement_pct=reg["improvement_vs_baseline_pct"]),
+            reg,
             [
                 "target",
                 "rank",
@@ -341,7 +373,8 @@ def render_evaluation_markdown(
                 "mae",
                 "rmse",
                 "r2",
-                "improvement_pct",
+                "delta_vs_baseline",
+                "relative_loss_reduction_pct",
             ],
         )
     )
@@ -361,7 +394,10 @@ def render_evaluation_markdown(
                 "roc_auc",
                 "log_loss",
                 "brier",
+                "delta_vs_baseline",
+                "relative_loss_reduction_pct",
             ],
+            4,
         )
     )
     lines.extend(
@@ -599,8 +635,8 @@ def generate_evaluation_report(
 
     written: dict[str, Path] = {}
     figure_paths = {
-        "improvement": plot_improvement_vs_baseline(
-            family_best, figures_dir / "model_improvement_vs_baseline.png"
+        "loss_reduction": plot_loss_reduction_vs_baseline(
+            family_best, figures_dir / "model_loss_reduction_vs_baseline.png"
         ),
         "actual_vs_predicted": plot_actual_vs_predicted(
             frame, best, figures_dir / "actual_vs_predicted.png"
@@ -623,7 +659,13 @@ def generate_evaluation_report(
 
     reports_dir.mkdir(parents=True, exist_ok=True)
     csv_path = reports_dir / "model_comparison.csv"
-    table.drop(columns=["dataset_fingerprint", "feature_fingerprint"]).to_csv(csv_path, index=False)
+    baseline_cols = ["best_baseline_score", "delta_vs_baseline", "relative_loss_reduction_pct"]
+    csv_frame = table.merge(
+        ranked.loc[:, ["model_id", "split", *baseline_cols]], on=["model_id", "split"], how="left"
+    )
+    csv_frame.drop(columns=["dataset_fingerprint", "feature_fingerprint"]).to_csv(
+        csv_path, index=False
+    )
     written["comparison_csv"] = csv_path
 
     sample = results[0].reproducibility
@@ -641,7 +683,7 @@ def generate_evaluation_report(
         "best_models": best.loc[
             :, ["target", "model_id", "model_family", "primary_metric", "primary_score"]
         ].to_dict("records"),
-        "paired_bootstrap_vs_baseline": [p.to_dict() for p in paired],
+        "paired_bootstrap_vs_baseline": [_baseline_bootstrap_record(p) for p in paired],
         "regression_residuals": {t: a["residuals"] for t, a in regression_analyses.items()},
         "classification_confusion": (
             classification_analysis["confusion"] if classification_analysis else None

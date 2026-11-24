@@ -61,6 +61,24 @@
       "used_for_fitting": true,
       "used_for_model_selection": false,
       "locked": false,
+      "season_game_counts": {
+        "2003-04": 1271,
+        "2004-05": 1314,
+        "2005-06": 1319,
+        "2006-07": 1309,
+        "2007-08": 1316,
+        "2008-09": 1315,
+        "2009-10": 1312,
+        "2010-11": 1311,
+        "2011-12": 1074,
+        "2012-13": 1314,
+        "2013-14": 1319,
+        "2014-15": 1311,
+        "2015-16": 1316,
+        "2016-17": 1309,
+        "2017-18": 1312,
+        "2018-19": 1312
+      },
       "game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740"
     },
     "validation": {
@@ -86,6 +104,10 @@
       "used_for_fitting": false,
       "used_for_model_selection": true,
       "locked": false,
+      "season_game_counts": {
+        "2019-20": 1143,
+        "2020-21": 1171
+      },
       "game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915"
     },
     "test": {
@@ -109,6 +131,9 @@
       "used_for_fitting": false,
       "used_for_model_selection": false,
       "locked": true,
+      "season_game_counts": {
+        "2021-22": 1323
+      },
       "game_id_sha256": "9f984c6b8e7b7493f9e349b36c840b95e3b43076dfb5d4ba77097064dcc41b93"
     },
     "holdout": {
@@ -130,6 +155,9 @@
       "used_for_fitting": false,
       "used_for_model_selection": false,
       "locked": true,
+      "season_game_counts": {
+        "2022-23": 477
+      },
       "game_id_sha256": "dbe64fafb49bcf882d691f128c64833911ec7bf978ac57bded54bd15bb8491e8"
     }
   },

@@ -4,20 +4,22 @@ Random Forest ensembles (training-fitted median imputation → forest) for every
 
 All models are fitted on the **training split (2003-04 to 2018-19)** and compared on the **validation split (2019-20 to 2020-21)**. The primary 2021-22 test set and the partial 2022-23 holdout are locked and were not evaluated.
 
+Baseline comparison columns: `delta_vs_baseline` = model loss − best baseline loss on validation, in metric units (negative is better); `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss × 100 (positive is better).
+
 ## Regression (validation)
 
-| Model | Target | MAE | RMSE | R² | Train MAE | Δ MAE vs best baseline |
-| :--- | :--- | ---: | ---: | ---: | ---: | ---: |
-| `random_forest_regressor` | `home_pts` | 9.478 | 12.010 | 0.0854 | 7.278 | -0.057 |
-| `random_forest_regressor` | `away_pts` | 9.394 | 11.814 | 0.0902 | 7.316 | -0.035 |
-| `random_forest_regressor` | `total_pts` | 15.325 | 19.475 | 0.0697 | 12.060 | -0.046 |
-| `random_forest_regressor` | `point_margin` | 10.748 | 13.631 | 0.1339 | 8.161 | -0.217 |
+| Model | Target | MAE | RMSE | R² | Train MAE | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `random_forest_regressor` | `home_pts` | 9.478 | 12.010 | 0.0854 | 7.278 | -0.0565 | +0.59% |
+| `random_forest_regressor` | `away_pts` | 9.394 | 11.814 | 0.0902 | 7.316 | -0.0345 | +0.37% |
+| `random_forest_regressor` | `total_pts` | 15.325 | 19.475 | 0.0697 | 12.060 | -0.0459 | +0.30% |
+| `random_forest_regressor` | `point_margin` | 10.748 | 13.631 | 0.1339 | 8.161 | -0.2172 | +1.98% |
 
 ## Classification — `home_win` (validation)
 
-| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | Δ log loss vs best baseline |
-| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `random_forest_classifier` | 0.6340 | 0.6163 | 0.6290 | 0.8055 | 0.6824 | 0.6393 | 0.2242 | -0.0123 |
+| Model | Accuracy | Balanced acc. | Precision | Recall | ROC-AUC | Log loss | Brier | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `random_forest_classifier` | 0.6340 | 0.6163 | 0.6290 | 0.8055 | 0.6824 | 0.6393 | 0.2242 | -0.0123 | +1.89% |
 
 ## Hyperparameters and training configuration
 
@@ -45,11 +47,11 @@ Best model per family on the primary metric (MAE for regression, log loss for `h
 
 | Model | Target | Fit seconds | Mean tree depth | Mean leaves per tree |
 | :--- | :--- | ---: | ---: | ---: |
-| `random_forest_regressor` | `home_pts` | 11.1 | 14.0 | 386 |
-| `random_forest_regressor` | `away_pts` | 11.2 | 14.0 | 384 |
-| `random_forest_regressor` | `total_pts` | 11.1 | 14.0 | 386 |
-| `random_forest_regressor` | `point_margin` | 12.6 | 14.0 | 346 |
-| `random_forest_classifier` | `home_win` | 2.9 | 14.0 | 363 |
+| `random_forest_regressor` | `home_pts` | 12.0 | 14.0 | 386 |
+| `random_forest_regressor` | `away_pts` | 11.5 | 14.0 | 384 |
+| `random_forest_regressor` | `total_pts` | 11.6 | 14.0 | 386 |
+| `random_forest_regressor` | `point_margin` | 12.9 | 14.0 | 346 |
+| `random_forest_classifier` | `home_win` | 3.0 | 14.0 | 363 |
 
 Feature importance (exploratory): see [`random_forest_feature_importance.md`](random_forest_feature_importance.md).
 

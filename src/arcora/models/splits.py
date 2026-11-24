@@ -322,6 +322,10 @@ def _split_summary(definition: SplitDefinition, part: pd.DataFrame) -> dict[str,
         "used_for_fitting": definition.used_for_fitting,
         "used_for_model_selection": definition.used_for_model_selection,
         "locked": definition.locked,
+        "season_game_counts": {
+            season_label(int(s)): int((part["season"] == s).sum())
+            for s in sorted(part["season"].astype("int64").unique().tolist())
+        },
         "game_id_sha256": game_id_fingerprint(part["game_id"]),
     }
 

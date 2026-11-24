@@ -31,39 +31,39 @@
         {
           "alpha": 0.01,
           "validation_mae": 9.477703030433805,
-          "fit_seconds": 0.7584111250034766
+          "fit_seconds": 0.7619788750016596
         },
         {
           "alpha": 0.03,
           "validation_mae": 9.470693519666787,
-          "fit_seconds": 0.380007542000385
+          "fit_seconds": 0.38157904100080486
         },
         {
           "alpha": 0.1,
           "validation_mae": 9.459186789483558,
-          "fit_seconds": 0.3516254999994999
+          "fit_seconds": 0.3519277500017779
         },
         {
           "alpha": 0.3,
           "validation_mae": 9.466631661843882,
-          "fit_seconds": 0.3401203749963315
+          "fit_seconds": 0.339778124995064
         },
         {
           "alpha": 1.0,
           "validation_mae": 9.499845931435512,
-          "fit_seconds": 0.3243667079950683
+          "fit_seconds": 0.3259714169980725
         },
         {
           "alpha": 3.0,
           "validation_mae": 10.469057460709504,
-          "fit_seconds": 0.2949110840127105
+          "fit_seconds": 0.2966648330038879
         }
       ],
       "selected_value": 0.1,
       "selected_validation_score": 9.459186789483558,
-      "fit_seconds": 0.3516254999994999
+      "fit_seconds": 0.3519277500017779
     },
-    "fit_seconds": 0.3516254999994999,
+    "fit_seconds": 0.3519277500017779,
     "n_nonzero_coefficients": 46
   },
   "n_features": 242,
@@ -78,9 +78,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "lasso_regression__home_pts.joblib",
-  "artifact_sha256": "2bc8a3cdc0f7f83c3ebd4ef925079610f6e3a8b606e403795233b2bae194526c",
-  "artifact_bytes": 10683,
-  "saved_at": "2026-11-24T09:30:32+00:00",
+  "artifact_sha256": "2af0c0e5b32f2fef10cdcf5ebf1217c5da3bfb5260e61deb25af339b36020d3f",
+  "artifact_bytes": 10684,
+  "saved_at": "2026-11-24T10:13:21+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

@@ -48,6 +48,7 @@ from arcora.models.data import ModelingData, load_feature_dataset, prepare_model
 from arcora.models.experiment import (
     evaluate_saved_family,
     get_model_families,
+    rerender_family_report,
     run_model_family,
 )
 from arcora.models.modeling_strategy import MODEL_TARGETS, write_modeling_strategy_documentation
@@ -81,6 +82,7 @@ class ModelingPipelineConfig:
     evaluate_locked_test: bool = False
     write_docs: bool = True
     run_leakage_audit: bool = True
+    reports_only: bool = False
 
     @property
     def results_dir(self) -> Path:
@@ -231,11 +233,28 @@ def run_locked_test_evaluation(
     return path
 
 
+def _previous_reproducibility(results_dir: Path) -> list[ReproducibilityCheck]:
+    """Carry reproducibility results forward from the last training run's summary."""
+    path = results_dir / "pipeline_summary.json"
+    if not path.is_file():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return [ReproducibilityCheck(**c) for c in payload.get("reproducibility_checks", [])]
+
+
 def run_modeling_pipeline(config: ModelingPipelineConfig) -> ModelingPipelineSummary:
     """Execute the full Week 3 modeling workflow."""
     start = time.perf_counter()
     summary = ModelingPipelineSummary(started_at=utc_timestamp())
-    summary.mode = "evaluate_only" if config.evaluate_only else "train"
+    if config.reports_only and (config.evaluate_only or config.evaluate_locked_test):
+        raise ValueError("reports_only cannot be combined with evaluate_only or locked evaluation")
+    summary.mode = (
+        "reports_only"
+        if config.reports_only
+        else "evaluate_only"
+        if config.evaluate_only
+        else "train"
+    )
     summary.families = list(config.families)
     summary.targets = list(config.targets)
     logger = configure_modeling_logger(config.logs_dir / "modeling_pipeline.log")
@@ -266,7 +285,7 @@ def run_modeling_pipeline(config: ModelingPipelineConfig) -> ModelingPipelineSum
         dataset_df,
         source_dataset=f"data/features/{config.features_path.name}",
         manifest_path=config.manifest_path,
-        reuse_manifest=config.reuse_manifest,
+        reuse_manifest=config.reuse_manifest or config.reports_only,
     )
     summary.split_checks = data.split_checks
     summary.split_sizes = {name: split.n_games for name, split in data.splits.items()}
@@ -279,6 +298,15 @@ def run_modeling_pipeline(config: ModelingPipelineConfig) -> ModelingPipelineSum
     # 5-10. Train (or reload) and evaluate each family.
     for family in config.families:
         family_start = time.perf_counter()
+        if config.reports_only:
+            models, report_path = rerender_family_report(
+                family, data, config.results_dir, config.models_dir
+            )
+            summary.family_seconds[family] = time.perf_counter() - family_start
+            summary.n_models += len(models)
+            summary.written_files[f"{family}:report"] = report_path.as_posix()
+            logger.info("Family %-14s report re-rendered (%d models)", family, len(models))
+            continue
         if config.evaluate_only:
             output = evaluate_saved_family(
                 family, data, config.results_dir, config.models_dir, config.targets
@@ -308,7 +336,10 @@ def run_modeling_pipeline(config: ModelingPipelineConfig) -> ModelingPipelineSum
             sum(c.passed for c in summary.artifact_checks),
             len(summary.artifact_checks),
         )
-    if config.check_reproducibility and not config.evaluate_only:
+    if config.reports_only or config.evaluate_only:
+        # No model is retrained, so the last training run's reproducibility results still apply.
+        summary.reproducibility_checks = _previous_reproducibility(config.results_dir)
+    elif config.check_reproducibility:
         targets = [t for t in config.reproducibility_targets if t in config.targets]
         summary.reproducibility_checks = check_training_reproducibility(
             data, list(config.families), targets or list(config.targets[:1])
@@ -399,6 +430,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Reload saved artifacts and re-run evaluation and reporting without training.",
     )
     parser.add_argument(
+        "--reports-only",
+        action="store_true",
+        help="Re-render all reports from persisted results and artifacts. Nothing is trained or "
+        "re-evaluated, and no artifact, prediction, results file, or manifest is written.",
+    )
+    parser.add_argument(
         "--skip-artifact-validation", action="store_true", help="Skip artifact reload checks."
     )
     parser.add_argument(
@@ -430,6 +467,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         targets=tuple(t for t in MODEL_TARGETS if t in args.targets),
         reuse_manifest=args.reuse_manifest,
         evaluate_only=args.evaluate_only,
+        reports_only=args.reports_only,
         validate_artifacts=not args.skip_artifact_validation,
         check_reproducibility=not args.skip_reproducibility_check,
         evaluate_locked_test=args.evaluate_locked_test,

@@ -4,19 +4,21 @@ All models are compared on the **validation** split (2019-20 to 2020-21) with th
 
 ## Best model per target
 
-| Target | Metric | Best model | Family | Score | Best baseline | Improvement |
-| :--- | :--- | :--- | :--- | ---: | ---: | ---: |
-| `home_pts` | mae | `ridge_regression` | linear | 9.4469 | 9.5347 | 0.92% |
-| `away_pts` | mae | `lasso_regression` | linear | 9.3794 | 9.4288 | 0.52% |
-| `total_pts` | mae | `ridge_regression` | linear | 15.2369 | 15.3710 | 0.87% |
-| `point_margin` | mae | `random_forest_regressor` | random_forest | 10.7479 | 10.9651 | 1.98% |
-| `home_win` | log_loss | `random_forest_classifier` | random_forest | 0.6393 | 0.6516 | 1.89% |
+`delta_vs_baseline` = model loss − best baseline loss, in metric units (negative is better). `relative_loss_reduction_pct` = (baseline loss − model loss) / baseline loss × 100, with the best baseline's MAE or log loss as denominator (positive is better).
+
+| Target | Metric | Best model | Family | Score | Best baseline | `delta_vs_baseline` | `relative_loss_reduction_pct` |
+| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: |
+| `home_pts` | mae | `ridge_regression` | linear | 9.4469 | 9.5347 | -0.0878 | +0.92% |
+| `away_pts` | mae | `lasso_regression` | linear | 9.3794 | 9.4288 | -0.0494 | +0.52% |
+| `total_pts` | mae | `ridge_regression` | linear | 15.2369 | 15.3710 | -0.1341 | +0.87% |
+| `point_margin` | mae | `random_forest_regressor` | random_forest | 10.7479 | 10.9651 | -0.2172 | +1.98% |
+| `home_win` | log_loss | `random_forest_classifier` | random_forest | 0.6393 | 0.6516 | -0.0123 | +1.89% |
 
 ## Paired bootstrap: best model vs best naive baseline
 
-Mean per-game loss difference (best model − baseline; negative = better), with a 95% bootstrap interval over validation games.
+`delta_vs_baseline` is the mean per-game loss difference (best model − baseline; negative is better). It equals the difference in MAE or log loss shown above. The 95% confidence interval comes from a paired bootstrap over validation games (2,000 resamples); *Significant* means the interval excludes zero.
 
-| Target | Metric | Best model | Baseline | Δ loss | 95% CI | Significant |
+| Target | Metric | Best model | Baseline | `delta_vs_baseline` | 95% CI (paired bootstrap) | Significant |
 | :--- | :--- | :--- | :--- | ---: | :--- | :---: |
 | `home_pts` | mae | `ridge_regression__home_pts` | `historical_reference__home_pts` | -0.0878 | [-0.1514, -0.0208] | Yes |
 | `away_pts` | mae | `lasso_regression__away_pts` | `historical_reference__away_pts` | -0.0494 | [-0.1280, +0.0250] | No |
@@ -24,55 +26,57 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 | `point_margin` | mae | `random_forest_regressor__point_margin` | `historical_reference__point_margin` | -0.2172 | [-0.3166, -0.1158] | Yes |
 | `home_win` | log_loss | `random_forest_classifier__home_win` | `historical_reference__home_win` | -0.0123 | [-0.0187, -0.0057] | Yes |
 
+## Relative loss reduction vs best baseline (chart)
+
+![relative_loss_reduction_pct by family and target](figures/models/model_loss_reduction_vs_baseline.png)
+
 ## Regression comparison (validation)
 
-![Improvement over baseline](figures/models/model_improvement_vs_baseline.png)
-
-| target | rank | model_name | model_family | mae | rmse | r2 | improvement_pct |
-| :--- | ---: | :--- | :--- | ---: | ---: | ---: | ---: |
-| home_pts | 1 | ridge_regression | linear | 9.447 | 11.965 | 0.092 | 0.921 |
-| home_pts | 2 | lasso_regression | linear | 9.459 | 11.980 | 0.090 | 0.792 |
-| home_pts | 3 | linear_regression | linear | 9.470 | 11.995 | 0.088 | 0.681 |
-| home_pts | 4 | random_forest_regressor | random_forest | 9.478 | 12.010 | 0.085 | 0.593 |
-| home_pts | 5 | xgboost_regressor | xgboost | 9.489 | 12.016 | 0.084 | 0.481 |
-| home_pts | 6 | historical_reference | baseline | 9.535 | 12.067 | 0.077 | 0.000 |
-| home_pts | 7 | median_baseline | baseline | 13.232 | 16.443 | -0.714 | -38.778 |
-| home_pts | 8 | mean_baseline | baseline | 13.298 | 16.510 | -0.729 | -39.468 |
-| away_pts | 1 | lasso_regression | linear | 9.379 | 11.744 | 0.101 | 0.523 |
-| away_pts | 2 | ridge_regression | linear | 9.383 | 11.756 | 0.099 | 0.481 |
-| away_pts | 3 | random_forest_regressor | random_forest | 9.394 | 11.814 | 0.090 | 0.366 |
-| away_pts | 4 | xgboost_regressor | xgboost | 9.401 | 11.842 | 0.086 | 0.294 |
-| away_pts | 5 | historical_reference | baseline | 9.429 | 11.887 | 0.079 | 0.000 |
-| away_pts | 6 | linear_regression | linear | 9.446 | 11.844 | 0.086 | -0.183 |
-| away_pts | 7 | mean_baseline | baseline | 14.238 | 17.372 | -0.967 | -51.003 |
-| away_pts | 8 | median_baseline | baseline | 14.809 | 17.961 | -1.103 | -57.066 |
-| total_pts | 1 | ridge_regression | linear | 15.237 | 19.342 | 0.082 | 0.872 |
-| total_pts | 2 | lasso_regression | linear | 15.281 | 19.387 | 0.078 | 0.588 |
-| total_pts | 3 | random_forest_regressor | random_forest | 15.325 | 19.475 | 0.070 | 0.299 |
-| total_pts | 4 | historical_reference | baseline | 15.371 | 19.512 | 0.066 | 0.000 |
-| total_pts | 5 | xgboost_regressor | xgboost | 15.413 | 19.565 | 0.061 | -0.272 |
-| total_pts | 6 | linear_regression | linear | 15.434 | 19.519 | 0.065 | -0.411 |
-| total_pts | 7 | mean_baseline | baseline | 25.213 | 30.530 | -1.286 | -64.032 |
-| total_pts | 8 | median_baseline | baseline | 25.756 | 31.074 | -1.369 | -67.564 |
-| point_margin | 1 | random_forest_regressor | random_forest | 10.748 | 13.631 | 0.134 | 1.981 |
-| point_margin | 2 | xgboost_regressor | xgboost | 10.755 | 13.649 | 0.132 | 1.915 |
-| point_margin | 3 | lasso_regression | linear | 10.777 | 13.670 | 0.129 | 1.719 |
-| point_margin | 4 | ridge_regression | linear | 10.818 | 13.681 | 0.128 | 1.341 |
-| point_margin | 5 | linear_regression | linear | 10.837 | 13.686 | 0.127 | 1.173 |
-| point_margin | 6 | historical_reference | baseline | 10.965 | 13.898 | 0.100 | 0.000 |
-| point_margin | 7 | mean_baseline | baseline | 11.679 | 14.720 | -0.010 | -6.511 |
-| point_margin | 8 | median_baseline | baseline | 11.732 | 14.841 | -0.027 | -6.995 |
+| target | rank | model_name | model_family | mae | rmse | r2 | delta_vs_baseline | relative_loss_reduction_pct |
+| :--- | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| home_pts | 1 | ridge_regression | linear | 9.447 | 11.965 | 0.092 | -0.088 | 0.921 |
+| home_pts | 2 | lasso_regression | linear | 9.459 | 11.980 | 0.090 | -0.076 | 0.792 |
+| home_pts | 3 | linear_regression | linear | 9.470 | 11.995 | 0.088 | -0.065 | 0.681 |
+| home_pts | 4 | random_forest_regressor | random_forest | 9.478 | 12.010 | 0.085 | -0.057 | 0.593 |
+| home_pts | 5 | xgboost_regressor | xgboost | 9.489 | 12.016 | 0.084 | -0.046 | 0.481 |
+| home_pts | 6 | historical_reference | baseline | 9.535 | 12.067 | 0.077 | 0.000 | 0.000 |
+| home_pts | 7 | median_baseline | baseline | 13.232 | 16.443 | -0.714 | 3.697 | -38.778 |
+| home_pts | 8 | mean_baseline | baseline | 13.298 | 16.510 | -0.729 | 3.763 | -39.468 |
+| away_pts | 1 | lasso_regression | linear | 9.379 | 11.744 | 0.101 | -0.049 | 0.523 |
+| away_pts | 2 | ridge_regression | linear | 9.383 | 11.756 | 0.099 | -0.045 | 0.481 |
+| away_pts | 3 | random_forest_regressor | random_forest | 9.394 | 11.814 | 0.090 | -0.035 | 0.366 |
+| away_pts | 4 | xgboost_regressor | xgboost | 9.401 | 11.842 | 0.086 | -0.028 | 0.294 |
+| away_pts | 5 | historical_reference | baseline | 9.429 | 11.887 | 0.079 | 0.000 | 0.000 |
+| away_pts | 6 | linear_regression | linear | 9.446 | 11.844 | 0.086 | 0.017 | -0.183 |
+| away_pts | 7 | mean_baseline | baseline | 14.238 | 17.372 | -0.967 | 4.809 | -51.003 |
+| away_pts | 8 | median_baseline | baseline | 14.809 | 17.961 | -1.103 | 5.381 | -57.066 |
+| total_pts | 1 | ridge_regression | linear | 15.237 | 19.342 | 0.082 | -0.134 | 0.872 |
+| total_pts | 2 | lasso_regression | linear | 15.281 | 19.387 | 0.078 | -0.090 | 0.588 |
+| total_pts | 3 | random_forest_regressor | random_forest | 15.325 | 19.475 | 0.070 | -0.046 | 0.299 |
+| total_pts | 4 | historical_reference | baseline | 15.371 | 19.512 | 0.066 | 0.000 | 0.000 |
+| total_pts | 5 | xgboost_regressor | xgboost | 15.413 | 19.565 | 0.061 | 0.042 | -0.272 |
+| total_pts | 6 | linear_regression | linear | 15.434 | 19.519 | 0.065 | 0.063 | -0.411 |
+| total_pts | 7 | mean_baseline | baseline | 25.213 | 30.530 | -1.286 | 9.842 | -64.032 |
+| total_pts | 8 | median_baseline | baseline | 25.756 | 31.074 | -1.369 | 10.385 | -67.564 |
+| point_margin | 1 | random_forest_regressor | random_forest | 10.748 | 13.631 | 0.134 | -0.217 | 1.981 |
+| point_margin | 2 | xgboost_regressor | xgboost | 10.755 | 13.649 | 0.132 | -0.210 | 1.915 |
+| point_margin | 3 | lasso_regression | linear | 10.777 | 13.670 | 0.129 | -0.188 | 1.719 |
+| point_margin | 4 | ridge_regression | linear | 10.818 | 13.681 | 0.128 | -0.147 | 1.341 |
+| point_margin | 5 | linear_regression | linear | 10.837 | 13.686 | 0.127 | -0.129 | 1.173 |
+| point_margin | 6 | historical_reference | baseline | 10.965 | 13.898 | 0.100 | 0.000 | 0.000 |
+| point_margin | 7 | mean_baseline | baseline | 11.679 | 14.720 | -0.010 | 0.714 | -6.511 |
+| point_margin | 8 | median_baseline | baseline | 11.732 | 14.841 | -0.027 | 0.767 | -6.995 |
 
 ## Classification comparison — `home_win` (validation)
 
-| rank | model_name | model_family | accuracy | balanced_accuracy | precision | recall | roc_auc | log_loss | brier |
-| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | random_forest_classifier | random_forest | 0.634 | 0.616 | 0.629 | 0.806 | 0.682 | 0.639 | 0.224 |
-| 2 | xgboost_classifier | xgboost | 0.640 | 0.626 | 0.641 | 0.776 | 0.682 | 0.640 | 0.224 |
-| 3 | logistic_regression | linear | 0.628 | 0.614 | 0.631 | 0.772 | 0.679 | 0.643 | 0.226 |
-| 4 | historical_reference | baseline | 0.618 | 0.590 | 0.602 | 0.883 | 0.674 | 0.652 | 0.230 |
-| 5 | prior_baseline | baseline | 0.547 | 0.500 | 0.547 | 1.000 | 0.500 | 0.694 | 0.250 |
-| 6 | most_frequent_baseline | baseline | 0.547 | 0.500 | 0.547 | 1.000 | 0.500 | 15.658 | 0.453 |
+| rank | model_name | model_family | accuracy | balanced_accuracy | precision | recall | roc_auc | log_loss | brier | delta_vs_baseline | relative_loss_reduction_pct |
+| ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | random_forest_classifier | random_forest | 0.6340 | 0.6163 | 0.6290 | 0.8055 | 0.6824 | 0.6393 | 0.2242 | -0.0123 | 1.8853 |
+| 2 | xgboost_classifier | xgboost | 0.6396 | 0.6255 | 0.6406 | 0.7763 | 0.6824 | 0.6402 | 0.2243 | -0.0114 | 1.7472 |
+| 3 | logistic_regression | linear | 0.6283 | 0.6136 | 0.6309 | 0.7715 | 0.6787 | 0.6428 | 0.2255 | -0.0088 | 1.3485 |
+| 4 | historical_reference | baseline | 0.6175 | 0.5902 | 0.6025 | 0.8830 | 0.6744 | 0.6516 | 0.2297 | 0.0000 | 0.0000 |
+| 5 | prior_baseline | baseline | 0.5467 | 0.5000 | 0.5467 | 1.0000 | 0.5000 | 0.6943 | 0.2505 | 0.0426 | -6.5411 |
+| 6 | most_frequent_baseline | baseline | 0.5467 | 0.5000 | 0.5467 | 1.0000 | 0.5000 | 15.6577 | 0.4533 | 15.0061 | -2302.8688 |
 
 ## Best model per family
 
@@ -360,4 +364,4 @@ Per-season error of the best model over training and validation seasons. Trainin
 - One metric implementation for every model (`compute_metrics`); undefined metrics are stored as `null` and listed per result.
 - `validate_comparability()` refuses to compare results scored on different datasets, splits, or feature lists.
 - Error analysis is restricted to development splits; locked splits raise `PermissionError` unless explicitly allowed for a documented final evaluation.
-- Generated: 2026-11-24T09:31:53+00:00.
+- Generated: 2026-11-24T10:30:02+00:00.

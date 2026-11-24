@@ -216,7 +216,7 @@ REGRESSION_METRICS: tuple[MetricSpec, ...] = (
         task=REGRESSION_TASK,
         greater_is_better=False,
         input_type="point prediction",
-        formula="mean(|y - y_hat|)",
+        formula="mean(abs(y - y_hat))",
         undefined_handling="Undefined (null) only for empty inputs.",
     ),
     MetricSpec(
@@ -341,6 +341,78 @@ REPRODUCIBILITY_REQUIREMENTS: tuple[tuple[str, str], ...] = (
 )
 
 
+# Split sizes quoted in the Week 2 feature quality report (commit 96933df). They were written
+# into the report text as an illustrative example and were never computed from the dataset.
+WEEK2_DOCUMENTED_SPLIT_COUNTS: dict[str, int] = {
+    "train": 20_762,
+    "validation": 2_282,
+    "test": 1_327,
+    "holdout": 477,
+}
+
+
+def render_split_count_reconciliation(manifest: Mapping[str, Any]) -> list[str]:
+    """Markdown section reconciling Week 2 documented split sizes with actual counts."""
+    splits: Mapping[str, Any] = manifest["splits"]
+    lines = [
+        "### Split-count reconciliation (Week 2 plan vs dataset)",
+        "",
+        "The split **definitions** (season ranges) are unchanged from the Week 2 plan. Only the "
+        "game counts quoted in the Week 2 feature quality report differ from the dataset:",
+        "",
+        "| Split | Seasons (unchanged) | Week 2 documented | Counted in dataset | Difference |",
+        "| :--- | :--- | ---: | ---: | ---: |",
+    ]
+    documented_total = actual_total = 0
+    for name in manifest["split_order"]:
+        s = splits[name]
+        documented = WEEK2_DOCUMENTED_SPLIT_COUNTS.get(name)
+        actual = int(s["n_games"])
+        actual_total += actual
+        documented_total += documented or 0
+        seasons = (
+            s["season_labels"][0]
+            if len(s["season_labels"]) == 1
+            else f"{s['season_labels'][0]} to {s['season_labels'][-1]}"
+        )
+        diff = "—" if documented is None else f"{actual - documented:+,}"
+        doc = "—" if documented is None else f"{documented:,}"
+        lines.append(f"| `{name}` | {seasons} | {doc} | {actual:,} | {diff} |")
+    lines.extend(
+        [
+            f"| **Total** | 2003-04 to 2022-23 | **{documented_total:,}** | "
+            f"**{actual_total:,}** | **{actual_total - documented_total:+,}** |",
+            "",
+            "**Cause.** The Week 2 figures were written into the feature quality report text "
+            "(commit `96933df`) as an illustrative example and were never computed from the data. "
+            "Only their total was checked; the per-split values do not correspond to any season "
+            "grouping of the dataset. Every data-derived definition gives the counts above:",
+            "",
+            "- the feature dataset's `season` column;",
+            "- the raw `games.csv` `SEASON` column (identical season for every game);",
+            "- season inferred from `game_date` with an August or October cutoff;",
+            "- de-duplicated, non-preseason raw `games.csv` rows.",
+            "",
+            "**Same-day grouping is not the cause.** No calendar date contains games from two "
+            "different seasons, so grouping by date cannot move games between season blocks "
+            "(check `SPLIT-005` below, and `test_no_calendar_date_spans_two_seasons`).",
+            "",
+            "**Resolution.** The season definitions were kept exactly as planned; the counts "
+            "computed from the dataset are authoritative and are verified by tests "
+            "(`EXPECTED_SPLIT_GAME_COUNTS`). The Week 2 report text was corrected to these values.",
+            "",
+            "Games per season:",
+            "",
+            "| Split | Season | Games |",
+            "| :--- | :--- | ---: |",
+        ]
+    )
+    for name in manifest["split_order"]:
+        for label, count in splits[name].get("season_game_counts", {}).items():
+            lines.append(f"| `{name}` | {label} | {int(count):,} |")
+    return lines
+
+
 def render_modeling_strategy_markdown(manifest: Mapping[str, Any]) -> str:
     """Render ``docs/modeling_strategy.md`` from the strategy definitions and split manifest."""
     splits: Mapping[str, Any] = manifest["splits"]
@@ -407,11 +479,7 @@ def render_modeling_strategy_markdown(manifest: Mapping[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "> **Count correction.** The Week 2 feature quality report previously listed "
-            "approximate split sizes of 20,762 / 2,282 / 1,327 games. Counting the season "
-            "blocks directly in `nba_game_features.parquet` gives 20,734 / 2,314 / 1,323 "
-            "(the 24,371-game total for complete seasons is unchanged). The counts above are "
-            "computed from the dataset and are the authoritative values.",
+            *render_split_count_reconciliation(manifest),
             "",
             "### Isolation rules",
             "",

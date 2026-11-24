@@ -16,7 +16,7 @@ This document provides field-level definitions, data types, keys, source mapping
 | `abbreviation` | `string` | `string` | `CHAR(3)` | No |  | `teams.ABBREVIATION` | length == 3, unique | Standard 3-letter uppercase team code (e.g., 'BOS', 'LAL'). |
 | `nickname` | `string` | `string` | `VARCHAR(64)` | No |  | `teams.NICKNAME` | — | Official franchise nickname (e.g., 'Celtics'). |
 | `city` | `string` | `string` | `VARCHAR(64)` | No |  | `teams.CITY` | — | Home city or state/region of the franchise. |
-| `full_name` | `string` | `string` | `VARCHAR(128)` | No |  | `Derived: city || ' ' || nickname` | — | Full display name of the franchise (e.g., 'Boston Celtics'). |
+| `full_name` | `string` | `string` | `VARCHAR(128)` | No |  | `Derived: CONCAT(city, ' ', nickname)` | — | Full display name of the franchise (e.g., 'Boston Celtics'). |
 | `year_founded` | `integer` | `int64` | `INTEGER` | No |  | `teams.YEARFOUNDED` | >= 1946 | Year the franchise was originally established. |
 | `min_year` | `integer` | `int64` | `INTEGER` | No |  | `teams.MIN_YEAR` | >= 1946 | Earliest NBA season year recorded for the franchise. |
 | `max_year` | `integer` | `int64` | `INTEGER` | No |  | `teams.MAX_YEAR` | >= min_year | Latest NBA season year in the team metadata snapshot. |

@@ -164,6 +164,22 @@ def _fmt(value: float | None, digits: int = 4) -> str:
     return "—" if value is None else f"{value:.{digits}f}"
 
 
+BASELINE_COMPARISON_NOTE: str = (
+    "Baseline comparison columns: `delta_vs_baseline` = model loss − best baseline loss on "
+    "validation, in metric units (negative is better); `relative_loss_reduction_pct` = "
+    "(baseline loss − model loss) / baseline loss × 100 (positive is better)."
+)
+
+
+def _baseline_cells(model_loss: float | None, baseline_loss: float | None) -> str:
+    """Render the canonical ``delta_vs_baseline`` and ``relative_loss_reduction_pct`` cells."""
+    if model_loss is None or baseline_loss is None or baseline_loss <= 0:
+        return " — | — |"
+    delta = model_loss - baseline_loss
+    pct = 100.0 * (baseline_loss - model_loss) / baseline_loss
+    return f" {delta:+.4f} | {pct:+.2f}% |"
+
+
 def _best_baseline(
     baseline_results: Sequence[ModelResult], target: str, split: str
 ) -> ModelResult | None:
@@ -203,12 +219,14 @@ def render_family_report(
     ]
     show_delta = family.name != BASELINE_FAMILY and bool(baseline_results)
 
+    if show_delta:
+        lines.extend([BASELINE_COMPARISON_NOTE, ""])
     lines.extend(["## Regression (validation)", ""])
     header = "| Model | Target | MAE | RMSE | R² | Train MAE |"
     sep = "| :--- | :--- | ---: | ---: | ---: | ---: |"
     if show_delta:
-        header += " Δ MAE vs best baseline |"
-        sep += " ---: |"
+        header += " `delta_vs_baseline` | `relative_loss_reduction_pct` |"
+        sep += " ---: | ---: |"
     lines.extend([header, sep])
     for (name, target), per_split in by_key.items():
         if task_for_target(target) != REGRESSION_TASK or VALIDATION_SPLIT not in per_split:
@@ -221,12 +239,7 @@ def render_family_report(
         )
         if show_delta:
             best = _best_baseline(baseline_results, target, VALIDATION_SPLIT)
-            delta = (
-                None
-                if best is None or val["mae"] is None or best.metrics["mae"] is None
-                else val["mae"] - best.metrics["mae"]
-            )
-            row += f" {_fmt(delta, 3)} |"
+            row += _baseline_cells(val["mae"], best.metrics["mae"] if best else None)
         lines.append(row)
 
     lines.extend(["", "## Classification — `home_win` (validation)", ""])
@@ -235,8 +248,8 @@ def render_family_report(
     )
     sep = "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"
     if show_delta:
-        header += " Δ log loss vs best baseline |"
-        sep += " ---: |"
+        header += " `delta_vs_baseline` | `relative_loss_reduction_pct` |"
+        sep += " ---: | ---: |"
     lines.extend([header, sep])
     for (name, target), per_split in by_key.items():
         if task_for_target(target) != CLASSIFICATION_TASK or VALIDATION_SPLIT not in per_split:
@@ -249,12 +262,7 @@ def render_family_report(
         )
         if show_delta:
             best = _best_baseline(baseline_results, target, VALIDATION_SPLIT)
-            delta = (
-                None
-                if best is None or m["log_loss"] is None or best.metrics["log_loss"] is None
-                else m["log_loss"] - best.metrics["log_loss"]
-            )
-            row += f" {_fmt(delta)} |"
+            row += _baseline_cells(m["log_loss"], best.metrics["log_loss"] if best else None)
         lines.append(row)
 
     undefined = sorted(
@@ -429,6 +437,41 @@ def evaluate_saved_family(
         run_post_hooks,
         save_artifacts=False,
     )
+
+
+def rerender_family_report(
+    family_name: str,
+    data: ModelingData,
+    results_dir: Path,
+    models_dir: Path,
+) -> tuple[list[TrainedModel], Path]:
+    """Re-render a family's Markdown report from persisted results without re-evaluating.
+
+    Saved artifacts are only read (for report sections such as coefficients); no artifact,
+    prediction cache, or results file is written.
+    """
+    families = get_model_families()
+    if family_name not in families:
+        raise KeyError(f"Unknown model family '{family_name}'. Available: {list(families)}")
+    family = families[family_name]
+    results_path = results_dir / f"{family_name}_results.json"
+    if not results_path.is_file():
+        raise FileNotFoundError(f"No persisted results for '{family_name}': {results_path}")
+    results = load_results(results_path)
+    models = [load_model_artifact(p) for p in list_model_artifacts(models_dir, family_name)]
+    order = {t: i for i, t in enumerate(MODEL_TARGETS)}
+    models.sort(key=lambda m: (order[m.target], m.model_name))
+
+    baseline_results = [] if family_name == BASELINE_FAMILY else load_baseline_results(results_dir)
+    sections = family.report_sections(models, data) if family.report_sections else []
+    references = load_reference_results(results_dir, exclude_family=family_name)
+    if family_name != BASELINE_FAMILY and references:
+        sections = [*render_cross_family_comparison(results, references), "", *sections]
+    report_path = results_dir / f"{family_name}_report.md"
+    report_path.write_text(
+        render_family_report(family, results, baseline_results, sections), encoding="utf-8"
+    )
+    return models, report_path
 
 
 def _evaluate_persist_and_report(
