@@ -278,8 +278,8 @@ def render_week3_report(
             "## 7. Best-Performing Model per Task",
             "",
             "| Target | Best model | Family | Validation score | Best baseline | "
-            "`delta_vs_baseline` | `relative_loss_reduction_pct` | Bootstrap 95% CI (Δ loss) | "
-            "Significant |",
+            "`delta_vs_baseline` | `relative_loss_reduction_pct` | "
+            "95% CI of `delta_vs_baseline` (paired bootstrap) | Significant |",
             "| :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |",
         ]
     )

@@ -6,7 +6,7 @@ This report documents Arcora's first NBA game prediction models: naive baselines
 python scripts/train_models.py
 ```
 
-- **Run**: 2026-11-24T10:25:16+00:00 → 2026-11-24T10:25:19+00:00 (3s, mode `reports_only`)
+- **Run**: 2026-11-24T10:29:59+00:00 → 2026-11-24T10:30:02+00:00 (3s, mode `reports_only`)
 - **Reports-only run**: tables and figures were re-rendered from the persisted results and artifacts of the last training run; no model was retrained or re-evaluated, and reproducibility results are carried forward from that run.
 - **Models evaluated**: 38 across 4 families and 5 targets
 - **Overall status**: PASSED (leakage, split, artifact, and reproducibility checks)
@@ -130,7 +130,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 
 ## 7. Best-Performing Model per Task
 
-| Target | Best model | Family | Validation score | Best baseline | `delta_vs_baseline` | `relative_loss_reduction_pct` | Bootstrap 95% CI (Δ loss) | Significant |
+| Target | Best model | Family | Validation score | Best baseline | `delta_vs_baseline` | `relative_loss_reduction_pct` | 95% CI of `delta_vs_baseline` (paired bootstrap) | Significant |
 | :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :---: |
 | `home_pts` | `ridge_regression` | linear | 9.4469 mae | 9.5347 | -0.0878 | +0.92% | [-0.1514, -0.0208] | Yes |
 | `away_pts` | `lasso_regression` | linear | 9.3794 mae | 9.4288 | -0.0494 | +0.52% | [-0.1280, +0.0250] | No |

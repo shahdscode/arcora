@@ -16,9 +16,9 @@ All models are compared on the **validation** split (2019-20 to 2020-21) with th
 
 ## Paired bootstrap: best model vs best naive baseline
 
-Mean per-game loss difference (best model − baseline; negative = better), with a 95% bootstrap interval over validation games.
+`delta_vs_baseline` is the mean per-game loss difference (best model − baseline; negative is better). It equals the difference in MAE or log loss shown above. The 95% confidence interval comes from a paired bootstrap over validation games (2,000 resamples); *Significant* means the interval excludes zero.
 
-| Target | Metric | Best model | Baseline | Δ loss | 95% CI | Significant |
+| Target | Metric | Best model | Baseline | `delta_vs_baseline` | 95% CI (paired bootstrap) | Significant |
 | :--- | :--- | :--- | :--- | ---: | :--- | :---: |
 | `home_pts` | mae | `ridge_regression__home_pts` | `historical_reference__home_pts` | -0.0878 | [-0.1514, -0.0208] | Yes |
 | `away_pts` | mae | `lasso_regression__away_pts` | `historical_reference__away_pts` | -0.0494 | [-0.1280, +0.0250] | No |
@@ -364,4 +364,4 @@ Per-season error of the best model over training and validation seasons. Trainin
 - One metric implementation for every model (`compute_metrics`); undefined metrics are stored as `null` and listed per result.
 - `validate_comparability()` refuses to compare results scored on different datasets, splits, or feature lists.
 - Error analysis is restricted to development splits; locked splits raise `PermissionError` unless explicitly allowed for a documented final evaluation.
-- Generated: 2026-11-24T10:25:19+00:00.
+- Generated: 2026-11-24T10:30:02+00:00.

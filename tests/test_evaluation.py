@@ -358,6 +358,16 @@ def test_evaluation_report_is_generated_reproducibly(
         )
         assert "improvement_vs_baseline" not in row
 
+    # The paired-bootstrap point estimate is the same quantity as delta_vs_baseline.
+    deltas = {(r["model_id"], r["target"]): r["delta_vs_baseline"] for r in payload["ranking"]}
+    assert payload["paired_bootstrap_vs_baseline"]
+    for boot in payload["paired_bootstrap_vs_baseline"]:
+        assert "mean_difference" not in boot
+        assert boot["delta_vs_baseline"] == pytest.approx(
+            deltas[(boot["model"], boot["target"])], abs=1e-9
+        )
+        assert boot["ci_low"] <= boot["delta_vs_baseline"] <= boot["ci_high"]
+
     text = (out_a / "model_evaluation_report.md").read_text()
     assert "## Best model per target" in text
     assert "`delta_vs_baseline`" in text and "`relative_loss_reduction_pct`" in text

@@ -279,6 +279,19 @@ def _fmt(v: Any, digits: int = 4) -> str:
     return f"{float(v):.{digits}f}"
 
 
+def _baseline_bootstrap_record(comparison: PairedComparison) -> dict[str, Any]:
+    """Bootstrap result vs the best baseline, with the point estimate as ``delta_vs_baseline``.
+
+    The mean per-game loss difference equals ``model loss - baseline loss`` exactly (the mean of
+    per-game absolute errors is MAE and the mean of per-game log losses is log loss).
+    """
+    record = comparison.to_dict()
+    record["delta_vs_baseline"] = record.pop("mean_difference")
+    record["baseline_model"] = record.pop("model_b")
+    record["model"] = record.pop("model_a")
+    return record
+
+
 def render_evaluation_markdown(
     ranked: pd.DataFrame,
     family_best: pd.DataFrame,
@@ -321,10 +334,13 @@ def render_evaluation_markdown(
             "",
             "## Paired bootstrap: best model vs best naive baseline",
             "",
-            "Mean per-game loss difference (best model − baseline; negative = better), with a 95% "
-            "bootstrap interval over validation games.",
+            "`delta_vs_baseline` is the mean per-game loss difference (best model − baseline; "
+            "negative is better). It equals the difference in MAE or log loss shown above. The "
+            "95% confidence interval comes from a paired bootstrap over validation games "
+            "(2,000 resamples); *Significant* means the interval excludes zero.",
             "",
-            "| Target | Metric | Best model | Baseline | Δ loss | 95% CI | Significant |",
+            "| Target | Metric | Best model | Baseline | `delta_vs_baseline` | "
+            "95% CI (paired bootstrap) | Significant |",
             "| :--- | :--- | :--- | :--- | ---: | :--- | :---: |",
         ]
     )
@@ -667,7 +683,7 @@ def generate_evaluation_report(
         "best_models": best.loc[
             :, ["target", "model_id", "model_family", "primary_metric", "primary_score"]
         ].to_dict("records"),
-        "paired_bootstrap_vs_baseline": [p.to_dict() for p in paired],
+        "paired_bootstrap_vs_baseline": [_baseline_bootstrap_record(p) for p in paired],
         "regression_residuals": {t: a["residuals"] for t, a in regression_analyses.items()},
         "classification_confusion": (
             classification_analysis["confusion"] if classification_analysis else None

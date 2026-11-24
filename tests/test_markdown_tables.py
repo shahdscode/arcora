@@ -70,6 +70,7 @@ LEGACY_COMPARISON_NAMES: tuple[str, ...] = (
     "MAE reduction",
     "Log-loss reduction",
     "Absolute Δ",
+    "Δ loss",
 )
 _REPORTS = _ROOT / "reports"
 _GENERATED_REPORTS = sorted(

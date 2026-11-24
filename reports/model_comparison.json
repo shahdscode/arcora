@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T10:25:19+00:00",
+  "generated_at": "2026-11-24T10:30:02+00:00",
   "evaluation_split": "validation",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
@@ -1042,67 +1042,67 @@
     {
       "target": "home_pts",
       "split": "validation",
-      "model_a": "ridge_regression__home_pts",
-      "model_b": "historical_reference__home_pts",
       "metric": "mae",
-      "mean_difference": -0.08777893857511183,
       "ci_low": -0.15143833293613593,
       "ci_high": -0.020806245660509436,
       "n_games": 2314,
       "n_bootstrap": 2000,
-      "significant": true
+      "significant": true,
+      "delta_vs_baseline": -0.08777893857511183,
+      "baseline_model": "historical_reference__home_pts",
+      "model": "ridge_regression__home_pts"
     },
     {
       "target": "away_pts",
       "split": "validation",
-      "model_a": "lasso_regression__away_pts",
-      "model_b": "historical_reference__away_pts",
       "metric": "mae",
-      "mean_difference": -0.04935076116597642,
       "ci_low": -0.12801925150730856,
       "ci_high": 0.025047427864867806,
       "n_games": 2314,
       "n_bootstrap": 2000,
-      "significant": false
+      "significant": false,
+      "delta_vs_baseline": -0.04935076116597642,
+      "baseline_model": "historical_reference__away_pts",
+      "model": "lasso_regression__away_pts"
     },
     {
       "target": "total_pts",
       "split": "validation",
-      "model_a": "ridge_regression__total_pts",
-      "model_b": "historical_reference__total_pts",
       "metric": "mae",
-      "mean_difference": -0.13407053465553426,
       "ci_low": -0.24620149795958882,
       "ci_high": -0.021318454000507053,
       "n_games": 2314,
       "n_bootstrap": 2000,
-      "significant": true
+      "significant": true,
+      "delta_vs_baseline": -0.13407053465553426,
+      "baseline_model": "historical_reference__total_pts",
+      "model": "ridge_regression__total_pts"
     },
     {
       "target": "point_margin",
       "split": "validation",
-      "model_a": "random_forest_regressor__point_margin",
-      "model_b": "historical_reference__point_margin",
       "metric": "mae",
-      "mean_difference": -0.2171700038543581,
       "ci_low": -0.3166105929219705,
       "ci_high": -0.1157803927704925,
       "n_games": 2314,
       "n_bootstrap": 2000,
-      "significant": true
+      "significant": true,
+      "delta_vs_baseline": -0.2171700038543581,
+      "baseline_model": "historical_reference__point_margin",
+      "model": "random_forest_regressor__point_margin"
     },
     {
       "target": "home_win",
       "split": "validation",
-      "model_a": "random_forest_classifier__home_win",
-      "model_b": "historical_reference__home_win",
       "metric": "log_loss",
-      "mean_difference": -0.012285261209838293,
       "ci_low": -0.018685037978372444,
       "ci_high": -0.005702094672016571,
       "n_games": 2314,
       "n_bootstrap": 2000,
-      "significant": true
+      "significant": true,
+      "delta_vs_baseline": -0.012285261209838293,
+      "baseline_model": "historical_reference__home_win",
+      "model": "random_forest_classifier__home_win"
     }
   ],
   "regression_residuals": {
