@@ -140,6 +140,11 @@ def validate_feature_schema(dataset_df: pd.DataFrame) -> None:
     if forbidden:
         problems.append(f"forbidden post-game columns present: {forbidden}")
 
+    known = set(METADATA_COLUMNS) | set(MODEL_FEATURE_COLUMNS) | set(TARGET_COLUMNS)
+    unexpected = sorted(columns - known - set(FORBIDDEN_POSTGAME_COLUMNS))
+    if unexpected:
+        problems.append(f"unexpected columns not in the feature catalog: {unexpected[:10]}")
+
     non_numeric = [
         c
         for c in MODEL_FEATURE_COLUMNS

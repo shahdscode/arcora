@@ -45,6 +45,18 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 | `lasso_regression` | `point_margin` | `alpha=0.1`, `alpha_grid=[0.01, 0.03, 0.1, 0.3, 1.0, 3.0]`, `estimator=Lasso`, `max_iter=20000`, `preprocessing=SimpleImputer(median)+StandardScaler`, `random_state=42` |
 | `logistic_regression` | `home_win` | `C=0.001`, `C_grid=[0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1]`, `class_weight=None`, `estimator=LogisticRegression`, `max_iter=5000`, `penalty=l2`, `preprocessing=SimpleImputer(median)+StandardScaler`, `random_state=42`, `solver=lbfgs` |
 
+## Comparison with every trained family (validation)
+
+Best model per family on the primary metric (MAE for regression, log loss for `home_win`), evaluated on the identical validation split.
+
+| Target | Metric | `baseline` | `linear` | `random_forest` | `xgboost` |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| `home_pts` | mae | 9.5347 (`historical_reference`) | 9.4469 (`ridge_regression`) | 9.4782 (`random_forest_regressor`) | 9.4889 (`xgboost_regressor`) |
+| `away_pts` | mae | 9.4288 (`historical_reference`) | 9.3794 (`lasso_regression`) | 9.3942 (`random_forest_regressor`) | 9.4011 (`xgboost_regressor`) |
+| `total_pts` | mae | 15.3710 (`historical_reference`) | 15.2369 (`ridge_regression`) | 15.3250 (`random_forest_regressor`) | 15.4129 (`xgboost_regressor`) |
+| `point_margin` | mae | 10.9651 (`historical_reference`) | 10.7766 (`lasso_regression`) | 10.7479 (`random_forest_regressor`) | 10.7550 (`xgboost_regressor`) |
+| `home_win` | log_loss | 0.6516 (`historical_reference`) | 0.6428 (`logistic_regression`) | 0.6393 (`random_forest_classifier`) | 0.6402 (`xgboost_classifier`) |
+
 ## Regularization selection (validation)
 
 | Model | Target | Parameter | Selected | Validation score | Grid |

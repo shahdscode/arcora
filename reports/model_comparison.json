@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T09:21:16+00:00",
+  "generated_at": "2026-11-24T09:31:53+00:00",
   "evaluation_split": "validation",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
@@ -99,8 +99,8 @@
       "split": "validation",
       "n_games": 2314,
       "primary_metric": "mae",
-      "primary_score": 9.478205497780984,
-      "mae": 9.478205497780984,
+      "primary_score": 9.47820549778098,
+      "mae": 9.47820549778098,
       "rmse": 12.009522275646674,
       "r2": 0.08541048057803136,
       "accuracy": null,
@@ -113,8 +113,8 @@
       "undefined_metrics": "",
       "rank": 4,
       "best_baseline_score": 9.534714095244402,
-      "improvement_vs_baseline": 0.0565085974634183,
-      "improvement_vs_baseline_pct": 0.5926616875864469
+      "improvement_vs_baseline": 0.05650859746342185,
+      "improvement_vs_baseline_pct": 0.5926616875864842
     },
     {
       "model_id": "xgboost_regressor__home_pts",
@@ -1086,7 +1086,7 @@
       "metric": "mae",
       "mean_difference": -0.21717000385435808,
       "ci_low": -0.3166105929219705,
-      "ci_high": -0.11578039277049253,
+      "ci_high": -0.1157803927704925,
       "n_games": 2314,
       "n_bootstrap": 2000,
       "significant": true
@@ -1097,9 +1097,9 @@
       "model_a": "random_forest_classifier__home_win",
       "model_b": "historical_reference__home_win",
       "metric": "log_loss",
-      "mean_difference": -0.012285261209838293,
-      "ci_low": -0.01868503797837244,
-      "ci_high": -0.005702094672016568,
+      "mean_difference": -0.012285261209838295,
+      "ci_low": -0.018685037978372444,
+      "ci_high": -0.005702094672016571,
       "n_games": 2314,
       "n_bootstrap": 2000,
       "significant": true
@@ -1144,7 +1144,7 @@
       "std_residual": 13.602325015707548,
       "p05": -21.412337235106985,
       "p25": -7.70545367362764,
-      "median": 0.7717099574551143,
+      "median": 0.7717099574551138,
       "p75": 10.002523773647368,
       "p95": 22.59665121137555,
       "share_within_5": 0.2960242005185825,

@@ -32,49 +32,49 @@
         {
           "alpha": 1.0,
           "validation_mae": 9.47323735644192,
-          "fit_seconds": 0.3191042090038536
+          "fit_seconds": 0.2885278330068104
         },
         {
           "alpha": 10.0,
           "validation_mae": 9.472203183871747,
-          "fit_seconds": 0.32904304200201295
+          "fit_seconds": 0.28575650000129826
         },
         {
           "alpha": 100.0,
           "validation_mae": 9.472626816167631,
-          "fit_seconds": 0.3268008750019362
+          "fit_seconds": 0.2831922079931246
         },
         {
           "alpha": 1000.0,
           "validation_mae": 9.46848867535471,
-          "fit_seconds": 0.3228966249880614
+          "fit_seconds": 0.28465349999896716
         },
         {
           "alpha": 10000.0,
           "validation_mae": 9.457100897818973,
-          "fit_seconds": 0.32360000000335276
+          "fit_seconds": 0.28300200001103804
         },
         {
           "alpha": 30000.0,
           "validation_mae": 9.44693515666929,
-          "fit_seconds": 0.32644550000259187
+          "fit_seconds": 0.2835194999934174
         },
         {
           "alpha": 100000.0,
           "validation_mae": 9.463070006707934,
-          "fit_seconds": 0.32289208300062455
+          "fit_seconds": 0.2818151670071529
         },
         {
           "alpha": 300000.0,
           "validation_mae": 9.80372307469306,
-          "fit_seconds": 0.3266570830019191
+          "fit_seconds": 0.2865048329986166
         }
       ],
       "selected_value": 30000.0,
       "selected_validation_score": 9.44693515666929,
-      "fit_seconds": 0.32644550000259187
+      "fit_seconds": 0.2835194999934174
     },
-    "fit_seconds": 0.32644550000259187
+    "fit_seconds": 0.2835194999934174
   },
   "n_features": 242,
   "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
@@ -88,9 +88,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "ridge_regression__home_pts.joblib",
-  "artifact_sha256": "a53cddfe65a123b299652ef603f15b5c273da11ed4ebfe25d850dee95079044d",
-  "artifact_bytes": 11963,
-  "saved_at": "2026-11-24T09:08:21+00:00",
+  "artifact_sha256": "430493a5d3c6bd20e6a2edf58322d9a955f6b39aee3bc36e17fcd1763e099649",
+  "artifact_bytes": 11965,
+  "saved_at": "2026-11-24T09:30:32+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

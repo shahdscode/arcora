@@ -360,4 +360,4 @@ Per-season error of the best model over training and validation seasons. Trainin
 - One metric implementation for every model (`compute_metrics`); undefined metrics are stored as `null` and listed per result.
 - `validate_comparability()` refuses to compare results scored on different datasets, splits, or feature lists.
 - Error analysis is restricted to development splits; locked splits raise `PermissionError` unless explicitly allowed for a documented final evaluation.
-- Generated: 2026-11-24T09:21:16+00:00.
+- Generated: 2026-11-24T09:31:53+00:00.

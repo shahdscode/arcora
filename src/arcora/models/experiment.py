@@ -22,7 +22,12 @@ from pathlib import Path
 import pandas as pd
 
 from arcora.config import ArcoraConfig
-from arcora.models.artifacts import save_model_artifact, write_feature_list
+from arcora.models.artifacts import (
+    list_model_artifacts,
+    load_model_artifact,
+    save_model_artifact,
+    write_feature_list,
+)
 from arcora.models.base import (
     ModelResult,
     TrainedModel,
@@ -372,12 +377,79 @@ def run_model_family(
         task_for_target(t)
 
     models = family.trainer(data, targets)
+    return _evaluate_persist_and_report(
+        family,
+        models,
+        data,
+        results_dir,
+        models_dir,
+        eval_splits,
+        allow_locked,
+        extra_report_sections,
+        run_post_hooks,
+        save_artifacts=True,
+    )
+
+
+def evaluate_saved_family(
+    family_name: str,
+    data: ModelingData,
+    results_dir: Path,
+    models_dir: Path,
+    targets: Sequence[str] = MODEL_TARGETS,
+    eval_splits: Sequence[str] = DEFAULT_EVAL_SPLITS,
+    allow_locked: bool = False,
+    run_post_hooks: bool = True,
+) -> FamilyRunOutput:
+    """Re-evaluate previously saved artifacts of one family without retraining."""
+    families = get_model_families()
+    if family_name not in families:
+        raise KeyError(f"Unknown model family '{family_name}'. Available: {list(families)}")
+    paths = list_model_artifacts(models_dir, family_name)
+    models = [load_model_artifact(p) for p in paths]
+    models = [m for m in models if m.target in targets]
+    if not models:
+        raise FileNotFoundError(
+            f"No saved '{family_name}' artifacts for targets {list(targets)} in {models_dir}"
+        )
+    for model in models:
+        if model.feature_names != data.feature_names:
+            raise ValueError(f"Artifact {model.model_id} was trained on a different feature list")
+    order = {t: i for i, t in enumerate(MODEL_TARGETS)}
+    models.sort(key=lambda m: (order[m.target], m.model_name))
+    return _evaluate_persist_and_report(
+        families[family_name],
+        models,
+        data,
+        results_dir,
+        models_dir,
+        eval_splits,
+        allow_locked,
+        None,
+        run_post_hooks,
+        save_artifacts=False,
+    )
+
+
+def _evaluate_persist_and_report(
+    family: ModelFamily,
+    models: list[TrainedModel],
+    data: ModelingData,
+    results_dir: Path,
+    models_dir: Path | None,
+    eval_splits: Sequence[str],
+    allow_locked: bool,
+    extra_report_sections: ReportSections | None,
+    run_post_hooks: bool,
+    save_artifacts: bool,
+) -> FamilyRunOutput:
+    family_name = family.name
     results, predictions = evaluate_models(models, data, eval_splits, allow_locked)
 
     written: dict[str, Path] = {}
     if models_dir is not None:
         written["feature_list"] = write_feature_list(data.feature_names, models_dir)
-        for model in models:
+        for model in models if save_artifacts else []:
             joblib_path, _ = save_model_artifact(
                 model,
                 models_dir,
@@ -402,6 +474,7 @@ def run_model_family(
         predictions.to_parquet(pred_path, index=False)
         written["predictions"] = pred_path
 
+    results_dir.mkdir(parents=True, exist_ok=True)
     written["results_json"] = write_results(results, results_dir / f"{family_name}_results.json")
     csv_path = results_dir / f"{family_name}_results.csv"
     results_to_frame(results).to_csv(csv_path, index=False)

@@ -13,7 +13,7 @@
   },
   "training_metadata": {
     "fit_split": "train",
-    "fit_seconds": 0.3827889590029372
+    "fit_seconds": 0.3353684159956174
   },
   "n_features": 242,
   "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
@@ -27,9 +27,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "linear_regression__point_margin.joblib",
-  "artifact_sha256": "6269359e7cdad18fb70c6b9bc11ff55ee9ee480341494b3fb7d122d2c3980d7e",
+  "artifact_sha256": "eed588f4ecc85b8aec51d5eb92451ec0ab6418b09f343132be83170b30e68548",
   "artifact_bytes": 13551,
-  "saved_at": "2026-11-24T09:08:21+00:00",
+  "saved_at": "2026-11-24T09:30:32+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

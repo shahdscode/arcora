@@ -147,6 +147,8 @@ def test_validate_feature_schema() -> None:
         validate_feature_schema(df.drop(columns=["home_hist_pts_avg"]))
     with pytest.raises(ValueError, match="forbidden post-game"):
         validate_feature_schema(df.assign(home_fg_pct=0.5))
+    with pytest.raises(ValueError, match="unexpected columns"):
+        validate_feature_schema(df.assign(mystery_column=1.0))
 
 
 def test_feature_list_fingerprint_is_order_sensitive() -> None:

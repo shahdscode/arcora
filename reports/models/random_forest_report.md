@@ -29,14 +29,26 @@ All models are fitted on the **training split (2003-04 to 2018-19)** and compare
 | `random_forest_regressor` | `point_margin` | `bootstrap=True`, `criterion=squared_error`, `estimator=RandomForestRegressor`, `max_depth=14`, `max_features=0.33`, `min_samples_leaf=25`, `n_estimators=300`, `n_jobs=-1`, `preprocessing=SimpleImputer(median)`, `random_state=42` |
 | `random_forest_classifier` | `home_win` | `bootstrap=True`, `class_weight=None`, `criterion=gini`, `estimator=RandomForestClassifier`, `max_depth=14`, `max_features=sqrt`, `min_samples_leaf=25`, `n_estimators=300`, `n_jobs=-1`, `preprocessing=SimpleImputer(median)`, `random_state=42` |
 
+## Comparison with every trained family (validation)
+
+Best model per family on the primary metric (MAE for regression, log loss for `home_win`), evaluated on the identical validation split.
+
+| Target | Metric | `baseline` | `linear` | `random_forest` | `xgboost` |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| `home_pts` | mae | 9.5347 (`historical_reference`) | 9.4469 (`ridge_regression`) | 9.4782 (`random_forest_regressor`) | 9.4889 (`xgboost_regressor`) |
+| `away_pts` | mae | 9.4288 (`historical_reference`) | 9.3794 (`lasso_regression`) | 9.3942 (`random_forest_regressor`) | 9.4011 (`xgboost_regressor`) |
+| `total_pts` | mae | 15.3710 (`historical_reference`) | 15.2369 (`ridge_regression`) | 15.3250 (`random_forest_regressor`) | 15.4129 (`xgboost_regressor`) |
+| `point_margin` | mae | 10.9651 (`historical_reference`) | 10.7766 (`lasso_regression`) | 10.7479 (`random_forest_regressor`) | 10.7550 (`xgboost_regressor`) |
+| `home_win` | log_loss | 0.6516 (`historical_reference`) | 0.6428 (`logistic_regression`) | 0.6393 (`random_forest_classifier`) | 0.6402 (`xgboost_classifier`) |
+
 ## Training statistics
 
 | Model | Target | Fit seconds | Mean tree depth | Mean leaves per tree |
 | :--- | :--- | ---: | ---: | ---: |
-| `random_forest_regressor` | `home_pts` | 12.0 | 14.0 | 386 |
-| `random_forest_regressor` | `away_pts` | 12.5 | 14.0 | 384 |
-| `random_forest_regressor` | `total_pts` | 11.2 | 14.0 | 386 |
-| `random_forest_regressor` | `point_margin` | 12.4 | 14.0 | 346 |
+| `random_forest_regressor` | `home_pts` | 11.1 | 14.0 | 386 |
+| `random_forest_regressor` | `away_pts` | 11.2 | 14.0 | 384 |
+| `random_forest_regressor` | `total_pts` | 11.1 | 14.0 | 386 |
+| `random_forest_regressor` | `point_margin` | 12.6 | 14.0 | 346 |
 | `random_forest_classifier` | `home_win` | 2.9 | 14.0 | 363 |
 
 Feature importance (exploratory): see [`random_forest_feature_importance.md`](random_forest_feature_importance.md).

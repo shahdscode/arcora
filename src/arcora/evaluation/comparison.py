@@ -20,12 +20,15 @@ from arcora.models.base import ModelResult
 from arcora.models.modeling_strategy import (
     CLASSIFICATION_TASK,
     METRIC_SPECS_BY_NAME,
+    MODEL_TARGETS,
     PRIMARY_METRIC,
     PROBABILITY_CLIP_EPSILON,
     RANDOM_SEED,
 )
+from arcora.models.splits import SPLIT_ORDER
 
 BASELINE_FAMILY: str = "baseline"
+FAMILY_ORDER: tuple[str, ...] = ("baseline", "linear", "random_forest", "xgboost")
 ALL_METRICS: tuple[str, ...] = REGRESSION_METRIC_NAMES + CLASSIFICATION_METRIC_NAMES
 
 
@@ -79,7 +82,19 @@ def comparison_table(results: Sequence[ModelResult]) -> pd.DataFrame:
         row["split_game_id_sha256"] = r.reproducibility.get("split_game_id_sha256")
         row["feature_fingerprint"] = r.reproducibility.get("feature_fingerprint")
         rows.append(row)
-    return pd.DataFrame(rows)
+    frame = pd.DataFrame(rows)
+    if frame.empty:
+        return frame
+    split_rank = {name: i for i, name in enumerate(SPLIT_ORDER)}
+    target_rank = {name: i for i, name in enumerate(MODEL_TARGETS)}
+    family_rank = {name: i for i, name in enumerate(FAMILY_ORDER)}
+    frame = frame.assign(
+        _split=frame["split"].map(split_rank).fillna(len(split_rank)),
+        _family=frame["model_family"].map(family_rank).fillna(len(family_rank)),
+        _target=frame["target"].map(target_rank).fillna(len(target_rank)),
+    )
+    frame = frame.sort_values(["_split", "_family", "model_name", "_target"], kind="stable")
+    return frame.drop(columns=["_split", "_family", "_target"]).reset_index(drop=True)
 
 
 def _sort_key(metric: str) -> bool:

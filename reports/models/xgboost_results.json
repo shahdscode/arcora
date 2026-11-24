@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-24T09:15:52+00:00",
+  "generated_at": "2026-11-24T09:31:36+00:00",
   "n_results": 10,
   "results": [
     {
@@ -40,7 +40,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.5685800000064773,
+        "fit_seconds": 1.4139715829951456,
         "best_iteration": 172,
         "n_trees_used": 173,
         "rounds_trained": 273,
@@ -66,7 +66,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -105,7 +105,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.8595898750063498,
+        "fit_seconds": 1.7017692499939585,
         "best_iteration": 239,
         "n_trees_used": 240,
         "rounds_trained": 340,
@@ -131,7 +131,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -170,7 +170,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.5232243339996785,
+        "fit_seconds": 1.394257916996139,
         "best_iteration": 175,
         "n_trees_used": 176,
         "rounds_trained": 276,
@@ -196,7 +196,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -235,7 +235,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.3188498340023216,
+        "fit_seconds": 1.2081867920060176,
         "best_iteration": 134,
         "n_trees_used": 135,
         "rounds_trained": 235,
@@ -261,7 +261,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_classifier",
@@ -304,7 +304,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.6716491250117542,
+        "fit_seconds": 1.5268959999957588,
         "best_iteration": 206,
         "n_trees_used": 207,
         "rounds_trained": 307,
@@ -330,7 +330,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -369,7 +369,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.5685800000064773,
+        "fit_seconds": 1.4139715829951456,
         "best_iteration": 172,
         "n_trees_used": 173,
         "rounds_trained": 273,
@@ -395,7 +395,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -434,7 +434,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.8595898750063498,
+        "fit_seconds": 1.7017692499939585,
         "best_iteration": 239,
         "n_trees_used": 240,
         "rounds_trained": 340,
@@ -460,7 +460,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -499,7 +499,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.5232243339996785,
+        "fit_seconds": 1.394257916996139,
         "best_iteration": 175,
         "n_trees_used": 176,
         "rounds_trained": 276,
@@ -525,7 +525,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_regressor",
@@ -564,7 +564,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.3188498340023216,
+        "fit_seconds": 1.2081867920060176,
         "best_iteration": 134,
         "n_trees_used": 135,
         "rounds_trained": 235,
@@ -590,7 +590,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     },
     {
       "model_name": "xgboost_classifier",
@@ -633,7 +633,7 @@
         "early_stopping_split": "validation",
         "n_train": 20734,
         "n_early_stopping": 2314,
-        "fit_seconds": 1.6716491250117542,
+        "fit_seconds": 1.5268959999957588,
         "best_iteration": 206,
         "n_trees_used": 207,
         "rounds_trained": 307,
@@ -659,7 +659,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:15:52+00:00"
+      "evaluated_at": "2026-11-24T09:31:36+00:00"
     }
   ]
 }

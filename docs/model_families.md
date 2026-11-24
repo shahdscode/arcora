@@ -195,3 +195,29 @@ grouped permutation importance are written to `reports/models/xgboost_feature_im
 
 The family report includes a cross-family table comparing XGBoost with the best baseline, linear,
 and Random Forest model for every target on the identical validation split.
+
+---
+
+## 5. Unified Modeling Pipeline (Issue #24)
+
+Module: `src/arcora/models/pipeline.py` · CLI: `python scripts/train_models.py` or `arcora train`
+
+| Step | Implementation |
+| :--- | :--- |
+| Load and validate the feature dataset | `load_feature_dataset()` + `validate_feature_schema()` (rejects missing, forbidden, or unexpected columns) |
+| Leakage audit | Week 2 `run_leakage_audit_suite()` (LEAK-001–LEAK-007); training is refused if any check fails |
+| Chronological splits | `prepare_modeling_data()` with SPLIT-001–SPLIT-007; writes or verifies `data/splits/split_manifest.json` |
+| Feature selection | `select_model_features()` — 242 approved features in canonical order |
+| Training | `run_model_family()` per family (or `evaluate_saved_family()` with `--evaluate-only`) |
+| Evaluation | Train + validation metrics for every model via the shared metric implementation |
+| Artifact validation | `validate_saved_artifacts()` — checksum reload, feature order, prediction shape, finite outputs, valid probabilities, all-missing input, column-order invariance, match with cached predictions |
+| Reproducibility | `check_training_reproducibility()` retrains each family twice for `home_win` and requires identical predictions (tolerance 1e-9) |
+| Reporting | `generate_evaluation_report()` and `write_week3_report()` |
+
+Every run writes `reports/models/pipeline_summary.json` and logs to `logs/modeling_pipeline.log`.
+
+**Locked splits.** The 2021-22 test set is evaluated only with `--evaluate-locked-test`. That run
+fixes the model choice from validation results first, scores the best model and best baseline per
+target once, writes `reports/models/locked_test_results.json`, and appends an entry to
+`reports/models/locked_evaluation_log.jsonl`. The partial 2022-23 holdout is never evaluated by the
+Week 3 pipeline.

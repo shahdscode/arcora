@@ -53,7 +53,7 @@ def make_synthetic_feature_dataset(games_per_season: int = 30, seed: int = 0) ->
     for col in APPROVED_MISSING_INDICATORS:
         feats[col] = rng.integers(0, 2, n).astype(bool)
     # Early-season style missingness on a few features.
-    feats.loc[feats.index[::17], ["home_hist_pts_avg", "away_rolling_pts_5"]] = np.nan
+    feats.loc[feats.index[::17], ["home_hist_pts_avg", "away_rolling_pts_avg_5"]] = np.nan
     df = pd.concat([df, feats], axis=1)
 
     signal = df[SIGNAL_FEATURE].to_numpy()

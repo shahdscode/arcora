@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-24T09:14:11+00:00",
+  "generated_at": "2026-11-24T09:31:23+00:00",
   "n_results": 10,
   "results": [
     {
@@ -31,7 +31,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.978622041002382,
+        "fit_seconds": 11.146096124997712,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.11
@@ -52,7 +52,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:21+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -82,7 +82,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.504063208994921,
+        "fit_seconds": 11.177774249998038,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 384.2633333333333
@@ -103,7 +103,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:21+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -114,7 +114,7 @@
       "n_games": 20734,
       "metrics": {
         "mae": 12.060107472344152,
-        "rmse": 15.438516138514832,
+        "rmse": 15.438516138514833,
         "r2": 0.4977219663066098
       },
       "undefined_metrics": [],
@@ -133,7 +133,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.245166416993015,
+        "fit_seconds": 11.050452916999348,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.04
@@ -154,7 +154,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:21+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -184,7 +184,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.445195249994867,
+        "fit_seconds": 12.591218832996674,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 346.14
@@ -205,7 +205,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:21+00:00"
     },
     {
       "model_name": "random_forest_classifier",
@@ -220,7 +220,7 @@
         "precision": 0.7641873278236915,
         "recall": 0.8945501451144792,
         "roc_auc": 0.8571265300702674,
-        "log_loss": 0.5076508805116782,
+        "log_loss": 0.5076508805116783,
         "brier": 0.16599801767428782
       },
       "undefined_metrics": [],
@@ -240,7 +240,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 2.946500541991554,
+        "fit_seconds": 2.8597591669968097,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 362.52
@@ -261,7 +261,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -271,7 +271,7 @@
       "split": "validation",
       "n_games": 2314,
       "metrics": {
-        "mae": 9.478205497780984,
+        "mae": 9.47820549778098,
         "rmse": 12.009522275646674,
         "r2": 0.08541048057803136
       },
@@ -291,7 +291,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.978622041002382,
+        "fit_seconds": 11.146096124997712,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.11
@@ -312,7 +312,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:09+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -342,7 +342,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.504063208994921,
+        "fit_seconds": 11.177774249998038,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 384.2633333333333
@@ -363,7 +363,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:10+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -393,7 +393,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.245166416993015,
+        "fit_seconds": 11.050452916999348,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.04
@@ -414,7 +414,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:10+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -444,7 +444,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.445195249994867,
+        "fit_seconds": 12.591218832996674,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 346.14
@@ -465,7 +465,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:10+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     },
     {
       "model_name": "random_forest_classifier",
@@ -500,7 +500,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 2.946500541991554,
+        "fit_seconds": 2.8597591669968097,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 362.52
@@ -521,7 +521,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T09:14:10+00:00"
+      "evaluated_at": "2026-11-24T09:31:22+00:00"
     }
   ]
 }

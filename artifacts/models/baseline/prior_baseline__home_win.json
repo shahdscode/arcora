@@ -38,7 +38,7 @@
   "artifact_file": "prior_baseline__home_win.joblib",
   "artifact_sha256": "e535311d79440373a2bfb88311ee67ff5186a4c9d7a21f66117c2b0e40d4ed68",
   "artifact_bytes": 2140,
-  "saved_at": "2026-11-24T09:04:10+00:00",
+  "saved_at": "2026-11-24T09:30:08+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {
