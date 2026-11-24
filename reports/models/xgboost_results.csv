@@ -1,0 +1,11 @@
+model_name,model_family,target,task,split,n_games,mae,rmse,r2,accuracy,balanced_accuracy,precision,recall,roc_auc,log_loss,brier
+xgboost_regressor,xgboost,home_pts,regression,train,20734,8.253475234468729,10.421507826580031,0.3288281125504201,,,,,,,
+xgboost_regressor,xgboost,away_pts,regression,train,20734,8.183468932089884,10.343250818508945,0.3418262207638767,,,,,,,
+xgboost_regressor,xgboost,total_pts,regression,train,20734,13.670902945812038,17.359605198769398,0.36494292142921436,,,,,,,
+xgboost_regressor,xgboost,point_margin,regression,train,20734,9.212810844453193,11.703264637577151,0.21370793265145072,,,,,,,
+xgboost_classifier,xgboost,home_win,classification,train,20734,,,,0.7069547602970966,0.6754327012972232,0.719600222098834,0.8358594001934859,0.7632137892241708,0.5682754834931252,0.19304960008395153
+xgboost_regressor,xgboost,home_pts,regression,validation,2314,9.488854334904598,12.015812691636297,0.08445213184220535,,,,,,,
+xgboost_regressor,xgboost,away_pts,regression,validation,2314,9.401059281753897,11.84158939403006,0.08597865122976112,,,,,,,
+xgboost_regressor,xgboost,total_pts,regression,validation,2314,15.412855255469847,19.564931442970746,0.06106658345998173,,,,,,,
+xgboost_regressor,xgboost,point_margin,regression,validation,2314,10.755047030788795,13.64899727314979,0.13165343654532724,,,,,,,
+xgboost_classifier,xgboost,home_win,classification,validation,2314,,,,0.6395851339671564,0.625511215273722,0.6405740378343118,0.7762845849802371,0.6823517221370249,0.6402415901952135,0.22434109683517622

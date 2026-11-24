@@ -155,3 +155,43 @@ Initial findings: home/away matchup differences (margin, net-rating, and win-per
 differentials) dominate the `home_win` and `point_margin` models, while season-to-date team
 performance and recent form drive the score-level targets. Rest and schedule features contribute
 little on their own. Importance is descriptive, not causal.
+
+---
+
+## 4. XGBoost (`xgboost`, Issue #22)
+
+Module: `src/arcora/models/xgboost_models.py`
+
+- **Dependency**: `xgboost>=2.1,<4` (developed and verified with **3.4.1**, pinned in
+  `requirements-lock.txt`). Load saved artifacts with the XGBoost version recorded in their
+  metadata sidecar.
+- **Missing values**: handled natively (each split learns a default direction for `NaN`), so no
+  imputation is applied; the boolean missing-value indicators remain inputs.
+- **Early stopping**: the model is fitted on the training split with
+  `eval_set=[validation]` and `early_stopping_rounds=100`. Only the chronological validation split
+  is monitored — never random cross-validation, the test split, or the holdout. Predictions use
+  the best iteration. Because validation selects the number of rounds, validation metrics are
+  mildly optimistic.
+- **Feature order**: models are trained on a DataFrame, so the booster stores the 242 feature
+  names; `TrainedModel.predict()` reorders inputs to that order before predicting.
+
+| Parameter | Value |
+| :--- | :--- |
+| `n_estimators` (upper bound) | 3000 |
+| `learning_rate` | 0.03 |
+| `max_depth` | 4 |
+| `min_child_weight` | 10 |
+| `subsample` / `colsample_bytree` | 0.8 / 0.6 |
+| `reg_lambda` / `reg_alpha` / `gamma` | 1.0 / 0.0 / 0.0 |
+| `tree_method` | `hist` |
+| `early_stopping_rounds` | 100 |
+| Objective / eval metric (regression) | `reg:squarederror` / `mae` |
+| Objective / eval metric (classification) | `binary:logistic` / `logloss` |
+| `random_state` | 42 |
+
+No extensive hyperparameter optimization is performed in this milestone. Best iteration, rounds
+trained, best validation score, and fit time are stored in `training_metadata`; gain-based and
+grouped permutation importance are written to `reports/models/xgboost_feature_importance.md`.
+
+The family report includes a cross-family table comparing XGBoost with the best baseline, linear,
+and Random Forest model for every target on the identical validation split.

@@ -63,7 +63,7 @@ class ModelFamily:
 
 def get_model_families() -> dict[str, ModelFamily]:
     """Return the registry of available model families (in training order)."""
-    from arcora.models import baselines, linear_models, random_forest
+    from arcora.models import baselines, linear_models, random_forest, xgboost_models
 
     return {
         baselines.MODEL_FAMILY: ModelFamily(
@@ -86,6 +86,14 @@ def get_model_families() -> dict[str, ModelFamily]:
             trainer=random_forest.train_random_forest_models,
             report_sections=random_forest.random_forest_report_sections,
             post_run=random_forest.random_forest_post_run,
+        ),
+        xgboost_models.MODEL_FAMILY: ModelFamily(
+            name=xgboost_models.MODEL_FAMILY,
+            display_name="XGBoost",
+            description=xgboost_models.FAMILY_DESCRIPTION,
+            trainer=xgboost_models.train_xgboost_models,
+            report_sections=xgboost_models.xgboost_report_sections,
+            post_run=xgboost_models.xgboost_post_run,
         ),
     }
 
@@ -291,6 +299,53 @@ def render_family_report(
     return "\n".join(lines)
 
 
+def render_cross_family_comparison(
+    results: Sequence[ModelResult], reference_results: Sequence[ModelResult]
+) -> list[str]:
+    """Markdown table: best validation model of every family for each target."""
+    combined = [r for r in (*reference_results, *results) if r.split == VALIDATION_SPLIT]
+    if not combined:
+        return []
+    lines = [
+        "## Comparison with every trained family (validation)",
+        "",
+        "Best model per family on the primary metric (MAE for regression, log loss for "
+        "`home_win`), evaluated on the identical validation split.",
+        "",
+        "| Target | Metric | " + " | ".join(f"`{f}`" for f in _families_in(combined)) + " |",
+        "| :--- | :--- | " + " | ".join("---:" for _ in _families_in(combined)) + " |",
+    ]
+    for target in MODEL_TARGETS:
+        metric = PRIMARY_METRIC[task_for_target(target)]
+        cells = []
+        for fam in _families_in(combined):
+            best = _best_baseline(
+                [r for r in combined if r.model_family == fam], target, VALIDATION_SPLIT
+            )
+            cells.append(
+                "—" if best is None else f"{_fmt(best.metrics[metric])} (`{best.model_name}`)"
+            )
+        if any(c != "—" for c in cells):
+            lines.append(f"| `{target}` | {metric} | " + " | ".join(cells) + " |")
+    return lines
+
+
+def _families_in(results: Sequence[ModelResult]) -> list[str]:
+    order = list(get_model_families())
+    present = {r.model_family for r in results}
+    return [f for f in order if f in present] + sorted(present - set(order))
+
+
+def load_reference_results(results_dir: Path, exclude_family: str) -> list[ModelResult]:
+    """Load persisted results of every other family found in ``results_dir``."""
+    references: list[ModelResult] = []
+    for family in get_model_families():
+        path = results_dir / f"{family}_results.json"
+        if family != exclude_family and path.is_file():
+            references.extend(load_results(path))
+    return references
+
+
 def load_baseline_results(results_dir: Path) -> list[ModelResult]:
     """Load persisted baseline results, if they exist."""
     path = results_dir / f"{BASELINE_FAMILY}_results.json"
@@ -355,6 +410,9 @@ def run_model_family(
     baseline_results = [] if family_name == BASELINE_FAMILY else load_baseline_results(results_dir)
     section_builder = extra_report_sections or family.report_sections
     sections = section_builder(models, data) if section_builder else []
+    references = load_reference_results(results_dir, exclude_family=family_name)
+    if family_name != BASELINE_FAMILY and references:
+        sections = [*render_cross_family_comparison(results, references), "", *sections]
     report_path = results_dir / f"{family_name}_report.md"
     report_path.write_text(
         render_family_report(family, results, baseline_results, sections), encoding="utf-8"
