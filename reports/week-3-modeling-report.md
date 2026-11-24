@@ -6,7 +6,7 @@ This report documents Arcora's first NBA game prediction models: naive baselines
 python scripts/train_models.py
 ```
 
-- **Run**: 2026-11-24T10:03:27+00:00 → 2026-11-24T10:05:19+00:00 (112s, mode `train`)
+- **Run**: 2026-11-24T10:12:56+00:00 → 2026-11-24T10:14:45+00:00 (109s, mode `train`)
 - **Models evaluated**: 38 across 4 families and 5 targets
 - **Overall status**: PASSED (leakage, split, artifact, and reproducibility checks)
 
@@ -73,7 +73,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 | 3 | `linear_regression` | linear | 9.470 | 11.995 | 0.0876 | -0.0649 | +0.68% |
 | 4 | `random_forest_regressor` | random_forest | 9.478 | 12.010 | 0.0854 | -0.0565 | +0.59% |
 | 5 | `xgboost_regressor` | xgboost | 9.489 | 12.016 | 0.0845 | -0.0459 | +0.48% |
-| 6 | `historical_reference` | baseline | 9.535 | 12.067 | 0.0766 | -0.0000 | +0.00% |
+| 6 | `historical_reference` | baseline | 9.535 | 12.067 | 0.0766 | +0.0000 | +0.00% |
 | 7 | `median_baseline` | baseline | 13.232 | 16.443 | -0.7144 | +3.6974 | -38.78% |
 | 8 | `mean_baseline` | baseline | 13.298 | 16.510 | -0.7285 | +3.7631 | -39.47% |
 
@@ -85,7 +85,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 | 2 | `ridge_regression` | linear | 9.383 | 11.756 | 0.0991 | -0.0454 | +0.48% |
 | 3 | `random_forest_regressor` | random_forest | 9.394 | 11.814 | 0.0902 | -0.0345 | +0.37% |
 | 4 | `xgboost_regressor` | xgboost | 9.401 | 11.842 | 0.0860 | -0.0277 | +0.29% |
-| 5 | `historical_reference` | baseline | 9.429 | 11.887 | 0.0789 | -0.0000 | +0.00% |
+| 5 | `historical_reference` | baseline | 9.429 | 11.887 | 0.0789 | +0.0000 | +0.00% |
 | 6 | `linear_regression` | linear | 9.446 | 11.844 | 0.0856 | +0.0172 | -0.18% |
 | 7 | `mean_baseline` | baseline | 14.238 | 17.372 | -0.9671 | +4.8090 | -51.00% |
 | 8 | `median_baseline` | baseline | 14.809 | 17.961 | -1.1027 | +5.3807 | -57.07% |
@@ -97,7 +97,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 | 1 | `ridge_regression` | linear | 15.237 | 19.342 | 0.0823 | -0.1341 | +0.87% |
 | 2 | `lasso_regression` | linear | 15.281 | 19.387 | 0.0781 | -0.0904 | +0.59% |
 | 3 | `random_forest_regressor` | random_forest | 15.325 | 19.475 | 0.0697 | -0.0459 | +0.30% |
-| 4 | `historical_reference` | baseline | 15.371 | 19.512 | 0.0662 | -0.0000 | +0.00% |
+| 4 | `historical_reference` | baseline | 15.371 | 19.512 | 0.0662 | +0.0000 | +0.00% |
 | 5 | `xgboost_regressor` | xgboost | 15.413 | 19.565 | 0.0611 | +0.0419 | -0.27% |
 | 6 | `linear_regression` | linear | 15.434 | 19.519 | 0.0654 | +0.0632 | -0.41% |
 | 7 | `mean_baseline` | baseline | 25.213 | 30.530 | -1.2862 | +9.8423 | -64.03% |
@@ -112,7 +112,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 | 3 | `lasso_regression` | linear | 10.777 | 13.670 | 0.1290 | -0.1885 | +1.72% |
 | 4 | `ridge_regression` | linear | 10.818 | 13.681 | 0.1275 | -0.1471 | +1.34% |
 | 5 | `linear_regression` | linear | 10.837 | 13.686 | 0.1269 | -0.1286 | +1.17% |
-| 6 | `historical_reference` | baseline | 10.965 | 13.898 | 0.0997 | -0.0000 | +0.00% |
+| 6 | `historical_reference` | baseline | 10.965 | 13.898 | 0.0997 | +0.0000 | +0.00% |
 | 7 | `mean_baseline` | baseline | 11.679 | 14.720 | -0.0100 | +0.7139 | -6.51% |
 | 8 | `median_baseline` | baseline | 11.732 | 14.841 | -0.0267 | +0.7670 | -6.99% |
 
@@ -123,7 +123,7 @@ Details and hyperparameters: [`docs/model_families.md`](../docs/model_families.m
 | 1 | `random_forest_classifier` | random_forest | 0.6393 | 0.2242 | 0.6824 | 0.6340 | 0.6163 | -0.0123 | +1.89% |
 | 2 | `xgboost_classifier` | xgboost | 0.6402 | 0.2243 | 0.6824 | 0.6396 | 0.6255 | -0.0114 | +1.75% |
 | 3 | `logistic_regression` | linear | 0.6428 | 0.2255 | 0.6787 | 0.6283 | 0.6136 | -0.0088 | +1.35% |
-| 4 | `historical_reference` | baseline | 0.6516 | 0.2297 | 0.6744 | 0.6175 | 0.5902 | -0.0000 | +0.00% |
+| 4 | `historical_reference` | baseline | 0.6516 | 0.2297 | 0.6744 | 0.6175 | 0.5902 | +0.0000 | +0.00% |
 | 5 | `prior_baseline` | baseline | 0.6943 | 0.2505 | 0.5000 | 0.5467 | 0.5000 | +0.0426 | -6.54% |
 | 6 | `most_frequent_baseline` | baseline | 15.6577 | 0.4533 | 0.5000 | 0.5467 | 0.5000 | +15.0061 | -2302.87% |
 
@@ -175,7 +175,7 @@ Best model of each family (primary metric, validation):
 
 Full breakdowns (by season, home team, away team, game type; largest errors; confusion matrix; calibration): [`model_evaluation_report.md`](model_evaluation_report.md).
 
-![Improvement over baseline](figures/models/model_improvement_vs_baseline.png)
+![Relative loss reduction vs best baseline](figures/models/model_loss_reduction_vs_baseline.png)
 
 | Target (best model) | Bias (mean residual) | Residual std | Within ±5 | Within ±10 |
 | :--- | ---: | ---: | ---: | ---: |
@@ -202,7 +202,7 @@ Key observations:
 | Week 2 leakage audit (LEAK-001–LEAK-007) | 7/7 passed |
 | Chronological split checks (SPLIT-001–SPLIT-007) | 7/7 passed |
 | Artifact reload, feature order, prediction shape, valid probabilities, missing values, column-order invariance, match with cached predictions | 38/38 artifacts passed |
-| Repeated training with identical configuration | 6/6 identical (max |Δ| = 2.22e-16) |
+| Repeated training with identical configuration | 6/6 identical (max abs. difference = 2.22e-16) |
 | Test suite, Ruff, Mypy | `pytest`, `ruff check src tests scripts`, `mypy src` |
 
 ## 11. Locked Evaluation Status

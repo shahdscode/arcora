@@ -216,7 +216,7 @@ REGRESSION_METRICS: tuple[MetricSpec, ...] = (
         task=REGRESSION_TASK,
         greater_is_better=False,
         input_type="point prediction",
-        formula="mean(|y - y_hat|)",
+        formula="mean(abs(y - y_hat))",
         undefined_handling="Undefined (null) only for empty inputs.",
     ),
     MetricSpec(

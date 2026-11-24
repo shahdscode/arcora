@@ -63,15 +63,15 @@ def _f(value: Any, digits: int = 3) -> str:
 
 def _delta(row: Any) -> str:
     """Absolute difference ``model - best baseline`` in metric units (negative = better)."""
-    value = row.get("improvement_vs_baseline")
+    value = row.get("delta_vs_baseline")
     if value is None or pd.isna(value):
         return "—"
-    return f"{-float(value):+.4f}"
+    return f"{float(value):+.4f}"
 
 
 def _pct(row: Any) -> str:
     """Relative loss reduction ``(baseline - model) / baseline`` in percent (positive = better)."""
-    value = row.get("improvement_vs_baseline_pct")
+    value = row.get("relative_loss_reduction_pct")
     if value is None or pd.isna(value):
         return "—"
     return f"{float(value):+.2f}%"
@@ -339,7 +339,8 @@ def render_week3_report(
             "confusion matrix; calibration): "
             "[`model_evaluation_report.md`](model_evaluation_report.md).",
             "",
-            "![Improvement over baseline](figures/models/model_improvement_vs_baseline.png)",
+            "![Relative loss reduction vs best baseline]"
+            "(figures/models/model_loss_reduction_vs_baseline.png)",
             "",
         ]
     )
@@ -419,7 +420,8 @@ def render_week3_report(
         lines.append(
             "| Repeated training with identical configuration | "
             f"{sum(c.reproducible for c in summary.reproducibility_checks)}/"
-            f"{len(summary.reproducibility_checks)} identical (max |Δ| = {max_diff:.2e}) |"
+            f"{len(summary.reproducibility_checks)} identical "
+            f"(max abs. difference = {max_diff:.2e}) |"
         )
     lines.extend(
         [

@@ -105,25 +105,30 @@ def _sort_key(metric: str) -> bool:
 def rank_models(table: pd.DataFrame, split: str) -> pd.DataFrame:
     """Rank models within each target on the primary metric for one split.
 
-    Adds ``rank``, the best naive baseline's score, and the absolute and relative
-    improvement over it (positive = better than the best baseline).
+    Adds ``rank``, ``best_baseline_score`` (the lowest-loss naive baseline), and the two
+    baseline-comparison quantities used in every Arcora report:
+
+    * ``delta_vs_baseline = model_loss - baseline_loss`` in metric units (negative = better);
+    * ``relative_loss_reduction_pct = (baseline_loss - model_loss) / baseline_loss * 100``
+      (positive = better).
+
+    Primary metrics are losses (MAE, log loss); a higher-is-better primary metric is rejected.
     """
     frames = []
     for target, group in table[table["split"] == split].groupby("target", sort=False):
         metric = str(group["primary_metric"].iloc[0])
         ascending = _sort_key(metric)
+        if not ascending:
+            raise ValueError(f"Primary metric '{metric}' must be a loss (lower is better)")
         ranked = group.sort_values("primary_score", ascending=ascending, na_position="last").copy()
         ranked["rank"] = np.arange(1, len(ranked) + 1)
         baselines = ranked[ranked["model_family"] == BASELINE_FAMILY]["primary_score"].dropna()
-        best_baseline = (
-            (baselines.min() if ascending else baselines.max()) if not baselines.empty else np.nan
-        )
-        sign = 1.0 if ascending else -1.0
+        best_baseline = float(baselines.min()) if not baselines.empty else np.nan
         ranked["best_baseline_score"] = best_baseline
-        ranked["improvement_vs_baseline"] = sign * (best_baseline - ranked["primary_score"])
-        ranked["improvement_vs_baseline_pct"] = (
-            100.0 * ranked["improvement_vs_baseline"] / abs(best_baseline)
-            if best_baseline and not np.isnan(best_baseline)
+        ranked["delta_vs_baseline"] = ranked["primary_score"] - best_baseline
+        ranked["relative_loss_reduction_pct"] = (
+            100.0 * (best_baseline - ranked["primary_score"]) / best_baseline
+            if best_baseline > 0
             else np.nan
         )
         ranked["target"] = target

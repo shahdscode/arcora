@@ -111,8 +111,8 @@ def _save(fig: Any, path: Path) -> Path:
     return path
 
 
-def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
-    """Grouped bars: % improvement in the primary metric over the best naive baseline."""
+def plot_loss_reduction_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
+    """Grouped bars: relative loss reduction vs the best naive baseline (positive = better)."""
     families = [f for f in DEFAULT_FAMILY_ORDER if f != BASELINE_FAMILY]
     families = [f for f in families if f in set(family_best["model_family"])]
     targets = [t for t in MODEL_TARGETS if t in set(family_best["target"])]
@@ -121,7 +121,7 @@ def plot_improvement_vs_baseline(family_best: pd.DataFrame, path: Path) -> Path:
     x = np.arange(len(targets))
     for i, family in enumerate(families):
         sub = family_best[family_best["model_family"] == family].set_index("target")
-        values = [float(sub["improvement_vs_baseline_pct"].get(t, np.nan)) for t in targets]
+        values = [float(sub["relative_loss_reduction_pct"].get(t, np.nan)) for t in targets]
         ax.bar(
             x + (i - (len(families) - 1) / 2) * width,
             values,
@@ -312,8 +312,8 @@ def render_evaluation_markdown(
         lines.append(
             f"| `{row['target']}` | {row['primary_metric']} | `{row['model_name']}` | "
             f"{row['model_family']} | {_fmt(row['primary_score'])} | "
-            f"{_fmt(row['best_baseline_score'])} | {-float(row['improvement_vs_baseline']):+.4f} | "
-            f"{float(row['improvement_vs_baseline_pct']):+.2f}% |"
+            f"{_fmt(row['best_baseline_score'])} | {float(row['delta_vs_baseline']):+.4f} | "
+            f"{float(row['relative_loss_reduction_pct']):+.2f}% |"
         )
 
     lines.extend(
@@ -336,14 +336,14 @@ def render_evaluation_markdown(
         )
 
     lines.extend(["", "## Regression comparison (validation)", ""])
-    if "improvement" in figures:
-        lines.extend([f"![Improvement over baseline]({figures['improvement']})", ""])
+    if "loss_reduction" in figures:
+        lines.extend([f"![Relative loss reduction vs baseline]({figures['loss_reduction']})", ""])
     reg = ranked[ranked["task"] == "regression"].copy()
     lines.extend(
         _md_table(
             reg.assign(
-                delta_mae=-reg["improvement_vs_baseline"],
-                mae_reduction_pct=reg["improvement_vs_baseline_pct"],
+                delta_mae=reg["delta_vs_baseline"],
+                mae_reduction_pct=reg["relative_loss_reduction_pct"],
             ),
             [
                 "target",
@@ -612,8 +612,8 @@ def generate_evaluation_report(
 
     written: dict[str, Path] = {}
     figure_paths = {
-        "improvement": plot_improvement_vs_baseline(
-            family_best, figures_dir / "model_improvement_vs_baseline.png"
+        "loss_reduction": plot_loss_reduction_vs_baseline(
+            family_best, figures_dir / "model_loss_reduction_vs_baseline.png"
         ),
         "actual_vs_predicted": plot_actual_vs_predicted(
             frame, best, figures_dir / "actual_vs_predicted.png"
@@ -636,7 +636,13 @@ def generate_evaluation_report(
 
     reports_dir.mkdir(parents=True, exist_ok=True)
     csv_path = reports_dir / "model_comparison.csv"
-    table.drop(columns=["dataset_fingerprint", "feature_fingerprint"]).to_csv(csv_path, index=False)
+    baseline_cols = ["best_baseline_score", "delta_vs_baseline", "relative_loss_reduction_pct"]
+    csv_frame = table.merge(
+        ranked.loc[:, ["model_id", "split", *baseline_cols]], on=["model_id", "split"], how="left"
+    )
+    csv_frame.drop(columns=["dataset_fingerprint", "feature_fingerprint"]).to_csv(
+        csv_path, index=False
+    )
     written["comparison_csv"] = csv_path
 
     sample = results[0].reproducibility

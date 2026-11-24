@@ -28,7 +28,7 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 
 ## Regression comparison (validation)
 
-![Improvement over baseline](figures/models/model_improvement_vs_baseline.png)
+![Relative loss reduction vs baseline](figures/models/model_loss_reduction_vs_baseline.png)
 
 | target | rank | model_name | model_family | mae | rmse | r2 | delta_mae | mae_reduction_pct |
 | :--- | ---: | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
@@ -37,21 +37,21 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 | home_pts | 3 | linear_regression | linear | 9.470 | 11.995 | 0.088 | -0.065 | 0.681 |
 | home_pts | 4 | random_forest_regressor | random_forest | 9.478 | 12.010 | 0.085 | -0.057 | 0.593 |
 | home_pts | 5 | xgboost_regressor | xgboost | 9.489 | 12.016 | 0.084 | -0.046 | 0.481 |
-| home_pts | 6 | historical_reference | baseline | 9.535 | 12.067 | 0.077 | -0.000 | 0.000 |
+| home_pts | 6 | historical_reference | baseline | 9.535 | 12.067 | 0.077 | 0.000 | 0.000 |
 | home_pts | 7 | median_baseline | baseline | 13.232 | 16.443 | -0.714 | 3.697 | -38.778 |
 | home_pts | 8 | mean_baseline | baseline | 13.298 | 16.510 | -0.729 | 3.763 | -39.468 |
 | away_pts | 1 | lasso_regression | linear | 9.379 | 11.744 | 0.101 | -0.049 | 0.523 |
 | away_pts | 2 | ridge_regression | linear | 9.383 | 11.756 | 0.099 | -0.045 | 0.481 |
 | away_pts | 3 | random_forest_regressor | random_forest | 9.394 | 11.814 | 0.090 | -0.035 | 0.366 |
 | away_pts | 4 | xgboost_regressor | xgboost | 9.401 | 11.842 | 0.086 | -0.028 | 0.294 |
-| away_pts | 5 | historical_reference | baseline | 9.429 | 11.887 | 0.079 | -0.000 | 0.000 |
+| away_pts | 5 | historical_reference | baseline | 9.429 | 11.887 | 0.079 | 0.000 | 0.000 |
 | away_pts | 6 | linear_regression | linear | 9.446 | 11.844 | 0.086 | 0.017 | -0.183 |
 | away_pts | 7 | mean_baseline | baseline | 14.238 | 17.372 | -0.967 | 4.809 | -51.003 |
 | away_pts | 8 | median_baseline | baseline | 14.809 | 17.961 | -1.103 | 5.381 | -57.066 |
 | total_pts | 1 | ridge_regression | linear | 15.237 | 19.342 | 0.082 | -0.134 | 0.872 |
 | total_pts | 2 | lasso_regression | linear | 15.281 | 19.387 | 0.078 | -0.090 | 0.588 |
 | total_pts | 3 | random_forest_regressor | random_forest | 15.325 | 19.475 | 0.070 | -0.046 | 0.299 |
-| total_pts | 4 | historical_reference | baseline | 15.371 | 19.512 | 0.066 | -0.000 | 0.000 |
+| total_pts | 4 | historical_reference | baseline | 15.371 | 19.512 | 0.066 | 0.000 | 0.000 |
 | total_pts | 5 | xgboost_regressor | xgboost | 15.413 | 19.565 | 0.061 | 0.042 | -0.272 |
 | total_pts | 6 | linear_regression | linear | 15.434 | 19.519 | 0.065 | 0.063 | -0.411 |
 | total_pts | 7 | mean_baseline | baseline | 25.213 | 30.530 | -1.286 | 9.842 | -64.032 |
@@ -61,7 +61,7 @@ Mean per-game loss difference (best model − baseline; negative = better), with
 | point_margin | 3 | lasso_regression | linear | 10.777 | 13.670 | 0.129 | -0.188 | 1.719 |
 | point_margin | 4 | ridge_regression | linear | 10.818 | 13.681 | 0.128 | -0.147 | 1.341 |
 | point_margin | 5 | linear_regression | linear | 10.837 | 13.686 | 0.127 | -0.129 | 1.173 |
-| point_margin | 6 | historical_reference | baseline | 10.965 | 13.898 | 0.100 | -0.000 | 0.000 |
+| point_margin | 6 | historical_reference | baseline | 10.965 | 13.898 | 0.100 | 0.000 | 0.000 |
 | point_margin | 7 | mean_baseline | baseline | 11.679 | 14.720 | -0.010 | 0.714 | -6.511 |
 | point_margin | 8 | median_baseline | baseline | 11.732 | 14.841 | -0.027 | 0.767 | -6.995 |
 
@@ -362,4 +362,4 @@ Per-season error of the best model over training and validation seasons. Trainin
 - One metric implementation for every model (`compute_metrics`); undefined metrics are stored as `null` and listed per result.
 - `validate_comparability()` refuses to compare results scored on different datasets, splits, or feature lists.
 - Error analysis is restricted to development splits; locked splits raise `PermissionError` unless explicitly allowed for a documented final evaluation.
-- Generated: 2026-11-24T10:05:19+00:00.
+- Generated: 2026-11-24T10:14:45+00:00.

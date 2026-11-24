@@ -6,7 +6,7 @@ with one implementation, so results from different model families are directly c
 | Module | Responsibility |
 | :--- | :--- |
 | `metrics.py` | Regression (MAE, RMSE, R²) and classification (accuracy, balanced accuracy, precision, recall, ROC-AUC, log loss, Brier) metrics with safe handling of undefined cases |
-| `comparison.py` | Comparability checks, comparison tables, rankings, improvement over baselines, paired bootstrap tests |
+| `comparison.py` | Comparability checks, comparison tables, rankings, baseline comparisons, paired bootstrap tests |
 | `error_analysis.py` | Residuals, per-season / per-team / per-game-type errors, largest errors, confusion matrices, calibration |
 | `report.py` | Writes `reports/model_comparison.{csv,json}`, `reports/model_evaluation_report.md`, and `reports/figures/models/*.png` |
 
@@ -30,7 +30,15 @@ never as 0, and are listed in each result's `undefined_metrics`:
   dataset fingerprint, split `game_id` fingerprint, feature fingerprint, or game count. Metrics
   from different evaluation periods can therefore never be mixed in one ranking.
 - `rank_models()` ranks every model per target on the primary metric (MAE for regression, log loss
-  for `home_win`) and reports the absolute and percentage improvement over the best naive baseline.
+  for `home_win`) and compares each model with the best (lowest-loss) naive baseline using two
+  quantities, reported identically in every table, chart, CSV, and JSON output:
+
+  | Quantity | Formula | Units | Better |
+  | :--- | :--- | :--- | :--- |
+  | `delta_vs_baseline` (Absolute Δ) | model loss − baseline loss | metric units (MAE points, log loss) | negative |
+  | `relative_loss_reduction_pct` | (baseline loss − model loss) / baseline loss × 100 | % of the baseline's loss | positive |
+
+  The relative figure is a percentage reduction in loss, not percentage points of accuracy.
 - `paired_bootstrap()` resamples games to put a 95% interval on the per-game loss difference
   between two models scored on identical games, indicating whether an improvement is meaningful
   rather than noise.

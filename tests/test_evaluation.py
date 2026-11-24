@@ -143,23 +143,61 @@ def test_validate_comparability_rejects_mixed_evaluation_data() -> None:
         validate_comparability([*ok, mixed_n])
 
 
-def test_rank_models_and_improvement_vs_baseline() -> None:
+def test_rank_models_baseline_sign_conventions() -> None:
+    """Absolute Δ = model - baseline (negative better); reduction % positive when better."""
     table = comparison_table(
         [
             _result("mean_baseline", "baseline", 12.0),
             _result("ref", "baseline", 11.0),
             _result("ridge", "linear", 10.0),
-            _result("rf", "random_forest", 10.5),
+            _result("rf", "random_forest", 11.55),
         ]
     )
-    ranked = rank_models(table, VALIDATION_SPLIT)
-    assert ranked["model_name"].tolist() == ["ridge", "rf", "ref", "mean_baseline"]
-    assert ranked["rank"].tolist() == [1, 2, 3, 4]
-    ridge = ranked[ranked["model_name"] == "ridge"].iloc[0]
-    assert ridge["best_baseline_score"] == 11.0
-    assert ridge["improvement_vs_baseline"] == pytest.approx(1.0)
-    assert ridge["improvement_vs_baseline_pct"] == pytest.approx(100 / 11)
-    assert best_models(ranked)["model_name"].tolist() == ["ridge"]
+    ranked = rank_models(table, VALIDATION_SPLIT).set_index("model_name")
+    assert ranked["rank"].to_dict() == {"ridge": 1, "ref": 2, "rf": 3, "mean_baseline": 4}
+    assert (ranked["best_baseline_score"] == 11.0).all()
+    # Better than the baseline: negative delta, positive reduction.
+    assert ranked.loc["ridge", "delta_vs_baseline"] == pytest.approx(-1.0)
+    assert ranked.loc["ridge", "relative_loss_reduction_pct"] == pytest.approx(100 / 11)
+    # Worse than the baseline: positive delta, negative reduction.
+    assert ranked.loc["rf", "delta_vs_baseline"] == pytest.approx(0.55)
+    assert ranked.loc["rf", "relative_loss_reduction_pct"] == pytest.approx(-5.0)
+    # The best baseline itself is exactly zero on both.
+    assert ranked.loc["ref", "delta_vs_baseline"] == 0.0
+    assert ranked.loc["ref", "relative_loss_reduction_pct"] == 0.0
+    # The two quantities are always consistent with each other.
+    implied = -100 * ranked["delta_vs_baseline"] / ranked["best_baseline_score"]
+    assert np.allclose(implied, ranked["relative_loss_reduction_pct"])
+    assert best_models(rank_models(table, VALIDATION_SPLIT))["model_name"].tolist() == ["ridge"]
+
+
+def test_rank_models_uses_same_convention_for_log_loss() -> None:
+    def clf(model: str, family: str, ll: float) -> ModelResult:
+        r = _result(model, family, 0.0)
+        return dataclasses.replace(
+            r, target="home_win", task="classification", metrics={"log_loss": ll, "brier": 0.2}
+        )
+
+    ranked = rank_models(
+        comparison_table(
+            [
+                clf("prior", "baseline", 0.70),
+                clf("most_frequent", "baseline", 15.0),
+                clf("logit", "linear", 0.63),
+            ]
+        ),
+        VALIDATION_SPLIT,
+    ).set_index("model_name")
+    # The degenerate most-frequent classifier is never the benchmark (it has the highest loss).
+    assert ranked.loc["logit", "best_baseline_score"] == 0.70
+    assert ranked.loc["logit", "delta_vs_baseline"] == pytest.approx(-0.07)
+    assert ranked.loc["logit", "relative_loss_reduction_pct"] == pytest.approx(10.0)
+
+
+def test_rank_models_rejects_non_loss_primary_metric() -> None:
+    table = comparison_table([_result("a", "baseline", 1.0)]).assign(primary_metric="r2")
+    with pytest.raises(ValueError, match="loss"):
+        rank_models(table, VALIDATION_SPLIT)
 
 
 def _paired_predictions() -> pd.DataFrame:
@@ -304,7 +342,25 @@ def test_evaluation_report_is_generated_reproducibly(
         "point_margin",
         "home_win",
     }
+    # Baseline-comparison columns obey the documented convention in CSV and JSON.
+    csv = pd.read_csv(out_a / "model_comparison.csv")
+    val = csv[csv["split"] == VALIDATION_SPLIT]
+    assert val["delta_vs_baseline"].notna().all()
+    assert csv[csv["split"] != VALIDATION_SPLIT]["delta_vs_baseline"].isna().all()
+    assert np.allclose(val["delta_vs_baseline"], val["primary_score"] - val["best_baseline_score"])
+    assert np.allclose(
+        val["relative_loss_reduction_pct"],
+        100 * (val["best_baseline_score"] - val["primary_score"]) / val["best_baseline_score"],
+    )
+    for row in payload["ranking"]:
+        assert row["delta_vs_baseline"] == pytest.approx(
+            row["primary_score"] - row["best_baseline_score"]
+        )
+        assert "improvement_vs_baseline" not in row
+
     text = (out_a / "model_evaluation_report.md").read_text()
     assert "## Best model per target" in text
+    assert "Absolute Δ" in text and "Relative loss reduction" in text
+    assert "improvement" not in text.lower().split("## paired bootstrap")[0]
     assert "Paired bootstrap" in text
     assert "Error analysis — classification" in text

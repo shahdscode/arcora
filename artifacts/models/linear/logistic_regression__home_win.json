@@ -34,39 +34,39 @@
         {
           "C": 0.0001,
           "validation_log_loss": 0.643429734916612,
-          "fit_seconds": 0.30255362499156035
+          "fit_seconds": 0.3456298329983838
         },
         {
           "C": 0.0003,
           "validation_log_loss": 0.6429011799497432,
-          "fit_seconds": 0.30654058398795314
+          "fit_seconds": 0.3154993329953868
         },
         {
           "C": 0.001,
           "validation_log_loss": 0.6428398768421616,
-          "fit_seconds": 0.30855008300568443
+          "fit_seconds": 0.30365245800931007
         },
         {
           "C": 0.003,
           "validation_log_loss": 0.6431081953408087,
-          "fit_seconds": 0.3215528330038069
+          "fit_seconds": 0.31618829199578613
         },
         {
           "C": 0.01,
           "validation_log_loss": 0.6435317319244872,
-          "fit_seconds": 0.33731524999893736
+          "fit_seconds": 0.33071766699140426
         },
         {
           "C": 0.1,
           "validation_log_loss": 0.6441510940005695,
-          "fit_seconds": 0.4033178749959916
+          "fit_seconds": 0.39778487499279436
         }
       ],
       "selected_value": 0.001,
       "selected_validation_score": 0.6428398768421616,
-      "fit_seconds": 0.30855008300568443
+      "fit_seconds": 0.30365245800931007
     },
-    "fit_seconds": 0.30855008300568443,
+    "fit_seconds": 0.30365245800931007,
     "class_imbalance_investigation": {
       "train_home_win_rate": 0.5982444294395679,
       "validation_home_win_rate": 0.5466724286949006,
@@ -103,9 +103,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "logistic_regression__home_win.joblib",
-  "artifact_sha256": "7f234dde8682c8c2c62a75d3623fec546713520f8f414a1ba0114c71f3cf6891",
-  "artifact_bytes": 12473,
-  "saved_at": "2026-11-24T10:03:53+00:00",
+  "artifact_sha256": "390b2f5969574861f69c2018407bd7ea9055a640a4ab04837e07a65ff2f8f442",
+  "artifact_bytes": 12474,
+  "saved_at": "2026-11-24T10:13:21+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

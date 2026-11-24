@@ -138,7 +138,7 @@ The persisted manifest (`data/splits/split_manifest.json`) records a SHA-256 fin
 
 | Metric | Task | Better | Input | Formula | Undefined handling |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| MAE (`mae`) | regression | Lower | point prediction | `mean(|y - y_hat|)` | Undefined (null) only for empty inputs. |
+| MAE (`mae`) | regression | Lower | point prediction | `mean(abs(y - y_hat))` | Undefined (null) only for empty inputs. |
 | RMSE (`rmse`) | regression | Lower | point prediction | `sqrt(mean((y - y_hat)^2))` | Undefined (null) only for empty inputs. |
 | R² (`r2`) | regression | Higher | point prediction | `1 - SS_res / SS_tot` | Null when fewer than 2 rows or y is constant (SS_tot = 0). |
 | Accuracy (`accuracy`) | classification | Higher | label at threshold 0.5 | `mean(y == y_hat)` | Undefined (null) only for empty inputs. |

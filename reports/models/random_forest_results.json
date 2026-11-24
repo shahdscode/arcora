@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-24T10:04:47+00:00",
+  "generated_at": "2026-11-24T10:14:14+00:00",
   "n_results": 10,
   "results": [
     {
@@ -31,7 +31,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.061560709000332,
+        "fit_seconds": 12.042464500002097,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.11
@@ -52,7 +52,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:45+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -82,7 +82,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.884795457997825,
+        "fit_seconds": 11.5023500410025,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 384.2633333333333
@@ -103,7 +103,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -133,7 +133,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.337819209002191,
+        "fit_seconds": 11.56506462499965,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.04
@@ -154,7 +154,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -184,7 +184,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 13.13090704199567,
+        "fit_seconds": 12.918682167000952,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 346.14
@@ -205,7 +205,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_classifier",
@@ -240,7 +240,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 3.1179085829935502,
+        "fit_seconds": 2.9635583750059595,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 362.52
@@ -261,7 +261,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -291,7 +291,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.061560709000332,
+        "fit_seconds": 12.042464500002097,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.11
@@ -312,7 +312,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -324,7 +324,7 @@
       "metrics": {
         "mae": 9.394213933837388,
         "rmse": 11.814009841184617,
-        "r2": 0.09023128044433848
+        "r2": 0.09023128044433826
       },
       "undefined_metrics": [],
       "params": {
@@ -342,7 +342,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 11.884795457997825,
+        "fit_seconds": 11.5023500410025,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 384.2633333333333
@@ -363,7 +363,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -393,7 +393,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 12.337819209002191,
+        "fit_seconds": 11.56506462499965,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 386.04
@@ -414,7 +414,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_regressor",
@@ -426,7 +426,7 @@
       "metrics": {
         "mae": 10.747912445507534,
         "rmse": 13.63141977180683,
-        "r2": 0.13388855086475282
+        "r2": 0.13388855086475293
       },
       "undefined_metrics": [],
       "params": {
@@ -444,7 +444,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 13.13090704199567,
+        "fit_seconds": 12.918682167000952,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 346.14
@@ -465,7 +465,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     },
     {
       "model_name": "random_forest_classifier",
@@ -500,7 +500,7 @@
       "training_metadata": {
         "fit_split": "train",
         "n_train": 20734,
-        "fit_seconds": 3.1179085829935502,
+        "fit_seconds": 2.9635583750059595,
         "hyperparameter_search": "none (fixed configuration)",
         "mean_tree_depth": 14.0,
         "mean_tree_leaves": 362.52
@@ -521,7 +521,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:04:46+00:00"
+      "evaluated_at": "2026-11-24T10:14:13+00:00"
     }
   ]
 }

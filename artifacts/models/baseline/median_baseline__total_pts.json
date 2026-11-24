@@ -31,7 +31,7 @@
   "artifact_file": "median_baseline__total_pts.joblib",
   "artifact_sha256": "8627c7fc52ba209cb63d0931a35ff814ab452afa7edbc8b4f11928f1296196bc",
   "artifact_bytes": 2026,
-  "saved_at": "2026-11-24T10:03:27+00:00",
+  "saved_at": "2026-11-24T10:12:57+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

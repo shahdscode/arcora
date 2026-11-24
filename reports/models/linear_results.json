@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-24T10:03:53+00:00",
+  "generated_at": "2026-11-24T10:13:21+00:00",
   "n_results": 26,
   "results": [
     {
@@ -23,7 +23,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.36989887501113117
+        "fit_seconds": 0.33923062500252854
       },
       "reproducibility": {
         "random_seed": 42,
@@ -41,7 +41,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:52+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -82,49 +82,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 9.47323735644192,
-              "fit_seconds": 0.29031612499966286
+              "fit_seconds": 0.28533595900807995
             },
             {
               "alpha": 10.0,
               "validation_mae": 9.472203183871747,
-              "fit_seconds": 0.3062537079968024
+              "fit_seconds": 0.2866021669906331
             },
             {
               "alpha": 100.0,
               "validation_mae": 9.472626816167631,
-              "fit_seconds": 0.3009806249901885
+              "fit_seconds": 0.28595104200940114
             },
             {
               "alpha": 1000.0,
               "validation_mae": 9.46848867535471,
-              "fit_seconds": 0.29296058299951255
+              "fit_seconds": 0.2835693340020953
             },
             {
               "alpha": 10000.0,
               "validation_mae": 9.457100897818973,
-              "fit_seconds": 0.2978903749899473
+              "fit_seconds": 0.2856923749932321
             },
             {
               "alpha": 30000.0,
               "validation_mae": 9.44693515666929,
-              "fit_seconds": 0.3028716659900965
+              "fit_seconds": 0.2834233750036219
             },
             {
               "alpha": 100000.0,
               "validation_mae": 9.463070006707934,
-              "fit_seconds": 0.29772216599667445
+              "fit_seconds": 0.28497312500257976
             },
             {
               "alpha": 300000.0,
               "validation_mae": 9.80372307469306,
-              "fit_seconds": 0.2907957080024062
+              "fit_seconds": 0.2837707909930032
             }
           ],
           "selected_value": 30000.0,
           "selected_validation_score": 9.44693515666929,
-          "fit_seconds": 0.3028716659900965
+          "fit_seconds": 0.2834233750036219
         },
-        "fit_seconds": 0.3028716659900965
+        "fit_seconds": 0.2834233750036219
       },
       "reproducibility": {
         "random_seed": 42,
@@ -142,7 +142,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:52+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -182,39 +182,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 9.477703030433805,
-              "fit_seconds": 0.7816452080005547
+              "fit_seconds": 0.7619788750016596
             },
             {
               "alpha": 0.03,
               "validation_mae": 9.470693519666787,
-              "fit_seconds": 0.38819825000246055
+              "fit_seconds": 0.38157904100080486
             },
             {
               "alpha": 0.1,
               "validation_mae": 9.459186789483558,
-              "fit_seconds": 0.37606729099934455
+              "fit_seconds": 0.3519277500017779
             },
             {
               "alpha": 0.3,
               "validation_mae": 9.466631661843882,
-              "fit_seconds": 0.35975612500624266
+              "fit_seconds": 0.339778124995064
             },
             {
               "alpha": 1.0,
               "validation_mae": 9.499845931435512,
-              "fit_seconds": 0.3439704999909736
+              "fit_seconds": 0.3259714169980725
             },
             {
               "alpha": 3.0,
               "validation_mae": 10.469057460709504,
-              "fit_seconds": 0.30840125000395346
+              "fit_seconds": 0.2966648330038879
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 9.459186789483558,
-          "fit_seconds": 0.37606729099934455
+          "fit_seconds": 0.3519277500017779
         },
-        "fit_seconds": 0.37606729099934455,
+        "fit_seconds": 0.3519277500017779,
         "n_nonzero_coefficients": 46
       },
       "reproducibility": {
@@ -233,7 +233,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -255,7 +255,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.3446106659976067
+        "fit_seconds": 0.3313953750039218
       },
       "reproducibility": {
         "random_seed": 42,
@@ -273,7 +273,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -314,49 +314,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 9.436565963303398,
-              "fit_seconds": 0.30503979200148024
+              "fit_seconds": 0.2870622500049649
             },
             {
               "alpha": 10.0,
               "validation_mae": 9.428595096790948,
-              "fit_seconds": 0.2945170829916606
+              "fit_seconds": 0.286973250011215
             },
             {
               "alpha": 100.0,
               "validation_mae": 9.416635221032694,
-              "fit_seconds": 0.2851968750037486
+              "fit_seconds": 0.28372329199919477
             },
             {
               "alpha": 1000.0,
               "validation_mae": 9.405795851049273,
-              "fit_seconds": 0.28669454099144787
+              "fit_seconds": 0.2844725000031758
             },
             {
               "alpha": 10000.0,
               "validation_mae": 9.383394032625192,
-              "fit_seconds": 0.288687749998644
+              "fit_seconds": 0.2840554589929525
             },
             {
               "alpha": 30000.0,
               "validation_mae": 9.384324822000883,
-              "fit_seconds": 0.28727162499853875
+              "fit_seconds": 0.28264216700335965
             },
             {
               "alpha": 100000.0,
               "validation_mae": 9.458759956496735,
-              "fit_seconds": 0.2926960000040708
+              "fit_seconds": 0.2833034170034807
             },
             {
               "alpha": 300000.0,
               "validation_mae": 9.988614376318683,
-              "fit_seconds": 0.2983865839923965
+              "fit_seconds": 0.28453341701242607
             }
           ],
           "selected_value": 10000.0,
           "selected_validation_score": 9.383394032625192,
-          "fit_seconds": 0.288687749998644
+          "fit_seconds": 0.2840554589929525
         },
-        "fit_seconds": 0.288687749998644
+        "fit_seconds": 0.2840554589929525
       },
       "reproducibility": {
         "random_seed": 42,
@@ -374,7 +374,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -414,39 +414,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 9.402669727691148,
-              "fit_seconds": 1.1880452499899548
+              "fit_seconds": 1.0796642920031445
             },
             {
               "alpha": 0.03,
               "validation_mae": 9.385464160418058,
-              "fit_seconds": 0.5907245830021566
+              "fit_seconds": 0.573232167007518
             },
             {
               "alpha": 0.1,
               "validation_mae": 9.37941015389925,
-              "fit_seconds": 0.36582079200888984
+              "fit_seconds": 0.34110987500753254
             },
             {
               "alpha": 0.3,
               "validation_mae": 9.391309057364422,
-              "fit_seconds": 0.3432886250084266
+              "fit_seconds": 0.3337072080030339
             },
             {
               "alpha": 1.0,
               "validation_mae": 9.468287406696875,
-              "fit_seconds": 0.3334819999872707
+              "fit_seconds": 0.31474408399662934
             },
             {
               "alpha": 3.0,
               "validation_mae": 10.832599179068966,
-              "fit_seconds": 0.3045360419928329
+              "fit_seconds": 0.2926488340017386
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 9.37941015389925,
-          "fit_seconds": 0.36582079200888984
+          "fit_seconds": 0.34110987500753254
         },
-        "fit_seconds": 0.36582079200888984,
+        "fit_seconds": 0.34110987500753254,
         "n_nonzero_coefficients": 40
       },
       "reproducibility": {
@@ -465,7 +465,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -487,7 +487,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.33967537501303013
+        "fit_seconds": 0.3315613750019111
       },
       "reproducibility": {
         "random_seed": 42,
@@ -505,7 +505,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -546,49 +546,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 15.42778267625432,
-              "fit_seconds": 0.30216558299434837
+              "fit_seconds": 0.2828711670008488
             },
             {
               "alpha": 10.0,
               "validation_mae": 15.419306330541943,
-              "fit_seconds": 0.302227624997613
+              "fit_seconds": 0.28262458300741855
             },
             {
               "alpha": 100.0,
               "validation_mae": 15.397508736448092,
-              "fit_seconds": 0.30959933300619014
+              "fit_seconds": 0.2843426250037737
             },
             {
               "alpha": 1000.0,
               "validation_mae": 15.359891474551745,
-              "fit_seconds": 0.3023422499973094
+              "fit_seconds": 0.28370250000443775
             },
             {
               "alpha": 10000.0,
               "validation_mae": 15.283093033730793,
-              "fit_seconds": 0.29263312500552274
+              "fit_seconds": 0.2835675420064945
             },
             {
               "alpha": 30000.0,
               "validation_mae": 15.236908365409972,
-              "fit_seconds": 0.2827346249978291
+              "fit_seconds": 0.2844362499890849
             },
             {
               "alpha": 100000.0,
               "validation_mae": 15.302981703517082,
-              "fit_seconds": 0.28393629200581927
+              "fit_seconds": 0.2842719579930417
             },
             {
               "alpha": 300000.0,
               "validation_mae": 16.27682670941234,
-              "fit_seconds": 0.283125874993857
+              "fit_seconds": 0.283486415995867
             }
           ],
           "selected_value": 30000.0,
           "selected_validation_score": 15.236908365409972,
-          "fit_seconds": 0.2827346249978291
+          "fit_seconds": 0.2844362499890849
         },
-        "fit_seconds": 0.2827346249978291
+        "fit_seconds": 0.2844362499890849
       },
       "reproducibility": {
         "random_seed": 42,
@@ -606,7 +606,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -646,39 +646,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 15.386712413116175,
-              "fit_seconds": 1.1139207920059562
+              "fit_seconds": 1.0360564169968711
             },
             {
               "alpha": 0.03,
               "validation_mae": 15.352541883820878,
-              "fit_seconds": 0.7150422910053749
+              "fit_seconds": 0.6468621659878409
             },
             {
               "alpha": 0.1,
               "validation_mae": 15.321707549939175,
-              "fit_seconds": 0.3686954590084497
+              "fit_seconds": 0.36121512499812525
             },
             {
               "alpha": 0.3,
               "validation_mae": 15.300817793653541,
-              "fit_seconds": 0.3590830419998383
+              "fit_seconds": 0.35559658300189767
             },
             {
               "alpha": 1.0,
               "validation_mae": 15.280622989425932,
-              "fit_seconds": 0.36506062500120606
+              "fit_seconds": 0.36716708399762865
             },
             {
               "alpha": 3.0,
               "validation_mae": 15.796665090275187,
-              "fit_seconds": 0.3065665000031004
+              "fit_seconds": 0.30747329200676177
             }
           ],
           "selected_value": 1.0,
           "selected_validation_score": 15.280622989425932,
-          "fit_seconds": 0.36506062500120606
+          "fit_seconds": 0.36716708399762865
         },
-        "fit_seconds": 0.36506062500120606,
+        "fit_seconds": 0.36716708399762865,
         "n_nonzero_coefficients": 19
       },
       "reproducibility": {
@@ -697,7 +697,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -719,7 +719,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.33357941699796356
+        "fit_seconds": 0.33268195900018327
       },
       "reproducibility": {
         "random_seed": 42,
@@ -737,7 +737,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -778,49 +778,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 10.83106997327351,
-              "fit_seconds": 0.28502541698981076
+              "fit_seconds": 0.284525166003732
             },
             {
               "alpha": 10.0,
               "validation_mae": 10.825357285367769,
-              "fit_seconds": 0.28615458399872296
+              "fit_seconds": 0.2862704580038553
             },
             {
               "alpha": 100.0,
               "validation_mae": 10.82161714709273,
-              "fit_seconds": 0.2963180419901619
+              "fit_seconds": 0.2851221250020899
             },
             {
               "alpha": 1000.0,
               "validation_mae": 10.818018813046303,
-              "fit_seconds": 0.29571074999694247
+              "fit_seconds": 0.28519320899795275
             },
             {
               "alpha": 10000.0,
               "validation_mae": 10.832042283901268,
-              "fit_seconds": 0.29540474999521393
+              "fit_seconds": 0.28729975000896957
             },
             {
               "alpha": 30000.0,
               "validation_mae": 10.848886419034331,
-              "fit_seconds": 0.28928845799237024
+              "fit_seconds": 0.28760808298829943
             },
             {
               "alpha": 100000.0,
               "validation_mae": 10.888262894235005,
-              "fit_seconds": 0.2894712499983143
+              "fit_seconds": 0.2913320420047967
             },
             {
               "alpha": 300000.0,
               "validation_mae": 10.977507466299661,
-              "fit_seconds": 0.2858776250068331
+              "fit_seconds": 0.2963874580018455
             }
           ],
           "selected_value": 1000.0,
           "selected_validation_score": 10.818018813046303,
-          "fit_seconds": 0.29571074999694247
+          "fit_seconds": 0.28519320899795275
         },
-        "fit_seconds": 0.29571074999694247
+        "fit_seconds": 0.28519320899795275
       },
       "reproducibility": {
         "random_seed": 42,
@@ -838,7 +838,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -878,39 +878,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 10.812453477143851,
-              "fit_seconds": 0.7309812500025146
+              "fit_seconds": 0.7330185419996269
             },
             {
               "alpha": 0.03,
               "validation_mae": 10.801113415793155,
-              "fit_seconds": 0.6373785410105484
+              "fit_seconds": 0.6349130419985158
             },
             {
               "alpha": 0.1,
               "validation_mae": 10.77661054700901,
-              "fit_seconds": 0.3361945829965407
+              "fit_seconds": 0.3474309579905821
             },
             {
               "alpha": 0.3,
               "validation_mae": 10.816325575835972,
-              "fit_seconds": 0.3820492910017492
+              "fit_seconds": 0.3784437499998603
             },
             {
               "alpha": 1.0,
               "validation_mae": 10.914791401279173,
-              "fit_seconds": 0.36456579199875705
+              "fit_seconds": 0.36508579200017266
             },
             {
               "alpha": 3.0,
               "validation_mae": 11.210367289731968,
-              "fit_seconds": 0.2900789589912165
+              "fit_seconds": 0.31056024999998044
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 10.77661054700901,
-          "fit_seconds": 0.3361945829965407
+          "fit_seconds": 0.3474309579905821
         },
-        "fit_seconds": 0.3361945829965407,
+        "fit_seconds": 0.3474309579905821,
         "n_nonzero_coefficients": 44
       },
       "reproducibility": {
@@ -929,7 +929,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "logistic_regression",
@@ -976,39 +976,39 @@
             {
               "C": 0.0001,
               "validation_log_loss": 0.643429734916612,
-              "fit_seconds": 0.30255362499156035
+              "fit_seconds": 0.3456298329983838
             },
             {
               "C": 0.0003,
               "validation_log_loss": 0.6429011799497432,
-              "fit_seconds": 0.30654058398795314
+              "fit_seconds": 0.3154993329953868
             },
             {
               "C": 0.001,
               "validation_log_loss": 0.6428398768421616,
-              "fit_seconds": 0.30855008300568443
+              "fit_seconds": 0.30365245800931007
             },
             {
               "C": 0.003,
               "validation_log_loss": 0.6431081953408087,
-              "fit_seconds": 0.3215528330038069
+              "fit_seconds": 0.31618829199578613
             },
             {
               "C": 0.01,
               "validation_log_loss": 0.6435317319244872,
-              "fit_seconds": 0.33731524999893736
+              "fit_seconds": 0.33071766699140426
             },
             {
               "C": 0.1,
               "validation_log_loss": 0.6441510940005695,
-              "fit_seconds": 0.4033178749959916
+              "fit_seconds": 0.39778487499279436
             }
           ],
           "selected_value": 0.001,
           "selected_validation_score": 0.6428398768421616,
-          "fit_seconds": 0.30855008300568443
+          "fit_seconds": 0.30365245800931007
         },
-        "fit_seconds": 0.30855008300568443,
+        "fit_seconds": 0.30365245800931007,
         "class_imbalance_investigation": {
           "train_home_win_rate": 0.5982444294395679,
           "validation_home_win_rate": 0.5466724286949006,
@@ -1049,7 +1049,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -1071,7 +1071,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.36989887501113117
+        "fit_seconds": 0.33923062500252854
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1089,7 +1089,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -1130,49 +1130,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 9.47323735644192,
-              "fit_seconds": 0.29031612499966286
+              "fit_seconds": 0.28533595900807995
             },
             {
               "alpha": 10.0,
               "validation_mae": 9.472203183871747,
-              "fit_seconds": 0.3062537079968024
+              "fit_seconds": 0.2866021669906331
             },
             {
               "alpha": 100.0,
               "validation_mae": 9.472626816167631,
-              "fit_seconds": 0.3009806249901885
+              "fit_seconds": 0.28595104200940114
             },
             {
               "alpha": 1000.0,
               "validation_mae": 9.46848867535471,
-              "fit_seconds": 0.29296058299951255
+              "fit_seconds": 0.2835693340020953
             },
             {
               "alpha": 10000.0,
               "validation_mae": 9.457100897818973,
-              "fit_seconds": 0.2978903749899473
+              "fit_seconds": 0.2856923749932321
             },
             {
               "alpha": 30000.0,
               "validation_mae": 9.44693515666929,
-              "fit_seconds": 0.3028716659900965
+              "fit_seconds": 0.2834233750036219
             },
             {
               "alpha": 100000.0,
               "validation_mae": 9.463070006707934,
-              "fit_seconds": 0.29772216599667445
+              "fit_seconds": 0.28497312500257976
             },
             {
               "alpha": 300000.0,
               "validation_mae": 9.80372307469306,
-              "fit_seconds": 0.2907957080024062
+              "fit_seconds": 0.2837707909930032
             }
           ],
           "selected_value": 30000.0,
           "selected_validation_score": 9.44693515666929,
-          "fit_seconds": 0.3028716659900965
+          "fit_seconds": 0.2834233750036219
         },
-        "fit_seconds": 0.3028716659900965
+        "fit_seconds": 0.2834233750036219
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1190,7 +1190,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -1230,39 +1230,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 9.477703030433805,
-              "fit_seconds": 0.7816452080005547
+              "fit_seconds": 0.7619788750016596
             },
             {
               "alpha": 0.03,
               "validation_mae": 9.470693519666787,
-              "fit_seconds": 0.38819825000246055
+              "fit_seconds": 0.38157904100080486
             },
             {
               "alpha": 0.1,
               "validation_mae": 9.459186789483558,
-              "fit_seconds": 0.37606729099934455
+              "fit_seconds": 0.3519277500017779
             },
             {
               "alpha": 0.3,
               "validation_mae": 9.466631661843882,
-              "fit_seconds": 0.35975612500624266
+              "fit_seconds": 0.339778124995064
             },
             {
               "alpha": 1.0,
               "validation_mae": 9.499845931435512,
-              "fit_seconds": 0.3439704999909736
+              "fit_seconds": 0.3259714169980725
             },
             {
               "alpha": 3.0,
               "validation_mae": 10.469057460709504,
-              "fit_seconds": 0.30840125000395346
+              "fit_seconds": 0.2966648330038879
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 9.459186789483558,
-          "fit_seconds": 0.37606729099934455
+          "fit_seconds": 0.3519277500017779
         },
-        "fit_seconds": 0.37606729099934455,
+        "fit_seconds": 0.3519277500017779,
         "n_nonzero_coefficients": 46
       },
       "reproducibility": {
@@ -1281,7 +1281,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -1303,7 +1303,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.3446106659976067
+        "fit_seconds": 0.3313953750039218
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1321,7 +1321,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -1362,49 +1362,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 9.436565963303398,
-              "fit_seconds": 0.30503979200148024
+              "fit_seconds": 0.2870622500049649
             },
             {
               "alpha": 10.0,
               "validation_mae": 9.428595096790948,
-              "fit_seconds": 0.2945170829916606
+              "fit_seconds": 0.286973250011215
             },
             {
               "alpha": 100.0,
               "validation_mae": 9.416635221032694,
-              "fit_seconds": 0.2851968750037486
+              "fit_seconds": 0.28372329199919477
             },
             {
               "alpha": 1000.0,
               "validation_mae": 9.405795851049273,
-              "fit_seconds": 0.28669454099144787
+              "fit_seconds": 0.2844725000031758
             },
             {
               "alpha": 10000.0,
               "validation_mae": 9.383394032625192,
-              "fit_seconds": 0.288687749998644
+              "fit_seconds": 0.2840554589929525
             },
             {
               "alpha": 30000.0,
               "validation_mae": 9.384324822000883,
-              "fit_seconds": 0.28727162499853875
+              "fit_seconds": 0.28264216700335965
             },
             {
               "alpha": 100000.0,
               "validation_mae": 9.458759956496735,
-              "fit_seconds": 0.2926960000040708
+              "fit_seconds": 0.2833034170034807
             },
             {
               "alpha": 300000.0,
               "validation_mae": 9.988614376318683,
-              "fit_seconds": 0.2983865839923965
+              "fit_seconds": 0.28453341701242607
             }
           ],
           "selected_value": 10000.0,
           "selected_validation_score": 9.383394032625192,
-          "fit_seconds": 0.288687749998644
+          "fit_seconds": 0.2840554589929525
         },
-        "fit_seconds": 0.288687749998644
+        "fit_seconds": 0.2840554589929525
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1422,7 +1422,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -1462,39 +1462,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 9.402669727691148,
-              "fit_seconds": 1.1880452499899548
+              "fit_seconds": 1.0796642920031445
             },
             {
               "alpha": 0.03,
               "validation_mae": 9.385464160418058,
-              "fit_seconds": 0.5907245830021566
+              "fit_seconds": 0.573232167007518
             },
             {
               "alpha": 0.1,
               "validation_mae": 9.37941015389925,
-              "fit_seconds": 0.36582079200888984
+              "fit_seconds": 0.34110987500753254
             },
             {
               "alpha": 0.3,
               "validation_mae": 9.391309057364422,
-              "fit_seconds": 0.3432886250084266
+              "fit_seconds": 0.3337072080030339
             },
             {
               "alpha": 1.0,
               "validation_mae": 9.468287406696875,
-              "fit_seconds": 0.3334819999872707
+              "fit_seconds": 0.31474408399662934
             },
             {
               "alpha": 3.0,
               "validation_mae": 10.832599179068966,
-              "fit_seconds": 0.3045360419928329
+              "fit_seconds": 0.2926488340017386
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 9.37941015389925,
-          "fit_seconds": 0.36582079200888984
+          "fit_seconds": 0.34110987500753254
         },
-        "fit_seconds": 0.36582079200888984,
+        "fit_seconds": 0.34110987500753254,
         "n_nonzero_coefficients": 40
       },
       "reproducibility": {
@@ -1513,7 +1513,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -1535,7 +1535,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.33967537501303013
+        "fit_seconds": 0.3315613750019111
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1553,7 +1553,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -1594,49 +1594,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 15.42778267625432,
-              "fit_seconds": 0.30216558299434837
+              "fit_seconds": 0.2828711670008488
             },
             {
               "alpha": 10.0,
               "validation_mae": 15.419306330541943,
-              "fit_seconds": 0.302227624997613
+              "fit_seconds": 0.28262458300741855
             },
             {
               "alpha": 100.0,
               "validation_mae": 15.397508736448092,
-              "fit_seconds": 0.30959933300619014
+              "fit_seconds": 0.2843426250037737
             },
             {
               "alpha": 1000.0,
               "validation_mae": 15.359891474551745,
-              "fit_seconds": 0.3023422499973094
+              "fit_seconds": 0.28370250000443775
             },
             {
               "alpha": 10000.0,
               "validation_mae": 15.283093033730793,
-              "fit_seconds": 0.29263312500552274
+              "fit_seconds": 0.2835675420064945
             },
             {
               "alpha": 30000.0,
               "validation_mae": 15.236908365409972,
-              "fit_seconds": 0.2827346249978291
+              "fit_seconds": 0.2844362499890849
             },
             {
               "alpha": 100000.0,
               "validation_mae": 15.302981703517082,
-              "fit_seconds": 0.28393629200581927
+              "fit_seconds": 0.2842719579930417
             },
             {
               "alpha": 300000.0,
               "validation_mae": 16.27682670941234,
-              "fit_seconds": 0.283125874993857
+              "fit_seconds": 0.283486415995867
             }
           ],
           "selected_value": 30000.0,
           "selected_validation_score": 15.236908365409972,
-          "fit_seconds": 0.2827346249978291
+          "fit_seconds": 0.2844362499890849
         },
-        "fit_seconds": 0.2827346249978291
+        "fit_seconds": 0.2844362499890849
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1654,7 +1654,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -1694,39 +1694,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 15.386712413116175,
-              "fit_seconds": 1.1139207920059562
+              "fit_seconds": 1.0360564169968711
             },
             {
               "alpha": 0.03,
               "validation_mae": 15.352541883820878,
-              "fit_seconds": 0.7150422910053749
+              "fit_seconds": 0.6468621659878409
             },
             {
               "alpha": 0.1,
               "validation_mae": 15.321707549939175,
-              "fit_seconds": 0.3686954590084497
+              "fit_seconds": 0.36121512499812525
             },
             {
               "alpha": 0.3,
               "validation_mae": 15.300817793653541,
-              "fit_seconds": 0.3590830419998383
+              "fit_seconds": 0.35559658300189767
             },
             {
               "alpha": 1.0,
               "validation_mae": 15.280622989425932,
-              "fit_seconds": 0.36506062500120606
+              "fit_seconds": 0.36716708399762865
             },
             {
               "alpha": 3.0,
               "validation_mae": 15.796665090275187,
-              "fit_seconds": 0.3065665000031004
+              "fit_seconds": 0.30747329200676177
             }
           ],
           "selected_value": 1.0,
           "selected_validation_score": 15.280622989425932,
-          "fit_seconds": 0.36506062500120606
+          "fit_seconds": 0.36716708399762865
         },
-        "fit_seconds": 0.36506062500120606,
+        "fit_seconds": 0.36716708399762865,
         "n_nonzero_coefficients": 19
       },
       "reproducibility": {
@@ -1745,7 +1745,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "linear_regression",
@@ -1767,7 +1767,7 @@
       },
       "training_metadata": {
         "fit_split": "train",
-        "fit_seconds": 0.33357941699796356
+        "fit_seconds": 0.33268195900018327
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1785,7 +1785,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "ridge_regression",
@@ -1826,49 +1826,49 @@
             {
               "alpha": 1.0,
               "validation_mae": 10.83106997327351,
-              "fit_seconds": 0.28502541698981076
+              "fit_seconds": 0.284525166003732
             },
             {
               "alpha": 10.0,
               "validation_mae": 10.825357285367769,
-              "fit_seconds": 0.28615458399872296
+              "fit_seconds": 0.2862704580038553
             },
             {
               "alpha": 100.0,
               "validation_mae": 10.82161714709273,
-              "fit_seconds": 0.2963180419901619
+              "fit_seconds": 0.2851221250020899
             },
             {
               "alpha": 1000.0,
               "validation_mae": 10.818018813046303,
-              "fit_seconds": 0.29571074999694247
+              "fit_seconds": 0.28519320899795275
             },
             {
               "alpha": 10000.0,
               "validation_mae": 10.832042283901268,
-              "fit_seconds": 0.29540474999521393
+              "fit_seconds": 0.28729975000896957
             },
             {
               "alpha": 30000.0,
               "validation_mae": 10.848886419034331,
-              "fit_seconds": 0.28928845799237024
+              "fit_seconds": 0.28760808298829943
             },
             {
               "alpha": 100000.0,
               "validation_mae": 10.888262894235005,
-              "fit_seconds": 0.2894712499983143
+              "fit_seconds": 0.2913320420047967
             },
             {
               "alpha": 300000.0,
               "validation_mae": 10.977507466299661,
-              "fit_seconds": 0.2858776250068331
+              "fit_seconds": 0.2963874580018455
             }
           ],
           "selected_value": 1000.0,
           "selected_validation_score": 10.818018813046303,
-          "fit_seconds": 0.29571074999694247
+          "fit_seconds": 0.28519320899795275
         },
-        "fit_seconds": 0.29571074999694247
+        "fit_seconds": 0.28519320899795275
       },
       "reproducibility": {
         "random_seed": 42,
@@ -1886,7 +1886,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "lasso_regression",
@@ -1926,39 +1926,39 @@
             {
               "alpha": 0.01,
               "validation_mae": 10.812453477143851,
-              "fit_seconds": 0.7309812500025146
+              "fit_seconds": 0.7330185419996269
             },
             {
               "alpha": 0.03,
               "validation_mae": 10.801113415793155,
-              "fit_seconds": 0.6373785410105484
+              "fit_seconds": 0.6349130419985158
             },
             {
               "alpha": 0.1,
               "validation_mae": 10.77661054700901,
-              "fit_seconds": 0.3361945829965407
+              "fit_seconds": 0.3474309579905821
             },
             {
               "alpha": 0.3,
               "validation_mae": 10.816325575835972,
-              "fit_seconds": 0.3820492910017492
+              "fit_seconds": 0.3784437499998603
             },
             {
               "alpha": 1.0,
               "validation_mae": 10.914791401279173,
-              "fit_seconds": 0.36456579199875705
+              "fit_seconds": 0.36508579200017266
             },
             {
               "alpha": 3.0,
               "validation_mae": 11.210367289731968,
-              "fit_seconds": 0.2900789589912165
+              "fit_seconds": 0.31056024999998044
             }
           ],
           "selected_value": 0.1,
           "selected_validation_score": 10.77661054700901,
-          "fit_seconds": 0.3361945829965407
+          "fit_seconds": 0.3474309579905821
         },
-        "fit_seconds": 0.3361945829965407,
+        "fit_seconds": 0.3474309579905821,
         "n_nonzero_coefficients": 44
       },
       "reproducibility": {
@@ -1977,7 +1977,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     },
     {
       "model_name": "logistic_regression",
@@ -2024,39 +2024,39 @@
             {
               "C": 0.0001,
               "validation_log_loss": 0.643429734916612,
-              "fit_seconds": 0.30255362499156035
+              "fit_seconds": 0.3456298329983838
             },
             {
               "C": 0.0003,
               "validation_log_loss": 0.6429011799497432,
-              "fit_seconds": 0.30654058398795314
+              "fit_seconds": 0.3154993329953868
             },
             {
               "C": 0.001,
               "validation_log_loss": 0.6428398768421616,
-              "fit_seconds": 0.30855008300568443
+              "fit_seconds": 0.30365245800931007
             },
             {
               "C": 0.003,
               "validation_log_loss": 0.6431081953408087,
-              "fit_seconds": 0.3215528330038069
+              "fit_seconds": 0.31618829199578613
             },
             {
               "C": 0.01,
               "validation_log_loss": 0.6435317319244872,
-              "fit_seconds": 0.33731524999893736
+              "fit_seconds": 0.33071766699140426
             },
             {
               "C": 0.1,
               "validation_log_loss": 0.6441510940005695,
-              "fit_seconds": 0.4033178749959916
+              "fit_seconds": 0.39778487499279436
             }
           ],
           "selected_value": 0.001,
           "selected_validation_score": 0.6428398768421616,
-          "fit_seconds": 0.30855008300568443
+          "fit_seconds": 0.30365245800931007
         },
-        "fit_seconds": 0.30855008300568443,
+        "fit_seconds": 0.30365245800931007,
         "class_imbalance_investigation": {
           "train_home_win_rate": 0.5982444294395679,
           "validation_home_win_rate": 0.5466724286949006,
@@ -2097,7 +2097,7 @@
           "joblib": "1.6.0"
         }
       },
-      "evaluated_at": "2026-11-24T10:03:53+00:00"
+      "evaluated_at": "2026-11-24T10:13:21+00:00"
     }
   ]
 }

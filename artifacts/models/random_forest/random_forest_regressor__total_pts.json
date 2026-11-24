@@ -21,7 +21,7 @@
   "training_metadata": {
     "fit_split": "train",
     "n_train": 20734,
-    "fit_seconds": 12.337819209002191,
+    "fit_seconds": 11.56506462499965,
     "hyperparameter_search": "none (fixed configuration)",
     "mean_tree_depth": 14.0,
     "mean_tree_leaves": 386.04
@@ -38,9 +38,9 @@
     "joblib": "1.6.0"
   },
   "artifact_file": "random_forest_regressor__total_pts.joblib",
-  "artifact_sha256": "15515e22fe1110e64a74ce0f872210e79973cd9b5e0c047d4e4151bf1d2ea6f6",
+  "artifact_sha256": "685d9ae11236ea2082acd34eb32ee54aec83baf2537418c186f87fec9d66bf1f",
   "artifact_bytes": 6121146,
-  "saved_at": "2026-11-24T10:04:46+00:00",
+  "saved_at": "2026-11-24T10:14:14+00:00",
   "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
   "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
   "validation_metrics": {

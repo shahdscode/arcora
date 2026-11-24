@@ -46,10 +46,10 @@ Best model per family on the primary metric (MAE for regression, log loss for `h
 | Model | Target | Metric | Best iteration | Trees used | Rounds trained | Best validation score | Fit seconds |
 | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | `xgboost_regressor` | `home_pts` | mae | 172 | 173 | 273 | 9.4889 | 1.4 |
-| `xgboost_regressor` | `away_pts` | mae | 239 | 240 | 340 | 9.4011 | 1.8 |
-| `xgboost_regressor` | `total_pts` | mae | 175 | 176 | 276 | 15.4129 | 1.5 |
-| `xgboost_regressor` | `point_margin` | mae | 134 | 135 | 235 | 10.7550 | 1.3 |
-| `xgboost_classifier` | `home_win` | logloss | 206 | 207 | 307 | 0.6402 | 1.6 |
+| `xgboost_regressor` | `away_pts` | mae | 239 | 240 | 340 | 9.4011 | 1.7 |
+| `xgboost_regressor` | `total_pts` | mae | 175 | 176 | 276 | 15.4129 | 1.4 |
+| `xgboost_regressor` | `point_margin` | mae | 134 | 135 | 235 | 10.7550 | 1.2 |
+| `xgboost_classifier` | `home_win` | logloss | 206 | 207 | 307 | 0.6402 | 1.7 |
 
 Early stopping uses only the validation split, so validation metrics for XGBoost are mildly optimistic; the locked 2021-22 test split remains untouched for an unbiased final estimate.
 

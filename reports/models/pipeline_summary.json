@@ -1,7 +1,7 @@
 {
-  "started_at": "2026-11-24T10:03:27+00:00",
-  "finished_at": "2026-11-24T10:05:19+00:00",
-  "duration_seconds": 112.40235362498788,
+  "started_at": "2026-11-24T10:12:56+00:00",
+  "finished_at": "2026-11-24T10:14:45+00:00",
+  "duration_seconds": 109.06294408399845,
   "mode": "train",
   "families": [
     "baseline",
@@ -128,10 +128,10 @@
   ],
   "n_models": 38,
   "family_seconds": {
-    "baseline": 0.1950766670051962,
-    "linear": 25.355604874988785,
-    "random_forest": 60.78385270899162,
-    "xgboost": 9.135350416996516
+    "baseline": 0.14975887500622775,
+    "linear": 24.636853375006467,
+    "random_forest": 58.90329625000595,
+    "xgboost": 8.89167795899266
   },
   "artifact_checks": [
     {
@@ -740,7 +740,7 @@
     "xgboost:permutation_importance_csv": "/Users/shaahdmaansour/Desktop/arcora/reports/models/xgboost_permutation_importance.csv",
     "xgboost:feature_importance_figure": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/xgboost_category_importance.png",
     "xgboost:feature_importance_report": "/Users/shaahdmaansour/Desktop/arcora/reports/models/xgboost_feature_importance.md",
-    "figure:improvement": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/model_improvement_vs_baseline.png",
+    "figure:loss_reduction": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/model_loss_reduction_vs_baseline.png",
     "figure:actual_vs_predicted": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/actual_vs_predicted.png",
     "figure:residuals": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/residual_distributions.png",
     "figure:calibration": "/Users/shaahdmaansour/Desktop/arcora/reports/figures/models/calibration_home_win.png",

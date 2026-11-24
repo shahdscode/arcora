@@ -45,11 +45,11 @@ Best model per family on the primary metric (MAE for regression, log loss for `h
 
 | Model | Target | Fit seconds | Mean tree depth | Mean leaves per tree |
 | :--- | :--- | ---: | ---: | ---: |
-| `random_forest_regressor` | `home_pts` | 12.1 | 14.0 | 386 |
-| `random_forest_regressor` | `away_pts` | 11.9 | 14.0 | 384 |
-| `random_forest_regressor` | `total_pts` | 12.3 | 14.0 | 386 |
-| `random_forest_regressor` | `point_margin` | 13.1 | 14.0 | 346 |
-| `random_forest_classifier` | `home_win` | 3.1 | 14.0 | 363 |
+| `random_forest_regressor` | `home_pts` | 12.0 | 14.0 | 386 |
+| `random_forest_regressor` | `away_pts` | 11.5 | 14.0 | 384 |
+| `random_forest_regressor` | `total_pts` | 11.6 | 14.0 | 386 |
+| `random_forest_regressor` | `point_margin` | 12.9 | 14.0 | 346 |
+| `random_forest_classifier` | `home_win` | 3.0 | 14.0 | 363 |
 
 Feature importance (exploratory): see [`random_forest_feature_importance.md`](random_forest_feature_importance.md).
 
