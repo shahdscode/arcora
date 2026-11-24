@@ -44,6 +44,7 @@ from arcora.models.splits import SPLIT_DEFINITIONS_BY_NAME, TRAIN_SPLIT, VALIDAT
 
 FamilyTrainer = Callable[[ModelingData, Sequence[str]], list[TrainedModel]]
 ReportSections = Callable[[list[TrainedModel], ModelingData], list[str]]
+PostRunHook = Callable[[list[TrainedModel], ModelingData, Path], dict[str, Path]]
 DEFAULT_EVAL_SPLITS: tuple[str, ...] = (TRAIN_SPLIT, VALIDATION_SPLIT)
 BASELINE_FAMILY: str = "baseline"
 
@@ -57,11 +58,12 @@ class ModelFamily:
     description: str
     trainer: FamilyTrainer
     report_sections: ReportSections | None = None
+    post_run: PostRunHook | None = None
 
 
 def get_model_families() -> dict[str, ModelFamily]:
     """Return the registry of available model families (in training order)."""
-    from arcora.models import baselines, linear_models
+    from arcora.models import baselines, linear_models, random_forest
 
     return {
         baselines.MODEL_FAMILY: ModelFamily(
@@ -76,6 +78,14 @@ def get_model_families() -> dict[str, ModelFamily]:
             description=linear_models.FAMILY_DESCRIPTION,
             trainer=linear_models.train_linear_models,
             report_sections=linear_models.linear_report_sections,
+        ),
+        random_forest.MODEL_FAMILY: ModelFamily(
+            name=random_forest.MODEL_FAMILY,
+            display_name="Random Forest",
+            description=random_forest.FAMILY_DESCRIPTION,
+            trainer=random_forest.train_random_forest_models,
+            report_sections=random_forest.random_forest_report_sections,
+            post_run=random_forest.random_forest_post_run,
         ),
     }
 
@@ -296,6 +306,7 @@ def run_model_family(
     eval_splits: Sequence[str] = DEFAULT_EVAL_SPLITS,
     allow_locked: bool = False,
     extra_report_sections: ReportSections | None = None,
+    run_post_hooks: bool = True,
 ) -> FamilyRunOutput:
     """Train, evaluate, persist, and report one model family."""
     families = get_model_families()
@@ -349,6 +360,8 @@ def run_model_family(
         render_family_report(family, results, baseline_results, sections), encoding="utf-8"
     )
     written["report"] = report_path
+    if family.post_run is not None and run_post_hooks:
+        written.update(family.post_run(models, data, results_dir))
     return FamilyRunOutput(family_name, models, results, predictions, written)
 
 

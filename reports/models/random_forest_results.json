@@ -1,0 +1,527 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-24T09:14:11+00:00",
+  "n_results": 10,
+  "results": [
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 7.2777421286958655,
+        "rmse": 9.259212292936555,
+        "r2": 0.470189302921196
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 11.978622041002382,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 386.11
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 7.316339153365149,
+        "rmse": 9.311930193056964,
+        "r2": 0.46653505376276705
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 12.504063208994921,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 384.2633333333333
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 12.060107472344152,
+        "rmse": 15.438516138514832,
+        "r2": 0.4977219663066098
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 11.245166416993015,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 386.04
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "mae": 8.16107739593077,
+        "rmse": 10.435383861638288,
+        "r2": 0.37484645063385535
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 12.445195249994867,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 346.14
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_classifier",
+      "model_family": "random_forest",
+      "target": "home_win",
+      "task": "classification",
+      "split": "train",
+      "n_games": 20734,
+      "metrics": {
+        "accuracy": 0.7717758271438218,
+        "balanced_accuracy": 0.7417528636736861,
+        "precision": 0.7641873278236915,
+        "recall": 0.8945501451144792,
+        "roc_auc": 0.8571265300702674,
+        "log_loss": 0.5076508805116782,
+        "brier": 0.16599801767428782
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestClassifier",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": "sqrt",
+        "bootstrap": true,
+        "criterion": "gini",
+        "class_weight": null,
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 2.946500541991554,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 362.52
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "home_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 9.478205497780984,
+        "rmse": 12.009522275646674,
+        "r2": 0.08541048057803136
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 11.978622041002382,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 386.11
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:09+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "away_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 9.394213933837388,
+        "rmse": 11.814009841184617,
+        "r2": 0.09023128044433826
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 12.504063208994921,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 384.2633333333333
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:10+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "total_pts",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 15.325029880088378,
+        "rmse": 19.474810777551756,
+        "r2": 0.06969655703782884
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 11.245166416993015,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 386.04
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:10+00:00"
+    },
+    {
+      "model_name": "random_forest_regressor",
+      "model_family": "random_forest",
+      "target": "point_margin",
+      "task": "regression",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "mae": 10.747912445507534,
+        "rmse": 13.63141977180683,
+        "r2": 0.13388855086475282
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestRegressor",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": 0.33,
+        "bootstrap": true,
+        "criterion": "squared_error",
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 12.445195249994867,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 346.14
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:10+00:00"
+    },
+    {
+      "model_name": "random_forest_classifier",
+      "model_family": "random_forest",
+      "target": "home_win",
+      "task": "classification",
+      "split": "validation",
+      "n_games": 2314,
+      "metrics": {
+        "accuracy": 0.6339671564390665,
+        "balanced_accuracy": 0.6163035000395634,
+        "precision": 0.6290123456790123,
+        "recall": 0.8055335968379447,
+        "roc_auc": 0.6823641563393708,
+        "log_loss": 0.6393417427802762,
+        "brier": 0.22421454647139685
+      },
+      "undefined_metrics": [],
+      "params": {
+        "estimator": "RandomForestClassifier",
+        "preprocessing": "SimpleImputer(median)",
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 25,
+        "max_features": "sqrt",
+        "bootstrap": true,
+        "criterion": "gini",
+        "class_weight": null,
+        "n_jobs": -1,
+        "random_state": 42
+      },
+      "training_metadata": {
+        "fit_split": "train",
+        "n_train": 20734,
+        "fit_seconds": 2.946500541991554,
+        "hyperparameter_search": "none (fixed configuration)",
+        "mean_tree_depth": 14.0,
+        "mean_tree_leaves": 362.52
+      },
+      "reproducibility": {
+        "random_seed": 42,
+        "dataset_fingerprint": "eebe4ed42461191c0073cf1817916da55887a0ebab333dbf84781bed2c1d8ff6",
+        "split_game_id_sha256": "361118995fb4dc2a119ea12140cadb8336b64ad6fb33c6551164188478eb3915",
+        "train_game_id_sha256": "059f065459f80db7190607d5c73c02d7a4f8df5febceecf4051ad464efc72740",
+        "feature_fingerprint": "e4d280bc07f09447968d467bf315c1e7587ae78980bd33be58af76da91c84f8c",
+        "n_features": 242,
+        "library_versions": {
+          "python": "3.12.16",
+          "numpy": "2.5.5",
+          "pandas": "3.1.1",
+          "scikit-learn": "1.9.1",
+          "xgboost": "3.4.1",
+          "joblib": "1.6.0"
+        }
+      },
+      "evaluated_at": "2026-11-24T09:14:10+00:00"
+    }
+  ]
+}

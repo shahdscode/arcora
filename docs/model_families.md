@@ -111,3 +111,47 @@ to measure that.
   `training_metadata.class_imbalance_investigation`.
 - Standardized coefficients are reported for interpretability only: home, away, and difference
   features are strongly collinear, so individual coefficients are not causal effects.
+
+---
+
+## 3. Random Forest (`random_forest`, Issue #21)
+
+Module: `src/arcora/models/random_forest.py`
+
+Each model is `SimpleImputer(median) -> RandomForest*`, with the imputer fitted on the training
+split only. One fixed, conservative configuration is used; no hyperparameter search is run in
+this milestone.
+
+| Parameter | Regressor (4 targets) | Classifier (`home_win`) |
+| :--- | :--- | :--- |
+| `n_estimators` | 300 | 300 |
+| `max_depth` | 14 | 14 |
+| `min_samples_leaf` | 25 | 25 |
+| `max_features` | 0.33 | `"sqrt"` |
+| `criterion` | `squared_error` | `gini` |
+| `bootstrap` | `True` | `True` |
+| `class_weight` | — | `None` |
+| `random_state` | 42 | 42 |
+
+Large leaves and a depth cap limit variance on noisy single-game outcomes; `max_features=0.33`
+follows the usual regression heuristic, `"sqrt"` the classification one. Fit time, mean tree depth,
+and mean leaf count are recorded in `training_metadata`.
+
+### Feature importance (exploratory)
+
+`src/arcora/models/importance.py` writes
+`reports/models/random_forest_feature_importance.{md,csv}`,
+`reports/models/random_forest_permutation_importance.csv`, and
+`reports/figures/models/random_forest_category_importance.png`:
+
+- **Mean decrease in impurity** per feature (training fit), normalized and summed by Week 2 feature
+  category.
+- **Grouped permutation importance** on validation: all features in a category are shuffled
+  together and the increase in MAE / log loss is recorded (5 repeats). Group-level permutation
+  is used because home, away, and difference features are strongly correlated, which dilutes
+  single-feature permutation scores.
+
+Initial findings: home/away matchup differences (margin, net-rating, and win-percentage
+differentials) dominate the `home_win` and `point_margin` models, while season-to-date team
+performance and recent form drive the score-level targets. Rest and schedule features contribute
+little on their own. Importance is descriptive, not causal.

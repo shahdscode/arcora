@@ -1,0 +1,41 @@
+model_id,model_name,target,category,n_features,metric,baseline_score,mean_increase,std_increase,n_repeats,split
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Historical Team Performance,48,mae,9.478205497780982,0.1207577228395312,0.02312856406920777,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Recent Team Form,40,mae,9.478205497780982,0.11265094319331084,0.03387381058199537,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Home-Away Matchup Differences,50,mae,9.478205497780982,0.08009342309371625,0.02091717419653837,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Home and Away Performance,10,mae,9.478205497780982,0.04399523605894871,0.02029867843596878,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Rolling Offensive and Defensive Statistics,56,mae,9.478205497780982,0.021230384827783055,0.00880905922340305,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Standings and Season Context,14,mae,9.478205497780982,0.019931254410922604,0.009216650987330969,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Rest and Schedule-Related Features,20,mae,9.478205497780982,-0.0003318710700721539,0.0004415481192819844,5,validation
+random_forest_regressor__home_pts,random_forest_regressor,home_pts,Head-to-Head Historical Performance,4,mae,9.478205497780982,-0.00896077315849162,0.005862791141369908,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Historical Team Performance,48,mae,9.39421393383739,0.17474444102643788,0.050946689354594524,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Recent Team Form,40,mae,9.39421393383739,0.16365172341908477,0.058818803373718156,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Home-Away Matchup Differences,50,mae,9.39421393383739,0.05617030276952591,0.010058563576748596,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Standings and Season Context,14,mae,9.39421393383739,0.030648234701337883,0.004960095426201615,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Rolling Offensive and Defensive Statistics,56,mae,9.39421393383739,0.021256146119412022,0.01577890390844769,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Home and Away Performance,10,mae,9.39421393383739,0.01081007899009485,0.006689992701584536,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Rest and Schedule-Related Features,20,mae,9.39421393383739,8.0529670828966e-05,0.001182479500887639,5,validation
+random_forest_regressor__away_pts,random_forest_regressor,away_pts,Head-to-Head Historical Performance,4,mae,9.39421393383739,-0.007852615504685545,0.005004091170953234,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Historical Team Performance,48,mae,15.325029880088378,0.3411288762929388,0.06714881193633687,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Recent Team Form,40,mae,15.325029880088378,0.2182491046442177,0.047123924344200874,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Rolling Offensive and Defensive Statistics,56,mae,15.325029880088378,0.08133756888067403,0.02219529061288945,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Home and Away Performance,10,mae,15.325029880088378,0.03305284424034625,0.012670152059822746,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Standings and Season Context,14,mae,15.325029880088378,0.024130499826492624,0.005504413863208242,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Rest and Schedule-Related Features,20,mae,15.325029880088378,0.0013245171908661036,0.001998723983012962,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Home-Away Matchup Differences,50,mae,15.325029880088378,-0.0012538680797902658,0.009632284483800544,5,validation
+random_forest_regressor__total_pts,random_forest_regressor,total_pts,Head-to-Head Historical Performance,4,mae,15.325029880088378,-0.0013068178698798505,0.012096286057667735,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Home-Away Matchup Differences,50,mae,10.747912445507534,1.1321891216128919,0.08321555273816245,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Standings and Season Context,14,mae,10.747912445507534,0.03488161199905946,0.003435933508974548,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Rolling Offensive and Defensive Statistics,56,mae,10.747912445507534,0.016704102105299868,0.0041359619501812,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Historical Team Performance,48,mae,10.747912445507534,0.011588773847649137,0.01097216543315814,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Recent Team Form,40,mae,10.747912445507534,0.011220894127028558,0.004507047992615304,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Rest and Schedule-Related Features,20,mae,10.747912445507534,0.007990701555586455,0.0020329389627407176,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Home and Away Performance,10,mae,10.747912445507534,0.006864838530045603,0.0049759091053393515,5,validation
+random_forest_regressor__point_margin,random_forest_regressor,point_margin,Head-to-Head Historical Performance,4,mae,10.747912445507534,0.0036828332301301002,0.002099280181742432,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Home-Away Matchup Differences,50,log_loss,0.6393417427802762,0.034341354169905136,0.0026684750053328037,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Standings and Season Context,14,log_loss,0.6393417427802762,0.002628483841742235,0.00026804748604664726,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Historical Team Performance,48,log_loss,0.6393417427802762,0.00247634082838617,0.0015689989938609346,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Rolling Offensive and Defensive Statistics,56,log_loss,0.6393417427802762,0.0011182161349732045,0.0007179738995091908,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Home and Away Performance,10,log_loss,0.6393417427802762,0.0004463295646805809,0.0004217763005817179,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Rest and Schedule-Related Features,20,log_loss,0.6393417427802762,0.0003439694037378871,8.82976435369065e-05,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Recent Team Form,40,log_loss,0.6393417427802762,0.00017009123362947686,0.00048409785392356463,5,validation
+random_forest_classifier__home_win,random_forest_classifier,home_win,Head-to-Head Historical Performance,4,log_loss,0.6393417427802762,5.208416046158515e-05,0.00010955812650101332,5,validation
