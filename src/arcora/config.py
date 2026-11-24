@@ -25,6 +25,8 @@ class ArcoraConfig:
     raw_data_dir: Path
     processed_data_dir: Path
     features_data_dir: Path
+    splits_dir: Path
+    models_dir: Path
     reports_dir: Path
     figures_dir: Path
     docs_dir: Path
@@ -51,6 +53,8 @@ class ArcoraConfig:
             raw_data_dir=_resolve_dir("ARCORA_RAW_DATA_DIR", "data/raw"),
             processed_data_dir=_resolve_dir("ARCORA_PROCESSED_DATA_DIR", "data/processed"),
             features_data_dir=_resolve_dir("ARCORA_FEATURES_DATA_DIR", "data/features"),
+            splits_dir=_resolve_dir("ARCORA_SPLITS_DIR", "data/splits"),
+            models_dir=_resolve_dir("ARCORA_MODELS_DIR", "artifacts/models"),
             reports_dir=reports_dir,
             figures_dir=reports_dir / "figures",
             docs_dir=_resolve_dir("ARCORA_DOCS_DIR", "docs"),
@@ -72,6 +76,8 @@ class ArcoraConfig:
             self.raw_data_dir,
             self.processed_data_dir,
             self.features_data_dir,
+            self.splits_dir,
+            self.models_dir,
             self.reports_dir,
             self.figures_dir,
             self.docs_dir,
